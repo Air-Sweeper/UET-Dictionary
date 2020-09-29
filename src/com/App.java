@@ -5,7 +5,7 @@ import com.model.DictionaryCommand;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,8 +28,8 @@ public class App extends Application {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class.getResource("view/MainGUI.fxml"));
-            BorderPane rootLayout = loader.load();
+            loader.setLocation(App.class.getResource("view/Searcher.fxml"));
+            HBox rootLayout = loader.load();
 
             Stage mainWindow = new Stage();
             Scene scene = new Scene(rootLayout);

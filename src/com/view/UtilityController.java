@@ -27,12 +27,6 @@ public class UtilityController extends Dictionary {
     static AnchorPane newWordPane;
 
     @FXML
-    private Button confirmAddActionButton;
-
-    @FXML
-    private Button closeButton;
-
-    @FXML
     private TextField newWord;
 
     @FXML
@@ -86,5 +80,11 @@ public class UtilityController extends Dictionary {
         newWordWindow.close();
     }
 
-    
+
+    /**
+     * Add favourite words.
+     */
+
+
+
 }

@@ -17,22 +17,34 @@ public class SearchEngineController extends Dictionary {
     private TextField wordToSearch;
 
     @FXML
-    private TextField wordTarget;
-
-    @FXML
     private TextArea wordDefinition;
 
     @FXML
     private ListView<String> searchedWordList = new ListView<>();
 
     @FXML
-    private void getDefinition() {
-
-        wordTarget.setText(wordToSearch.getText());
-        wordDefinition.setText(dictionary.getOrDefault(wordTarget.getText(),"No matched word found!"));
+    public void addNewWord() {
+        UtilityController.openNewWordBox();
     }
 
     @FXML
+    public void searchForWord() {
+
+        getDefinition();
+        getWordList();
+    }
+
+    private void getDefinition() {
+
+        String word = wordToSearch.getText();
+
+        if (dictionary.containsKey(word)) {
+            wordDefinition.setText(word + "\n" + dictionary.get(word));
+        } else {
+            wordDefinition.setText("No matched word found!");
+        }
+    }
+
     public void getWordList() {
 
         String pattern = wordToSearch.getText();
@@ -60,18 +72,6 @@ public class SearchEngineController extends Dictionary {
                 searchedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             }
         }
-    }
-
-    @FXML
-    public void searchForWord() {
-
-        getDefinition();
-        getWordList();
-    }
-
-    @FXML
-    public void addNewWord() {
-        UtilityController.openNewWordBox();
     }
 
 }

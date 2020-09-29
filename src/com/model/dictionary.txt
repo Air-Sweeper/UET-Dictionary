@@ -5,3 +5,5 @@ string	chuoi
 mama	me
 king	vua
 papa	bo
+cat	meo
+hmm	hmm
