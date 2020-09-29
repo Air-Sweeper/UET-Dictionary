@@ -1,0 +1,7 @@
+hello	xin chao
+mom	me
+travel	du lich
+string	chuoi
+mama	me
+king	vua
+papa	bo
