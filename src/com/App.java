@@ -19,8 +19,8 @@ public class App extends Application {
     @Override
     public void start(Stage window) {
 
-        launchApplication();
         loadDatabase();
+        launchApplication();
         showDictionary();
     }
 
@@ -28,24 +28,25 @@ public class App extends Application {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class.getResource("view/Searcher.fxml"));
+            loader.setLocation(App.class.getResource("view/SearchEngine.fxml"));
             HBox rootLayout = loader.load();
-
             Stage mainWindow = new Stage();
             Scene scene = new Scene(rootLayout);
             mainWindow.setScene(scene);
             mainWindow.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void loadDatabase() {
+
         DictionaryCommand.importFromFile();
+        DictionaryCommand.importFromFavourite();
     }
 
     public void showDictionary() {
+
         DictionaryCommand.showAllWords();
     }
 }

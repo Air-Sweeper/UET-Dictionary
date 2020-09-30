@@ -7,9 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class SearchEngineController extends Dictionary {
 
@@ -20,14 +19,38 @@ public class SearchEngineController extends Dictionary {
     private TextArea wordDefinition;
 
     @FXML
+    private TextArea wordHistory;
+
+    @FXML
     private ListView<String> searchedWordList = new ListView<>();
 
     @FXML
     public void addNewWord() {
-        UtilityController.openNewWordBox();
+        NewWordBoxController.openNewWordBox();
     }
 
-    @FXML
+    public void showHistorySearch() {
+
+        try {
+            File historyFile = new File("D:\\Source\\UET-Dictionary\\src\\com\\model\\history.txt");
+            Scanner inputFile = new Scanner(historyFile);
+
+            HashSet<String> historySearchWord = new HashSet<>();
+            while (inputFile.hasNext()) {
+                String word = inputFile.nextLine();
+                historySearchWord.add(word);
+            }
+            StringBuilder result = new StringBuilder();
+            for (String word : historySearchWord) {
+                result.append(word).append("\n");
+            }
+            wordHistory.setText(result.toString());
+            inputFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void searchForWord() {
 
         getDefinition();
@@ -39,7 +62,8 @@ public class SearchEngineController extends Dictionary {
         String word = wordToSearch.getText();
 
         if (dictionary.containsKey(word)) {
-            wordDefinition.setText(word + "\n" + dictionary.get(word));
+            addToHistory();
+            wordDefinition.setText(word + "\n\n" + dictionary.get(word));
         } else {
             wordDefinition.setText("No matched word found!");
         }
@@ -74,4 +98,16 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
+    public void addToHistory() {
+
+        try {
+            String src = "D:\\Source\\UET-Dictionary\\src\\com\\model\\history.txt";
+            FileWriter fileWriter = new FileWriter(src, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(wordToSearch.getText()+"\n");
+            bufferedWriter.close();
+        } catch(IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 }
