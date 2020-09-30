@@ -14,49 +14,11 @@ public class DictionaryCommand extends Dictionary {
     private static final int FIRST_INDEX = 1;
 
     public static void showAllWords() {
-        int wordOrder = FIRST_INDEX;
 
+        int wordOrder = FIRST_INDEX;
         System.out.printf("%-4s| %-15s| %-15s%n", "No", "English", "Vietnamese");
         for (Map.Entry<String, String> word : dictionary.entrySet()) {
             System.out.printf("%-4d| %-15s| %-15s%n", wordOrder++, word.getKey(), word.getValue());
-        }
-    }
-
-    public static void insertFromCommandLine() {
-        System.out.println("Number of words: ");
-        int number = input.nextInt();
-
-        for (int i = 0; i < number; ++i) {
-            Word newWord = new Word();
-
-            System.out.print("New word: ");
-            newWord.setWord_target(input.next());
-
-            input.nextLine();
-
-            System.out.print("Explanation in Vietnamese: ");
-            newWord.setWord_explain(input.nextLine());
-
-            dictionary.put(newWord.getWord_target(), newWord.getWord_explain());
-        }
-    }
-
-    public static void dictionarySearcher() {
-        System.out.println("Search for: ");
-        String pattern = input.next();
-
-        boolean isExisted = false;
-        for(Map.Entry<String, String> word : dictionary.entrySet()) {
-            String mainString = word.getKey();
-
-            if(mainString.startsWith(pattern)) {
-                System.out.println(mainString);
-                isExisted = true;
-            }
-        }
-
-        if (!isExisted) {
-            System.out.println("No word found!");
         }
     }
 
@@ -82,16 +44,6 @@ public class DictionaryCommand extends Dictionary {
             e.printStackTrace();
         }
     }
-    
-    public static void dictionaryEdit() {
-        System.out.print("Search for editing: ");
-        String neededWord = input.next();
-        input.nextLine();
-        System.out.print("Meaning: ");
-        String meaning = input.nextLine();
-
-        dictionary.put(neededWord, meaning);
-    }
 
     public static void dictionaryDelete() {
         System.out.print("Search for deleting: ");
@@ -105,11 +57,11 @@ public class DictionaryCommand extends Dictionary {
     }
 
     public static void dictionaryExportToFile() {
+
         try {
             System.out.println("Enter file name: ");
             String fileName = input.next();
             File exportedDict = new File(fileName);
-
             if (exportedDict.createNewFile()) {
                 FileWriter fileWriter = new FileWriter(exportedDict);
                 for(Map.Entry<String, String> word : dictionary.entrySet()) {
@@ -122,6 +74,22 @@ public class DictionaryCommand extends Dictionary {
         } catch(IOException exception) {
             System.out.println("An error occurred!");
             exception.printStackTrace();
+        }
+    }
+
+    public static void importFromFavourite() {
+
+        try {
+            File favouriteFile = new File("D:\\Source\\UET-Dictionary\\src\\com\\model\\favourite.txt");
+            Scanner inputFile = new Scanner(favouriteFile);
+
+            while (inputFile.hasNext()) {
+                String favouriteWord = input.nextLine();
+                favouriteWords.add(favouriteWord);
+            }
+            inputFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
