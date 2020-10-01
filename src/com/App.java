@@ -1,14 +1,11 @@
 package com;
 
 import com.model.DictionaryCommand;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
 
@@ -26,15 +23,12 @@ public class App extends Application {
     }
 
     public void launchApplication() {
-
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource("view/SearchEngine.fxml"));
-            HBox rootLayout = loader.load();
+            AnchorPane rootLayout = loader.load();
             Stage mainWindow = new Stage();
             Scene scene = new Scene(rootLayout);
-            JMetro jMetro = new JMetro(Style.LIGHT);
-            jMetro.setScene(scene);
             mainWindow.setScene(scene);
             mainWindow.show();
         } catch (IOException e) {
@@ -43,13 +37,11 @@ public class App extends Application {
     }
 
     private void loadDatabase() {
-
         DictionaryCommand.importFromFile();
         DictionaryCommand.importFromFavourite();
     }
 
     public void showDictionary() {
-
         DictionaryCommand.showAllWords();
     }
 }

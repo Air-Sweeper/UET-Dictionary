@@ -37,11 +37,10 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void showHistorySearch() {
-
         try {
-            File historyFile = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt");
+            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
+            File historyFile = new File(src);
             Scanner inputFile = new Scanner(historyFile);
-
             HashSet<String> historySearchWord = new HashSet<>();
             while (inputFile.hasNext()) {
                 String word = inputFile.nextLine();
@@ -59,15 +58,12 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void searchForWord() {
-
         getDefinition();
         getWordList();
     }
 
     private void getDefinition() {
-
         String word = wordToSearch.getText();
-
         if (dictionary.containsKey(word)) {
             addToHistory();
             wordDefinition.setText(word + "\n\n" + dictionary.get(word));
@@ -77,27 +73,20 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void getWordList() {
-
         String pattern = wordToSearch.getText();
-
         if (pattern.length() != 0) {
             List<String> wordList = new ArrayList<>();
-
             boolean isExisted = false;
             for (Map.Entry<String, String> word : dictionary.entrySet()) {
-
                 String mainString = word.getKey();
                 if (mainString.startsWith(pattern)) {
                     wordList.add(mainString);
                     isExisted = true;
                 }
             }
-
             if (!isExisted) {
-
                 System.out.println("No word found!");
             } else {
-
                 ObservableList<String> observableWordList = FXCollections.observableList(wordList);
                 searchedWordList.getItems().addAll(observableWordList);
                 searchedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -106,7 +95,6 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void addToHistory() {
-
         try {
             String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
             FileWriter fileWriter = new FileWriter(src, true);

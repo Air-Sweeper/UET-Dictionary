@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import jfxtras.styles.jmetro.JMetro;
-import jfxtras.styles.jmetro.Style;
 
 import static com.model.DictionaryCommand.dictionaryExportToFile;
 
@@ -22,7 +20,6 @@ public class EditBoxController extends Dictionary {
     private static Stage editBoxStage;
 
     public void editWord() {
-
         if (!newDefinition.getText().equals("")) {
             dictionary.replace(wordTarget, newDefinition.getText());
             dictionaryExportToFile();
@@ -31,15 +28,12 @@ public class EditBoxController extends Dictionary {
     }
 
     public static void openEditBox(String wordToEdit) {
-
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(EditBoxController.class.getResource("EditBox.fxml"));
             AnchorPane newWordPane = loader.load();
             editBoxStage = new Stage();
             Scene newWordScene = new Scene(newWordPane);
-            JMetro jMetro = new JMetro(Style.LIGHT);
-            jMetro.setScene(newWordScene);
             editBoxStage.setScene(newWordScene);
             editBoxStage.show();
             wordTarget = wordToEdit;
@@ -49,7 +43,6 @@ public class EditBoxController extends Dictionary {
     }
 
     public void closeEditBox() {
-
         editBoxStage.close();
     }
 }

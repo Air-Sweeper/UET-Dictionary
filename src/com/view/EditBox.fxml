@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="125.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.view.EditBoxController">
-    <ButtonBar layoutX="137.0" layoutY="77.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-      <buttons>
-          <Button mnemonicParsing="false" onAction="#editWord" text="OK" />
-          <Button mnemonicParsing="false" onAction="#closeEditBox" text="Close" />
-      </buttons>
-    </ButtonBar>
-    <Label layoutX="14.0" layoutY="36.0" text="New definition:" />
-    <TextField fx:id="newDefinition" layoutX="136.0" layoutY="31.0" />
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="350.0" style="-fx-background-color: #3e3f41;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.view.EditBoxController">
+   <children>
+      <Label layoutX="14.0" layoutY="56.0" text="New definition:" textFill="WHITE" />
+      <JFXTextField fx:id="newDefinition" focusColor="#49b9b5" layoutX="136.0" layoutY="43.0" prefHeight="31.0" prefWidth="200.0" style="-fx-text-fill: white;" unFocusColor="#49b9b5" />
+      <JFXButton layoutX="271.0" layoutY="105.0" onAction="#closeEditBox" ripplerFill="RED" text="Close" textFill="WHITE" />
+      <JFXButton layoutX="216.0" layoutY="105.0" onAction="#editWord" ripplerFill="#49b9b5" text="OK" textFill="WHITE" />
+   </children>
 </AnchorPane>

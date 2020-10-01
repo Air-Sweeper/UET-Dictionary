@@ -14,7 +14,6 @@ public class DictionaryCommand extends Dictionary {
     private static final int FIRST_INDEX = 1;
 
     public static void showAllWords() {
-
         int wordOrder = FIRST_INDEX;
         System.out.printf("%-4s| %-15s| %-15s%n", "No", "English", "Vietnamese");
         for (Map.Entry<String, String> word : dictionary.entrySet()) {
@@ -23,19 +22,14 @@ public class DictionaryCommand extends Dictionary {
     }
 
     public static void importFromFile() {
-
         try {
             Scanner inputFile = new Scanner(new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt"));
-
             while (inputFile.hasNext()) {
                 Word word = new Word();
-
                 String curLine = inputFile.nextLine();
                 String[] splitWords = curLine.split("\t");
-
                 word.setWord_target(splitWords[0].trim());
                 word.setWord_explain(splitWords[1].trim());
-
                 dictionary.put(word.getWord_target(), word.getWord_explain());
             }
             inputFile.close();
@@ -46,7 +40,6 @@ public class DictionaryCommand extends Dictionary {
     }
 
     public static void dictionaryExportToFile() {
-
         try {
             File exportedDict = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt");
             FileWriter fileWriter = new FileWriter(exportedDict);
@@ -60,11 +53,9 @@ public class DictionaryCommand extends Dictionary {
     }
 
     public static void importFromFavourite() {
-
         try {
             File favouriteFile = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\favourite.txt");
             Scanner inputFile = new Scanner(favouriteFile);
-
             while (inputFile.hasNext()) {
                 String favouriteWord = input.nextLine();
                 favouriteWords.add(favouriteWord);
