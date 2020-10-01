@@ -1,12 +1,2 @@
 hello	xin chao
 mom	me
-travel	du lich
-traverse    duyet
-transport   dich chuyen
-string	chuoi
-mama	me
-king	vua
-papa	bo
-cat	meo
-hmm	hmm
-	

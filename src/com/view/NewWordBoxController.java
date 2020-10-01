@@ -54,7 +54,7 @@ public class NewWordBoxController extends Dictionary {
 
         dictionary.put(newWord.getWord_target(), newWord.getWord_explain());
         try {
-            String src = "D:\\Source\\UET-Dictionary\\src\\com\\model\\dictionary.txt";
+            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
             FileWriter fileWriter = new FileWriter(src, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(newWord.getWord_target() + "\t" + newWord.getWord_explain() + "\n");

@@ -6,16 +6,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="125.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ButtonBar layoutX="137.0" layoutY="77.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-        <buttons>
-            <Button mnemonicParsing="false" text="OK" />
-          <Button mnemonicParsing="false" text="Close" />
-        </buttons>
-      </ButtonBar>
-      <Label layoutX="14.0" layoutY="36.0" text="New definition:" />
-      <TextField layoutX="136.0" layoutY="31.0" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="125.0"
+            prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.view.EditBoxController">
+    <ButtonBar layoutX="137.0" layoutY="77.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0"
+               AnchorPane.rightAnchor="10.0">
+      <buttons>
+          <Button mnemonicParsing="false" onAction="#editWord" text="OK"/>
+          <Button mnemonicParsing="false" onAction="#closeEditBox" text="Close"/>
+      </buttons>
+    </ButtonBar>
+    <Label layoutX="14.0" layoutY="36.0" text="New definition:"/>
+    <TextField fx:id="newDefinition" layoutX="136.0" layoutY="31.0"/>
 </AnchorPane>

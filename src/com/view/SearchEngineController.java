@@ -24,7 +24,10 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private ListView<String> searchedWordList = new ListView<>();
 
-    @FXML
+    public void editWord() {
+        EditBoxController.openEditBox(wordToSearch.getText());
+    }
+
     public void addNewWord() {
         NewWordBoxController.openNewWordBox();
     }
@@ -32,7 +35,7 @@ public class SearchEngineController extends Dictionary {
     public void showHistorySearch() {
 
         try {
-            File historyFile = new File("D:\\Source\\UET-Dictionary\\src\\com\\model\\history.txt");
+            File historyFile = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt");
             Scanner inputFile = new Scanner(historyFile);
 
             HashSet<String> historySearchWord = new HashSet<>();
@@ -101,7 +104,7 @@ public class SearchEngineController extends Dictionary {
     public void addToHistory() {
 
         try {
-            String src = "D:\\Source\\UET-Dictionary\\src\\com\\model\\history.txt";
+            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
             FileWriter fileWriter = new FileWriter(src, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(wordToSearch.getText()+"\n");

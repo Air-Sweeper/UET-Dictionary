@@ -25,7 +25,7 @@ public class DictionaryCommand extends Dictionary {
     public static void importFromFile() {
 
         try {
-            Scanner inputFile = new Scanner(new File("D:\\Source\\UET-Dictionary\\src\\com\\model\\dictionary.txt"));
+            Scanner inputFile = new Scanner(new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt"));
 
             while (inputFile.hasNext()) {
                 Word word = new Word();
@@ -45,34 +45,16 @@ public class DictionaryCommand extends Dictionary {
         }
     }
 
-    public static void dictionaryDelete() {
-        System.out.print("Search for deleting: ");
-        String neededWord = input.next();
-
-        if (dictionary.containsKey(neededWord)) {
-            dictionary.remove(neededWord);
-        } else {
-            System.out.println("No matched word found!");
-        }
-    }
-
     public static void dictionaryExportToFile() {
 
         try {
-            System.out.println("Enter file name: ");
-            String fileName = input.next();
-            File exportedDict = new File(fileName);
-            if (exportedDict.createNewFile()) {
-                FileWriter fileWriter = new FileWriter(exportedDict);
-                for(Map.Entry<String, String> word : dictionary.entrySet()) {
-                    fileWriter.write(word.getKey() + "\t" + word.getValue() + "\n");
-                }
-                fileWriter.close();
-            } else {
-                System.out.println("Can not create new file! File already exists!");
+            File exportedDict = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt");
+            FileWriter fileWriter = new FileWriter(exportedDict);
+            for(Map.Entry<String, String> word : dictionary.entrySet()) {
+                fileWriter.write(word.getKey() + "\t" + word.getValue() + "\n");
             }
+            fileWriter.close();
         } catch(IOException exception) {
-            System.out.println("An error occurred!");
             exception.printStackTrace();
         }
     }
@@ -80,7 +62,7 @@ public class DictionaryCommand extends Dictionary {
     public static void importFromFavourite() {
 
         try {
-            File favouriteFile = new File("D:\\Source\\UET-Dictionary\\src\\com\\model\\favourite.txt");
+            File favouriteFile = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\favourite.txt");
             Scanner inputFile = new Scanner(favouriteFile);
 
             while (inputFile.hasNext()) {
