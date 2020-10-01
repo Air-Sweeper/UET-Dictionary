@@ -1,11 +1,13 @@
 package com.view;
 
 import com.model.Dictionary;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 import java.io.*;
 import java.util.*;
@@ -25,7 +27,9 @@ public class SearchEngineController extends Dictionary {
     private ListView<String> searchedWordList = new ListView<>();
 
     public void editWord() {
-        EditBoxController.openEditBox(wordToSearch.getText());
+        if (!wordToSearch.getText().equals("")){
+            EditBoxController.openEditBox(wordToSearch.getText());
+        }
     }
 
     public void addNewWord() {

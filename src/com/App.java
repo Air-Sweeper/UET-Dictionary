@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
 
@@ -18,7 +20,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage window) {
-
         loadDatabase();
         launchApplication();
         showDictionary();
@@ -32,6 +33,8 @@ public class App extends Application {
             HBox rootLayout = loader.load();
             Stage mainWindow = new Stage();
             Scene scene = new Scene(rootLayout);
+            JMetro jMetro = new JMetro(Style.LIGHT);
+            jMetro.setScene(scene);
             mainWindow.setScene(scene);
             mainWindow.show();
         } catch (IOException e) {

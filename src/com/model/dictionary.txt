@@ -1,2 +1,4 @@
-hello	xin chao
+cat	mon leo
+hello	chao
 mom	me
+mama	mẹ

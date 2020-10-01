@@ -2,13 +2,14 @@ package com.view;
 
 import com.model.Dictionary;
 import com.model.Word;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -34,6 +35,8 @@ public class NewWordBoxController extends Dictionary {
             newWordPane = loader.load();
             newWordWindow = new Stage();
             newWordScene = new Scene(newWordPane);
+            JMetro jMetro = new JMetro(Style.LIGHT);
+            jMetro.setScene(newWordScene);
             newWordWindow.setScene(newWordScene);
             newWordWindow.show();
         } catch (Exception e) {
