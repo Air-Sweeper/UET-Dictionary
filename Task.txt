@@ -1,0 +1,40 @@
+
+---UTILITY FUNCTIONS---
+
+[DONE]	- Search (must have)
+	(1) Problem: Chưa thể in ra danh sách listview hoàn chỉnh mà không hiện những từ vừa tìm.
+	(2) Problem: Chưa thể chọn các từ được in ra ở listview để hiện nghĩa lên phần Definition.
+
+[DONE]	- Word meaning and pronunciation (must have)
+	(1) Problem: Chưa có phần pronunciation.
+	(2) Problem: Font chữ và các style chưa được đẹp.
+
+[DONE]	- History: save the words which were searched by user into a file if there exists no similar word in file. (must have)
+	(1) Problem: chưa thể xử lí ghi ra file gồm toàn những từ khác nhau
+ 
+[DONE]	- Favourite word: user can add their favourite words into a file. (must have)
+
+[DONE]	- Add new word. (must have)
+
+[DONE]	- Edit word. (must have)
+	(1) Problem: Tìm ra từ cần sửa và ghi thay đổi trong file txt chưa được tối ưu (Cần sử dụng thuật toán tìm kiếm tốt hơn).
+
+	- Copyright watermark. (optional)
+
+	- About us. (must have)
+
+	- Using icons instead of labels. (must have)
+
+	- Create a unique app icon. (optional)
+	
+	- Amazing word: show a random word each time the application opened. (must have)
+	Yêu cầu: Amazing word là 1 button, ấn vào thì hiện ra cửa sổ chứa 1 từ random. Và cửa sổ này khi phóng to thu nhỏ thì cái từ và nghĩa của từ hiện ra vẫn ở chính giữa.
+
+	- Add more functions and classes to show word infomation more specifically. (must have)
+--Chú thích--
+	optional: tuỳ chọn, có hay không đều được
+	must have: chức năng bắt buộc phải có.
+
+[OPTIONAL TASK]
+ - Tìm hiểu thêm về Maven project.
+ - Tìm hiểu thêm làm sao để lấy đường dẫn file tự động (khi pull về máy người khác không phải chỉnh các dòng code chứa đường dẫn file thủ công).
