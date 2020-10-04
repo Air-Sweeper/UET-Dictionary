@@ -1,18 +1,22 @@
 package com.view;
 
 import com.model.Dictionary;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Map;
 
 public class SearchEngineController extends Dictionary {
+
+    @FXML
+    private Label warningMessage;
+
+    @FXML
+    private FontAwesomeIconView warningIcon;
 
     @FXML
     private TextField wordToSearch;
@@ -26,76 +30,43 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private ListView<String> searchedWordList = new ListView<>();
 
-    public void editWord() {
-        if (!wordToSearch.getText().equals("")){
-            EditBoxController.openEditBox(wordToSearch.getText());
-        }
-    }
-
-    public void addNewWord() {
-        NewWordBoxController.openNewWordBox();
-    }
-
-    public void showHistorySearch() {
-        try {
-            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
-            File historyFile = new File(src);
-            Scanner inputFile = new Scanner(historyFile);
-            HashSet<String> historySearchWord = new HashSet<>();
-            while (inputFile.hasNext()) {
-                String word = inputFile.nextLine();
-                historySearchWord.add(word);
-            }
-            StringBuilder result = new StringBuilder();
-            for (String word : historySearchWord) {
-                result.append(word).append("\n");
-            }
-            wordHistory.setText(result.toString());
-            inputFile.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void searchForWord() {
+        searchedWordList.getItems().clear();
         getDefinition();
         getWordList();
-    }
-
-    private void getDefinition() {
-        String word = wordToSearch.getText();
-        if (dictionary.containsKey(word)) {
-            addToHistory();
-            wordDefinition.setText(word + "\n\n" + dictionary.get(word));
-        } else {
-            wordDefinition.setText("No matched word found!");
-        }
     }
 
     public void getWordList() {
         String pattern = wordToSearch.getText();
         if (pattern.length() != 0) {
-            List<String> wordList = new ArrayList<>();
             boolean isExisted = false;
             for (Map.Entry<String, String> word : dictionary.entrySet()) {
                 String mainString = word.getKey();
                 if (mainString.startsWith(pattern)) {
-                    wordList.add(mainString);
+                    searchedWordList.getItems().add(mainString);
                     isExisted = true;
                 }
             }
-            if (!isExisted) {
-                System.out.println("No word found!");
-            } else {
-                ObservableList<String> observableWordList = FXCollections.observableList(wordList);
-                searchedWordList.getItems().addAll(observableWordList);
-                searchedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            warningMessage.setVisible(!isExisted);
+            warningIcon.setVisible(!isExisted);
+            searchedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            String selectedWord = searchedWordList.getSelectionModel().getSelectedItem();
+            System.out.println(selectedWord);
+        }
+    }
+
+    public void getDefinition() {
+        if (dictionary.containsKey(wordToSearch.getText())) {
+            wordDefinition.setText(wordToSearch.getText() + "\n\n" + dictionary.get(wordToSearch.getText()));
+            if (!searchedWords.contains(wordToSearch.getText())){
+                addToHistory();
             }
         }
     }
 
     public void addToHistory() {
         try {
+            searchedWords.add(wordToSearch.getText());
             String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
             FileWriter fileWriter = new FileWriter(src, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -104,5 +75,32 @@ public class SearchEngineController extends Dictionary {
         } catch(IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void showHistorySearch() {
+        StringBuilder result = new StringBuilder();
+        for (String word : searchedWords) {
+            result.append(word).append("\n");
+        }
+        System.out.println(result);
+        wordHistory.setText(result.toString());
+    }
+
+    public void addNewWord() {
+        NewWordBoxController.openNewWordBox();
+    }
+
+    public void editWord() {
+        if (!wordToSearch.getText().equals("")){
+            EditBoxController.openEditBox(wordToSearch.getText());
+        }
+    }
+
+    public void deleteWord() {
+        DeleteWordController.openDeleteWordWindow();
+    }
+
+    public void aboutUs() {
+        AboutUsController.openAboutUsWindow();
     }
 }

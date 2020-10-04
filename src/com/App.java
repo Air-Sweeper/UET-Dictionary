@@ -1,6 +1,7 @@
 package com;
 
 import com.model.DictionaryCommand;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,8 +28,10 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource("view/SearchEngine.fxml"));
             AnchorPane rootLayout = loader.load();
-            Stage mainWindow = new Stage();
+
             Scene scene = new Scene(rootLayout);
+            Stage mainWindow = new Stage();
+            mainWindow.setTitle("UET-Dictionary");
             mainWindow.setScene(scene);
             mainWindow.show();
         } catch (IOException e) {
@@ -39,6 +42,7 @@ public class App extends Application {
     private void loadDatabase() {
         DictionaryCommand.importFromFile();
         DictionaryCommand.importFromFavourite();
+        DictionaryCommand.importFromHistory();
     }
 
     public void showDictionary() {

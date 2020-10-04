@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import static com.model.DictionaryCommand.dictionaryExportToFile;
@@ -32,8 +33,11 @@ public class EditBoxController extends Dictionary {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(EditBoxController.class.getResource("EditBox.fxml"));
             AnchorPane newWordPane = loader.load();
-            editBoxStage = new Stage();
+
             Scene newWordScene = new Scene(newWordPane);
+            editBoxStage = new Stage();
+            editBoxStage.initModality(Modality.APPLICATION_MODAL);
+            editBoxStage.setTitle("Edit word");
             editBoxStage.setScene(newWordScene);
             editBoxStage.show();
             wordTarget = wordToEdit;

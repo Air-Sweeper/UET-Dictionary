@@ -39,22 +39,25 @@ public class DictionaryCommand extends Dictionary {
         }
     }
 
-    public static void dictionaryExportToFile() {
+    public static void importFromHistory() {
         try {
-            File exportedDict = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt");
-            FileWriter fileWriter = new FileWriter(exportedDict);
-            for(Map.Entry<String, String> word : dictionary.entrySet()) {
-                fileWriter.write(word.getKey() + "\t" + word.getValue() + "\n");
+            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
+            File historyFile = new File(src);
+            Scanner inputFile = new Scanner(historyFile);
+
+            while (inputFile.hasNext()) {
+                String word = inputFile.nextLine();
+                searchedWords.add(word);
             }
-            fileWriter.close();
-        } catch(IOException exception) {
-            exception.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     public static void importFromFavourite() {
         try {
-            File favouriteFile = new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\favourite.txt");
+            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\favourite.txt";
+            File favouriteFile = new File(src);
             Scanner inputFile = new Scanner(favouriteFile);
             while (inputFile.hasNext()) {
                 String favouriteWord = input.nextLine();
@@ -65,4 +68,19 @@ public class DictionaryCommand extends Dictionary {
             e.printStackTrace();
         }
     }
+
+    public static void dictionaryExportToFile() {
+        try {
+            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
+            File exportedDict = new File(src);
+            FileWriter fileWriter = new FileWriter(exportedDict);
+            for(Map.Entry<String, String> word : dictionary.entrySet()) {
+                fileWriter.write(word.getKey() + "\t" + word.getValue() + "\n");
+            }
+            fileWriter.close();
+        } catch(IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
 }

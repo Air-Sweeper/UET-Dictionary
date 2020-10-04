@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
@@ -22,16 +23,19 @@ public class NewWordBoxController extends Dictionary {
     private TextField newWordMeaning;
 
     static Stage newWordWindow;
-    static Scene newWordScene;
-    static AnchorPane newWordPane;
+
+
 
     public static void openNewWordBox() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(NewWordBoxController.class.getResource("NewWordBox.fxml"));
-            newWordPane = loader.load();
+            AnchorPane newWordPane = loader.load();
+
+            Scene newWordScene = new Scene(newWordPane);
             newWordWindow = new Stage();
-            newWordScene = new Scene(newWordPane);
+            newWordWindow.initModality(Modality.APPLICATION_MODAL);
+            newWordWindow.setTitle("New word");
             newWordWindow.setScene(newWordScene);
             newWordWindow.show();
         } catch (Exception e) {

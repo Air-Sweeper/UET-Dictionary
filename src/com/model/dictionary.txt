@@ -1,4 +1,6 @@
-cat	mon leo
+traverse	duyet
+travel	du lich
 hello	xin chao
-mama	mẹ
 mom	me
+cat	meo
+dog	cho
