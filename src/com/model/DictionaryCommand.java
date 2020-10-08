@@ -10,7 +10,10 @@ import java.util.Scanner;
 public class DictionaryCommand extends Dictionary {
 
     private static final Scanner input = new Scanner(System.in);
-
+    private static final String HISTORY_FILE_PATH = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
+    private static final String DICTIONARY_FILE_PATH = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
+    private static final String FAVOURITE_FILE_PATH =  "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\favourite.txt";
+    private static final String SPLIT_CHARACTER = "\t";
     private static final int FIRST_INDEX = 1;
 
     public static void showAllWords() {
@@ -23,26 +26,24 @@ public class DictionaryCommand extends Dictionary {
 
     public static void importFromFile() {
         try {
-            Scanner inputFile = new Scanner(new File("D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt"));
+            Scanner inputFile = new Scanner(new File(DICTIONARY_FILE_PATH));
             while (inputFile.hasNext()) {
                 Word word = new Word();
                 String curLine = inputFile.nextLine();
-                String[] splitWords = curLine.split("\t");
+                String[] splitWords = curLine.split(SPLIT_CHARACTER);
                 word.setWord_target(splitWords[0].trim());
                 word.setWord_explain(splitWords[1].trim());
                 dictionary.put(word.getWord_target(), word.getWord_explain());
             }
             inputFile.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
 
     public static void importFromHistory() {
         try {
-            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
-            File historyFile = new File(src);
+            File historyFile = new File(HISTORY_FILE_PATH);
             Scanner inputFile = new Scanner(historyFile);
 
             while (inputFile.hasNext()) {
@@ -56,8 +57,7 @@ public class DictionaryCommand extends Dictionary {
 
     public static void importFromFavourite() {
         try {
-            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\favourite.txt";
-            File favouriteFile = new File(src);
+            File favouriteFile = new File(FAVOURITE_FILE_PATH);
             Scanner inputFile = new Scanner(favouriteFile);
             while (inputFile.hasNext()) {
                 String favouriteWord = input.nextLine();
@@ -71,8 +71,7 @@ public class DictionaryCommand extends Dictionary {
 
     public static void dictionaryExportToFile() {
         try {
-            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
-            File exportedDict = new File(src);
+            File exportedDict = new File(DICTIONARY_FILE_PATH);
             FileWriter fileWriter = new FileWriter(exportedDict);
             for(Map.Entry<String, String> word : dictionary.entrySet()) {
                 fileWriter.write(word.getKey() + "\t" + word.getValue() + "\n");

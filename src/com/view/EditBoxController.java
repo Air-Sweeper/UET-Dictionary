@@ -13,16 +13,17 @@ import static com.model.DictionaryCommand.dictionaryExportToFile;
 
 public class EditBoxController extends Dictionary {
 
-    @FXML
-    private TextField newDefinition;
-
+    private static final String EDIT_BOX_FILE_PATH = "EditBox.fxml";
+    private static final String EDIT_BOX_TITLE = "Edit word";
     private static String wordTarget;
-
     private static Stage editBoxStage;
 
+    @FXML
+    private TextField newDefinitionField;
+
     public void editWord() {
-        if (!newDefinition.getText().equals("")) {
-            dictionary.replace(wordTarget, newDefinition.getText());
+        if (!newDefinitionField.getText().equals("")) {
+            dictionary.replace(wordTarget, newDefinitionField.getText());
             dictionaryExportToFile();
             closeEditBox();
         }
@@ -31,13 +32,12 @@ public class EditBoxController extends Dictionary {
     public static void openEditBox(String wordToEdit) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(EditBoxController.class.getResource("EditBox.fxml"));
+            loader.setLocation(EditBoxController.class.getResource(EDIT_BOX_FILE_PATH));
             AnchorPane newWordPane = loader.load();
-
             Scene newWordScene = new Scene(newWordPane);
             editBoxStage = new Stage();
             editBoxStage.initModality(Modality.APPLICATION_MODAL);
-            editBoxStage.setTitle("Edit word");
+            editBoxStage.setTitle(EDIT_BOX_TITLE);
             editBoxStage.setScene(newWordScene);
             editBoxStage.show();
             wordTarget = wordToEdit;

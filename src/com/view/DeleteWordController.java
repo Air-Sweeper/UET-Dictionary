@@ -13,27 +13,26 @@ import javafx.stage.Stage;
 
 public class DeleteWordController extends Dictionary {
 
-    @FXML
-    private TextField wordToDelete;
+    private static final String DELETE_BOX_FILE_PATH = "DeleteWordBox.fxml";
+    private static final String DELETE_BOX_TITLE = "Delete word";
+    private static Stage deleteWordBoxStage;
 
     @FXML
-    private Label warningMessage;
-
+    private TextField wordToDeleteField;
+    @FXML
+    private Label warningMessageLabel;
     @FXML
     private FontAwesomeIconView warningIcon;
-
-    private static Stage deleteWordBoxStage;
 
     public static void openDeleteWordWindow() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(EditBoxController.class.getResource("DeleteWordBox.fxml"));
+            loader.setLocation(EditBoxController.class.getResource(DELETE_BOX_FILE_PATH));
             AnchorPane deleteWordBoxPane = loader.load();
-
             Scene newWordScene = new Scene(deleteWordBoxPane);
             deleteWordBoxStage = new Stage();
             deleteWordBoxStage.initModality(Modality.APPLICATION_MODAL);
-            deleteWordBoxStage.setTitle("Delete word");
+            deleteWordBoxStage.setTitle(DELETE_BOX_TITLE);
             deleteWordBoxStage.setScene(newWordScene);
             deleteWordBoxStage.show();
         } catch (Exception e) {
@@ -42,11 +41,11 @@ public class DeleteWordController extends Dictionary {
     }
 
     public void deleteWord() {
-        if (dictionary.containsKey(wordToDelete.getText())) {
-            dictionary.remove(wordToDelete.getText());
+        if (dictionary.containsKey(wordToDeleteField.getText())) {
+            dictionary.remove(wordToDeleteField.getText());
             deleteWordBoxStage.close();
         } else {
-            warningMessage.setVisible(true);
+            warningMessageLabel.setVisible(true);
             warningIcon.setVisible(true);
         }
     }

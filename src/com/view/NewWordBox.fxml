@@ -23,8 +23,8 @@
          <children>
             <Label text="New word:" textFill="WHITE" />
             <Label text="Meaning:" textFill="WHITE" GridPane.rowIndex="1" />
-            <JFXTextField fx:id="newWord" focusColor="#49b9b5" prefWidth="163.0" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1" />
-            <JFXTextField fx:id="newWordMeaning" focusColor="#49b9b5" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXTextField fx:id="newWordField" focusColor="#49b9b5" prefWidth="163.0" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1" />
+            <JFXTextField fx:id="newWordMeaningField" focusColor="#49b9b5" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <JFXButton layoutX="230.0" layoutY="205.0" onAction="#closeNewWordBox" ripplerFill="RED" text="Close" textFill="WHITE" />

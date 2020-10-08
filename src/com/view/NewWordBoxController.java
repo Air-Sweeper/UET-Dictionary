@@ -16,26 +16,25 @@ import java.io.IOException;
 
 public class NewWordBoxController extends Dictionary {
 
-    @FXML
-    private TextField newWord;
+    private static final String NEW_WORD_BOX_FILE_PATH = "NewWordBox.fxml";
+    private static final String NEW_WORD_BOX_TITLE = "New word";
+    private static final String DICTIONARY_FILE_PATH = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
+    private static Stage newWordWindow;
 
     @FXML
-    private TextField newWordMeaning;
-
-    static Stage newWordWindow;
-
-
+    private TextField newWordField;
+    @FXML
+    private TextField newWordMeaningField;
 
     public static void openNewWordBox() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(NewWordBoxController.class.getResource("NewWordBox.fxml"));
+            loader.setLocation(NewWordBoxController.class.getResource(NEW_WORD_BOX_FILE_PATH));
             AnchorPane newWordPane = loader.load();
-
             Scene newWordScene = new Scene(newWordPane);
             newWordWindow = new Stage();
             newWordWindow.initModality(Modality.APPLICATION_MODAL);
-            newWordWindow.setTitle("New word");
+            newWordWindow.setTitle(NEW_WORD_BOX_TITLE);
             newWordWindow.setScene(newWordScene);
             newWordWindow.show();
         } catch (Exception e) {
@@ -44,10 +43,10 @@ public class NewWordBoxController extends Dictionary {
     }
 
     public void addNewWord() {
-        if (!newWord.getText().equals("")) {
+        if (!newWordField.getText().equals("")) {
             Word word = new Word();
-            word.setWord_target(newWord.getText());
-            word.setWord_explain(newWordMeaning.getText());
+            word.setWord_target(newWordField.getText());
+            word.setWord_explain(newWordMeaningField.getText());
             updateDictionary(word);
             closeNewWordBox();
         }
@@ -56,8 +55,7 @@ public class NewWordBoxController extends Dictionary {
     public void updateDictionary(Word newWord) {
         try {
             dictionary.put(newWord.getWord_target(), newWord.getWord_explain());
-            String src = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
-            FileWriter fileWriter = new FileWriter(src, true);
+            FileWriter fileWriter = new FileWriter(DICTIONARY_FILE_PATH, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(newWord.getWord_target() + "\t" + newWord.getWord_explain() + "\n");
             bufferedWriter.close();

@@ -4,3 +4,4 @@ hello	xin chao
 mom	me
 cat	meo
 dog	cho
+dog	con cho
