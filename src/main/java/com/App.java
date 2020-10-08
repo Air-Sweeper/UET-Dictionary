@@ -1,4 +1,4 @@
-package com;
+package java.com;
 
 import com.model.DictionaryCommand;
 
@@ -37,10 +37,8 @@ public class App extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource(SEARCH_ENGINE_FILE_PATH));
             AnchorPane rootLayout = loader.load();
-
             Scene scene = new Scene(rootLayout);
             Stage mainWindow = new Stage();
-
             mainWindow.setTitle(APPLICATION_NAME);
             mainWindow.setScene(scene);
             mainWindow.show();
