@@ -25,31 +25,31 @@
     <JFXToolbar layoutY="60.0" prefHeight="31.0" prefWidth="651.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="629.0" AnchorPane.topAnchor="60.0">
         <left>
             <HBox prefHeight="31.0" prefWidth="305.0" BorderPane.alignment="CENTER">
-                <JFXButton onAction="#addNewWord" ripplerFill="#21fecb" text="Add" textFill="WHITE" />
+                <JFXButton onAction="#addNewWord" ripplerFill="#49b9b5" text="Add" textFill="WHITE" />
                 <JFXButton onAction="#editWord" ripplerFill="#fbf771" text="Edit" textFill="WHITE" />
                 <JFXButton ripplerFill="#009dff" text="Export" textFill="WHITE" />
-                <JFXButton onAction="#deleteWord" ripplerFill="#ff5b5b" text="Delete" textFill="WHITE" />
+                <JFXButton onAction="#deleteWord" ripplerFill="RED" text="Delete" textFill="WHITE" />
                 <JFXButton onAction="#aboutUs" ripplerFill="#009aff" text="About" textFill="WHITE" />
             </HBox>
         </left>
     </JFXToolbar>
     <JFXListView fx:id="relatedWordList" layoutY="98.0" onMouseClicked="#getDefinitionOfSelectedWord" prefHeight="702.0" prefWidth="262.0" style="-fx-background-color: #4a4b4e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="98.0" />
     <JFXTabPane layoutX="271.0" layoutY="98.0" prefHeight="702.0" prefWidth="691.0" style="-fx-focus-color: transparent;" stylesheets="@CSS/tabPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="271.0" AnchorPane.rightAnchor="318.0" AnchorPane.topAnchor="98.0">
-      <Tab text="Definition">
+        <Tab closable="false" text="Definition">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <JFXTextArea fx:id="wordDefinitionArea1" editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <FontAwesomeIconView fx:id="pronunciationIcon" fill="#959a9a" glyphName="VOLUME_UP" layoutX="625.5" layoutY="51.0" size="35" visible="false" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="21.0" />
+            </AnchorPane>
+        </Tab>
+      <Tab text="Syllabus">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                       <JFXTextArea fx:id="wordDefinitionArea" editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#textToSpeech" size="25" AnchorPane.rightAnchor="14.785715103149414" />
                </children>
             </AnchorPane>
         </content>
       </Tab>
-        <Tab closable="false" text="Syllabus">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <JFXTextArea fx:id="wordDefinitionArea1" editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            </AnchorPane>
-        </Tab>
     </JFXTabPane>
     <JFXButton layoutX="899.0" layoutY="58.0" onAction="#searchForWord" onKeyPressed="#searchForWord" ripplerFill="#df69f4" text="Search" textFill="WHITE" AnchorPane.rightAnchor="316.0" />
    <FontAwesomeIconView fill="#cecccb" glyphName="SEARCH" layoutX="819.0" layoutY="78.0" size="14" wrappingWidth="10.285717889666557" AnchorPane.rightAnchor="293.0" AnchorPane.topAnchor="66.0" />
@@ -59,13 +59,13 @@
       </font>
    </Label>
    <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="889.0" layoutY="47.0" smooth="false" visible="false" AnchorPane.rightAnchor="380.7142858505249" />
-   <Accordion fx:id="utilityAccordion" layoutX="1044.0" layoutY="99.0" prefHeight="702.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="98.0">
+   <Accordion layoutX="1044.0" layoutY="99.0" prefHeight="702.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="98.0">
      <panes>
-       <TitledPane fx:id="historyPane" stylesheets="@CSS/titledPane.css" text="Recent">
+       <TitledPane stylesheets="@CSS/titledPane.css" text="Recent">
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@CSS/titledPane.css">
                   <children>
-                     <JFXTextArea fx:id="wordHistoryArea" editable="false" prefHeight="671.0" prefWidth="580.0" style="-fx-background-color: #4a4b4e; -fx-border-color: yellow; -fx-text-fill: white;" AnchorPane.bottomAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+                     <JFXTextArea editable="false" prefHeight="671.0" prefWidth="580.0" style="-fx-background-color: #4a4b4e; -fx-border-color: yellow;" AnchorPane.bottomAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
                   </children>
                </AnchorPane>
          </content>

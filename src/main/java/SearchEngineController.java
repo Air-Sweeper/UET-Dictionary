@@ -1,14 +1,17 @@
 package main.java;
 
 import com.voicerss.tts.*;
-import main.java.model.Dictionary;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import main.java.model.Dictionary;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 
 public class SearchEngineController extends Dictionary {
@@ -30,6 +33,10 @@ public class SearchEngineController extends Dictionary {
     private TextArea wordHistoryArea;
     @FXML
     private ListView<String> relatedWordList;
+    @FXML
+    private TitledPane historyPane;
+    @FXML
+    private Accordion utilityAccordion;
 
     public void searchForWord() {
         getDefinition();
@@ -72,10 +79,9 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void textToSpeech() throws Exception {
-        String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
         VoiceProvider tts = new VoiceProvider("cc4d6af20685439b9b77544383b558fc");
 
-        VoiceParameters params = new VoiceParameters(selectedWord, Languages.English_UnitedStates);
+        VoiceParameters params = new VoiceParameters(wordToSearchField.getText(), Languages.English_UnitedStates);
         params.setCodec(AudioCodec.WAV);
         params.setFormat(AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
         params.setBase64(false);
@@ -84,7 +90,7 @@ public class SearchEngineController extends Dictionary {
 
         byte[] voice = tts.speech(params);
 
-        FileOutputStream fos = new FileOutputStream("src/main/resources/voice.mp3");
+        FileOutputStream fos = new FileOutputStream("src/main/resources/word_pronunciation.wav");
         fos.write(voice, 0, voice.length);
         fos.flush();
         fos.close();
@@ -108,6 +114,8 @@ public class SearchEngineController extends Dictionary {
             result.append(word).append("\n");
         }
         wordHistoryArea.setText(result.toString());
+        historyPane.setContent(wordHistoryArea);
+        utilityAccordion.setExpandedPane(historyPane);
     }
 
     public void addNewWord() {

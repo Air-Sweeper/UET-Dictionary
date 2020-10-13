@@ -26,6 +26,11 @@
 	- Add more functions and classes to show word infomation more specifically. (must have)
 	
 	- Chỉnh sửa lại giao diện (thêm file CSS cho các thành phần)
+		+ Thanh scroll listview
+		+ Set hover button
+		+ Set color
+		+ Custom stage
+	- Add Show all words titled Pane.
 
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được
