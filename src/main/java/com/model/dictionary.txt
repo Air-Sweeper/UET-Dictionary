@@ -1,7 +1,0 @@
-traverse	duyet
-travel	du lich
-hello	xin chao
-mom	me
-cat	meo
-dog	cho
-dog	con cho

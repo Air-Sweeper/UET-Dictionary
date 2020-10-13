@@ -1,4 +1,4 @@
-package com.view;
+package main.java;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class AboutUsController {
 
-    private static final String ABOUT_US_BOX_FILE_PATH = "AboutUsBox.fxml";
+    private static final String ABOUT_US_BOX_FILE_PATH = "view/AboutUsBox.fxml";
     private static final String ABOUT_US_BOX_TITLE = "About us";
 
     public static void openAboutUsWindow() {

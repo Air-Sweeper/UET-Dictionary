@@ -1,26 +1,27 @@
-package com.view;
+package main.java;
 
-import com.model.Dictionary;
+import com.voicerss.tts.*;
+import main.java.model.Dictionary;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 
 public class SearchEngineController extends Dictionary {
-
-    private static final String HISTORY_FILE_PATH = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
+    
+    private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
     ObservableList<String> relatedWords = FXCollections.observableArrayList();
 
     @FXML
     private Label warningMessageLabel;
     @FXML
     private FontAwesomeIconView warningIcon;
+    @FXML
+    private FontAwesomeIconView pronunciationIcon;
     @FXML
     private TextField wordToSearchField;
     @FXML
@@ -38,6 +39,7 @@ public class SearchEngineController extends Dictionary {
     public void getDefinition() {
         if (dictionary.containsKey(wordToSearchField.getText())) {
             wordDefinitionArea.setText(wordToSearchField.getText() + "\n\n" + dictionary.get(wordToSearchField.getText()));
+            pronunciationIcon.setVisible(true);
             if (!searchedWords.contains(wordToSearchField.getText())){
                 addToHistory();
             }
@@ -66,6 +68,26 @@ public class SearchEngineController extends Dictionary {
     public void getDefinitionOfSelectedWord() {
         String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
         wordDefinitionArea.setText(dictionary.get(selectedWord));
+        pronunciationIcon.setVisible(true);
+    }
+
+    public void textToSpeech() throws Exception {
+        String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
+        VoiceProvider tts = new VoiceProvider("cc4d6af20685439b9b77544383b558fc");
+
+        VoiceParameters params = new VoiceParameters(selectedWord, Languages.English_UnitedStates);
+        params.setCodec(AudioCodec.WAV);
+        params.setFormat(AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
+        params.setBase64(false);
+        params.setSSML(false);
+        params.setRate(0);
+
+        byte[] voice = tts.speech(params);
+
+        FileOutputStream fos = new FileOutputStream("src/main/resources/voice.mp3");
+        fos.write(voice, 0, voice.length);
+        fos.flush();
+        fos.close();
     }
 
     public void addToHistory() {

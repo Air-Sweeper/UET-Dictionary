@@ -1,7 +1,7 @@
-package com.view;
+package main.java;
 
-import com.model.Dictionary;
-import com.model.Word;
+import main.java.model.Dictionary;
+import main.java.model.Word;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,9 +16,9 @@ import java.io.IOException;
 
 public class NewWordBoxController extends Dictionary {
 
-    private static final String NEW_WORD_BOX_FILE_PATH = "NewWordBox.fxml";
+    private static final String NEW_WORD_BOX_FILE_PATH = "view/NewWordBox.fxml";
     private static final String NEW_WORD_BOX_TITLE = "New word";
-    private static final String DICTIONARY_FILE_PATH = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
+    private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
     private static Stage newWordWindow;
 
     @FXML

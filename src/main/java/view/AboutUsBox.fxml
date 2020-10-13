@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: #3e3f41;"
             xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.view.AboutUsController">
+            fx:controller="main.java.AboutUsController">
    <JFXTextArea editable="false" focusColor="#67c6c9" layoutX="-122.0" layoutY="26.0" prefHeight="300.0"
                 prefWidth="458.0" style="-fx-text-fill: #ffffff;"
                 text="UET Dictionary&#10;&#10;    2020 Thai-Vinh-Tuyen corporation. All rights reserved.&#10;&#10;About us:&#10;A dictionary application for homework assignment, made by:&#10;   - Pice (Nguyen Thai)&#10;   - Oppa NDV (Duc Vinh)&#10;   - Kennjius (Kieu Van Tuyen)&#10;&#10;&#10;"

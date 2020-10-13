@@ -1,4 +1,4 @@
-package com.model;
+package main.java.model;
 
 public class Word {
     private String word_target;

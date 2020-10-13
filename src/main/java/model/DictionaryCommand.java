@@ -1,4 +1,4 @@
-package com.model;
+package main.java.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,9 +10,9 @@ import java.util.Scanner;
 public class DictionaryCommand extends Dictionary {
 
     private static final Scanner input = new Scanner(System.in);
-    private static final String HISTORY_FILE_PATH = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\history.txt";
-    private static final String DICTIONARY_FILE_PATH = "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\dictionary.txt";
-    private static final String FAVOURITE_FILE_PATH =  "D:\\Source\\UET-Dictionary-TeamVersion\\src\\com\\model\\favourite.txt";
+    private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
+    private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
+    private static final String FAVOURITE_FILE_PATH =  "src/main/resources/favourite.txt";
     private static final String SPLIT_CHARACTER = "\t";
     private static final int FIRST_INDEX = 1;
 

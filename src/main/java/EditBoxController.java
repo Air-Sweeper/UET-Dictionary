@@ -1,6 +1,6 @@
-package com.view;
+package main.java;
 
-import com.model.Dictionary;
+import main.java.model.Dictionary;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,11 +9,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import static com.model.DictionaryCommand.dictionaryExportToFile;
+import static main.java.model.DictionaryCommand.dictionaryExportToFile;
 
 public class EditBoxController extends Dictionary {
 
-    private static final String EDIT_BOX_FILE_PATH = "EditBox.fxml";
+    private static final String EDIT_BOX_FILE_PATH = "view/EditBox.fxml";
     private static final String EDIT_BOX_TITLE = "Edit word";
     private static String wordTarget;
     private static Stage editBoxStage;

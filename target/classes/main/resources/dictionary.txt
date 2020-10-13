@@ -1,0 +1,7 @@
+cat	meo
+dog	con cho
+hello	xin chao
+mom	me
+travel	du lich
+traverse	duyet
+wow	ghe nha

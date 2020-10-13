@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #3e3f41;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.SearchEngineController">
+    <TextField fx:id="wordToSearchField" layoutX="888.0" layoutY="58.0" onKeyPressed="#searchForWord" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" AnchorPane.rightAnchor="14.0">
+      <padding>
+         <Insets left="25.0" />
+      </padding></TextField>
+    <JFXToolbar layoutY="60.0" prefHeight="31.0" prefWidth="651.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="629.0" AnchorPane.topAnchor="60.0">
+        <left>
+            <HBox prefHeight="31.0" prefWidth="305.0" BorderPane.alignment="CENTER">
+                <JFXButton onAction="#addNewWord" ripplerFill="#49b9b5" text="Add" textFill="WHITE" />
+                <JFXButton onAction="#editWord" ripplerFill="#ffdc00" text="Edit" textFill="WHITE" />
+                <JFXButton ripplerFill="#009dff" text="Export" textFill="WHITE" />
+                <JFXButton onAction="#deleteWord" ripplerFill="RED" text="Delete" textFill="WHITE" />
+                <JFXButton onAction="#aboutUs" ripplerFill="#009aff" text="About" textFill="WHITE" />
+            </HBox>
+        </left>
+    </JFXToolbar>
+    <JFXListView fx:id="relatedWordList" layoutY="98.0" onMouseClicked="#getDefinitionOfSelectedWord" prefHeight="702.0" prefWidth="262.0" style="-fx-background-color: #4a4b4e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="98.0" />
+    <JFXTabPane layoutX="309.0" layoutY="152.0" prefHeight="702.0" prefWidth="1009.0" style="-fx-focus-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="271.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
+        <Tab style="-fx-focus-color: #49b9b5;" text="Definition">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <JFXTextArea fx:id="wordDefinitionArea" editable="false" prefHeight="665.0" prefWidth="1009.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <FontAwesomeIconView fx:id="pronunciationIcon" fill="#cecccb" glyphName="VOLUME_UP" layoutX="971.0" layoutY="35.0" onMouseClicked="#textToSpeech" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414" />
+            </AnchorPane>
+        </Tab>
+        <Tab onSelectionChanged="#showHistorySearch" text="Recent">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <JFXTextArea fx:id="wordHistoryArea" editable="false" prefHeight="665.0" prefWidth="1009.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            </AnchorPane>
+        </Tab>
+    </JFXTabPane>
+    <JFXButton layoutX="814.0" layoutY="58.0" onAction="#searchForWord" onKeyPressed="#searchForWord" ripplerFill="#49b9b5" text="Search" textFill="WHITE" AnchorPane.rightAnchor="401.0" />
+   <FontAwesomeIconView fill="#cecccb" glyphName="SEARCH" layoutX="894.0" layoutY="77.7142858505249" size="14" wrappingWidth="1.0" AnchorPane.rightAnchor="385.0" AnchorPane.topAnchor="65.7142858505249" />
+   <Label fx:id="warningMessageLabel" layoutX="904.0" layoutY="35.0" text="No matched word found!" textFill="RED" visible="false" AnchorPane.rightAnchor="253.0">
+      <font>
+         <Font size="11.0" />
+      </font>
+   </Label>
+   <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="889.0" layoutY="47.0" smooth="false" visible="false" AnchorPane.rightAnchor="380.7142858505249" />
+</AnchorPane>

@@ -1,6 +1,6 @@
-package com.view;
+package main.java;
 
-import com.model.Dictionary;
+import main.java.model.Dictionary;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class DeleteWordController extends Dictionary {
 
-    private static final String DELETE_BOX_FILE_PATH = "DeleteWordBox.fxml";
+    private static final String DELETE_BOX_FILE_PATH = "view/DeleteWordBox.fxml";
     private static final String DELETE_BOX_TITLE = "Delete word";
     private static Stage deleteWordBoxStage;
 

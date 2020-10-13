@@ -1,4 +1,4 @@
-package com.model;
+package main.java.model;
 
 import java.util.HashSet;
 import java.util.TreeMap;
