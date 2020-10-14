@@ -22,6 +22,8 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private Label warningMessageLabel;
     @FXML
+    private FontAwesomeIconView clearTextFieldIcon;
+    @FXML
     private FontAwesomeIconView warningIcon;
     @FXML
     private FontAwesomeIconView pronunciationIcon;
@@ -72,16 +74,35 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
+    public void closeHistoryPane() {
+        historyPane.setExpanded(false);
+    }
+
     public void getDefinitionOfSelectedWord() {
         String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
         wordDefinitionArea.setText(dictionary.get(selectedWord));
         pronunciationIcon.setVisible(true);
+        addToHistory();
+    }
+
+    public boolean canBeDeleted() {
+        return !wordToSearchField.getText().equals("");
+    }
+
+    public void clearTextField() {
+        if (canBeDeleted()) {
+            wordToSearchField.clear();
+        }
     }
 
     public void textToSpeech() throws Exception {
+        String wordTarget = relatedWordList.getSelectionModel().getSelectedItem();
+        if (wordTarget == null) {
+            wordTarget = wordToSearchField.getText();
+        }
         VoiceProvider tts = new VoiceProvider("cc4d6af20685439b9b77544383b558fc");
 
-        VoiceParameters params = new VoiceParameters(wordToSearchField.getText(), Languages.English_UnitedStates);
+        VoiceParameters params = new VoiceParameters(wordTarget, Languages.English_UnitedStates);
         params.setCodec(AudioCodec.WAV);
         params.setFormat(AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
         params.setBase64(false);
@@ -98,10 +119,16 @@ public class SearchEngineController extends Dictionary {
 
     public void addToHistory() {
         try {
-            searchedWords.add(wordToSearchField.getText());
+            String selectedWord;
+            if (relatedWordList.getSelectionModel().getSelectedItem() == null) {
+                selectedWord = wordToSearchField.getText();
+            } else {
+                selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
+            }
+            searchedWords.add(selectedWord);
             FileWriter fileWriter = new FileWriter(HISTORY_FILE_PATH, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(wordToSearchField.getText()+"\n");
+            bufferedWriter.write(selectedWord+"\n");
             bufferedWriter.close();
         } catch(IOException exception) {
             exception.printStackTrace();

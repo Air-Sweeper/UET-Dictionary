@@ -1,6 +1,5 @@
 dog	dog
 doa	dog
-doa	dog
 dogs	dog
 dogsd	dog
 dogw	dog
@@ -16,11 +15,4 @@ dogi	dog
 dogii	dog
 dogiii	dog
 dogp	dog
-dogp	dog
-dogpp	dog
-dogppp	dog
-dogt	dog
-dogtt	dog
-dogttt	dog
-dogrrr	dog
-dogjhg	dog
+

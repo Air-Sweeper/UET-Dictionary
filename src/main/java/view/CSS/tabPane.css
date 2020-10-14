@@ -8,3 +8,6 @@
     -fx-stroke: #75bc1b;
     -fx-stroke-width: 3pt;
 }
+.tab:hover{
+    -fx-background-color:   #4a4b4e;
+}
