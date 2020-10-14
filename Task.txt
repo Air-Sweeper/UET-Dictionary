@@ -18,19 +18,26 @@
 [DONE]	- Using icons instead of labels. (must have)
 
 [DONE]	- Thêm chức năng xoá từ.
-
-	- Favourite word: user can add their favourite words into a file. (optional)
 	
-	- Amazing word: show a random word each time the application opened. (optional)
+[DONE]	- Amazing word: show a random word each time the application opened. (optional)
+
+[DONE]	- Add Show all words titled Pane.
 
 	- Add more functions and classes to show word infomation more specifically. (must have)
 	
+	- Favourite word: user can add their favourite words into a file. (optional)
+
 	- Chỉnh sửa lại giao diện (thêm file CSS cho các thành phần)
-		+ Thanh scroll listview
-		+ Set hover button
-		+ Set color
-		+ Custom stage
-	- Add Show all words titled Pane.
+		+ Thanh scroll listview [CHƯA XONG]
+		+ Set hover button [DONE]
+		+ Set color [DONE]
+		+ Custom stage 
+
+	- Add application icon.	
+
+	- Upgrade utility functions.
+
+	- Adjust interface.
 
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được

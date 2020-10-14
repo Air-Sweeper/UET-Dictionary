@@ -1,18 +1,16 @@
-dog	dog
 doa	dog
-dogs	dog
-dogsd	dog
-dogw	dog
-doge	dog
-dogr	dog
-dogq	dog
-dogr	dog
-dogv	dog
-dogx	dog
-dogz	dog
+dog	con cho
 dogd	dog
+doge	dog
 dogi	dog
 dogii	dog
 dogiii	dog
 dogp	dog
-
+dogq	dog
+dogr	dog
+dogs	dog
+dogsd	dog
+dogv	dog
+dogw	dog
+dogx	dog
+dogz	dog

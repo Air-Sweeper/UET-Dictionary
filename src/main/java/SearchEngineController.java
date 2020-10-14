@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 
 public class SearchEngineController extends Dictionary {
     
@@ -22,23 +23,27 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private Label warningMessageLabel;
     @FXML
-    private FontAwesomeIconView clearTextFieldIcon;
-    @FXML
     private FontAwesomeIconView warningIcon;
     @FXML
     private FontAwesomeIconView pronunciationIcon;
     @FXML
     private TextField wordToSearchField;
     @FXML
+    private TextField amazingWordField;
+    @FXML
+    private TextField amazingWordMeaningField;
+    @FXML
+    private TextField wordTargetField;
+    @FXML
     private TextArea wordDefinitionArea;
     @FXML
     private TextArea wordHistoryArea;
     @FXML
+    private TextArea allWordsFromDictionaryArea;
+    @FXML
     private ListView<String> relatedWordList;
     @FXML
     private TitledPane historyPane;
-    @FXML
-    private Accordion utilityAccordion;
 
     public void searchForWord() {
         getDefinition();
@@ -47,7 +52,8 @@ public class SearchEngineController extends Dictionary {
 
     public void getDefinition() {
         if (dictionary.containsKey(wordToSearchField.getText())) {
-            wordDefinitionArea.setText(wordToSearchField.getText() + "\n\n" + dictionary.get(wordToSearchField.getText()));
+            wordTargetField.setText(wordToSearchField.getText());
+            wordDefinitionArea.setText(dictionary.get(wordToSearchField.getText()));
             pronunciationIcon.setVisible(true);
             if (!searchedWords.contains(wordToSearchField.getText())){
                 addToHistory();
@@ -74,12 +80,9 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    public void closeHistoryPane() {
-        historyPane.setExpanded(false);
-    }
-
     public void getDefinitionOfSelectedWord() {
         String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
+        wordTargetField.setText(selectedWord);
         wordDefinitionArea.setText(dictionary.get(selectedWord));
         pronunciationIcon.setVisible(true);
         addToHistory();
@@ -142,7 +145,29 @@ public class SearchEngineController extends Dictionary {
         }
         wordHistoryArea.setText(result.toString());
         historyPane.setContent(wordHistoryArea);
-        utilityAccordion.setExpandedPane(historyPane);
+    }
+
+    public void generateAmazingWord() {
+        if (amazingWordField.getText().equals("")) {
+            Random randomIndex = new Random();
+            int upperbound = virtualDictionary.size();
+            int randomWordIndex = randomIndex.nextInt(upperbound);
+            String amazingWord = virtualDictionary.get(randomWordIndex);
+            String amazingWordMeaning = dictionary.get(amazingWord);
+            amazingWordField.setText(amazingWord);
+            amazingWordMeaningField.setText(amazingWordMeaning);
+        } else {
+            amazingWordField.clear();
+            amazingWordMeaningField.clear();
+        }
+    }
+
+    public void showDictionary() {
+        StringBuilder allWordsFromDictionary = new StringBuilder();
+        for (Map.Entry<String, String> word : dictionary.entrySet()) {
+            allWordsFromDictionary.append(word.getKey()).append("\n");
+        }
+        allWordsFromDictionaryArea.setText(allWordsFromDictionary.toString());
     }
 
     public void addNewWord() {

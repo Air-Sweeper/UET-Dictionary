@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToolbar?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
@@ -40,15 +41,23 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                      <JFXTextArea fx:id="wordDefinitionArea" editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                      <JFXTextArea fx:id="wordDefinitionArea" editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" text="&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <padding>
+                        <Insets bottom="10.0" left="15.0" right="10.0" top="80.0" />
+                     </padding></JFXTextArea>
                   <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#textToSpeech" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414" />
+                  <JFXTextField fx:id="wordTargetField" editable="false" focusColor="#4a4b4e" style="-fx-text-fill: white; -fx-background-color: #4a4b4e;" unFocusColor="#4a4b4e" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </JFXTextField>
                </children>
             </AnchorPane>
         </content>
       </Tab>
         <Tab closable="false" text="Syllabus">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <JFXTextArea fx:id="wordDefinitionArea1" editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <JFXTextArea editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             </AnchorPane>
         </Tab>
     </JFXTabPane>
@@ -60,13 +69,13 @@
       </font>
    </Label>
    <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="889.0" layoutY="47.0" smooth="false" visible="false" AnchorPane.rightAnchor="295.0" AnchorPane.topAnchor="73.0" />
-   <Accordion fx:id="utilityAccordion" layoutX="1044.0" layoutY="99.0" prefHeight="702.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="136.0">
+   <Accordion layoutX="1044.0" layoutY="99.0" prefHeight="702.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="136.0">
      <panes>
-       <TitledPane fx:id="historyPane" alignment="CENTER" expanded="false" onMouseEntered="#showHistorySearch" onMouseExited="#closeHistoryPane" stylesheets="@CSS/titledPane.css" text="Recent">
+       <TitledPane fx:id="historyPane" alignment="CENTER" expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@CSS/titledPane.css" text="Recent" textFill="WHITE">
          <content>
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@CSS/titledPane.css">
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;" stylesheets="@CSS/titledPane.css">
                   <children>
-                     <JFXTextArea fx:id="wordHistoryArea" prefHeight="671.0" prefWidth="580.0" style="-fx-background-color: #4a4b4e; -fx-border-color: #4a4b4e; -fx-text-fill: white;" AnchorPane.bottomAnchor="-12.0" AnchorPane.topAnchor="-12.0">
+                     <JFXTextArea fx:id="wordHistoryArea" editable="false" prefHeight="671.0" prefWidth="580.0" style="-fx-border-color: #4a4b4e; -fx-text-fill: white; -fx-background-color: #4a4b4e;" AnchorPane.bottomAnchor="-12.0" AnchorPane.topAnchor="-12.0">
                         <padding>
                            <Insets left="10.0" top="10.0" />
                         </padding>
@@ -78,9 +87,41 @@
                <Font name="System Bold" size="15.0" />
             </font>
        </TitledPane>
+         <TitledPane alignment="CENTER" onMouseReleased="#generateAmazingWord" stylesheets="@CSS/titledPane.css" text="Amazing word" textFill="WHITE">
+           <content>
+             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
+                  <children>
+                     <JFXTextField fx:id="amazingWordField" alignment="CENTER" editable="false" layoutX="63.0" layoutY="153.0" prefHeight="44.0" prefWidth="228.0" style="-fx-text-fill: #ffff8d;" unFocusColor="#4a4b4e" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                        <font>
+                           <Font name="System Bold" size="25.0" />
+                        </font>
+                     </JFXTextField>
+                     <JFXTextField fx:id="amazingWordMeaningField" alignment="CENTER" editable="false" layoutX="39.0" layoutY="205.0" prefHeight="39.0" prefWidth="240.0" style="-fx-text-fill: #ffff8d;" unFocusColor="#4a4b4e" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
+                        <font>
+                           <Font name="System Bold Italic" size="15.0" />
+                        </font>
+                     </JFXTextField>
+                  </children>
+               </AnchorPane>
+           </content>
+            <font>
+               <Font name="System Bold" size="15.0" />
+            </font>
+         </TitledPane>
+         <TitledPane alignment="CENTER" onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" style="-fx-border-color: #4a4b4e;" stylesheets="@CSS/titledPane.css" text="Show dictionary" textFill="WHITE">
+           <content>
+             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
+                  <children>
+                     <JFXTextArea fx:id="allWordsFromDictionaryArea" editable="false" prefHeight="570.0" prefWidth="292.0" style="-fx-text-fill: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </children></AnchorPane>
+           </content>
+            <font>
+               <Font name="System Bold" size="15.0" />
+            </font>
+         </TitledPane>
      </panes>
    </Accordion>
-   <FontAwesomeIconView fx:id="clearTextFieldIcon" fill="#cecccb" glyphName="TIMES_CIRCLE" layoutX="1245.0" layoutY="80.0" onMouseClicked="#clearTextField" size="17" AnchorPane.topAnchor="101.0">
+   <FontAwesomeIconView fill="#cecccb" glyphName="TIMES_CIRCLE" layoutX="1245.0" layoutY="80.0" onMouseClicked="#clearTextField" size="17" AnchorPane.rightAnchor="20.428571701049805" AnchorPane.topAnchor="101.0">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></FontAwesomeIconView>

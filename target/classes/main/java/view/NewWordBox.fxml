@@ -8,29 +8,21 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0"
-            prefWidth="300.0" style="-fx-background-color: #3e3f41;" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.NewWordBoxController">
-    <GridPane layoutX="25.0" layoutY="35.0" prefHeight="129.0" prefWidth="249.0" AnchorPane.bottomAnchor="86.0"
-              AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="35.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: #3e3f41;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.NewWordBoxController">
+    <GridPane layoutX="25.0" layoutY="35.0" prefHeight="129.0" prefWidth="249.0" AnchorPane.bottomAnchor="86.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="35.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="94.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="155.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="155.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
-        <Label text="New word:" textFill="WHITE"/>
-        <Label text="Meaning:" textFill="WHITE" GridPane.rowIndex="1"/>
-        <JFXTextField fx:id="newWordField" focusColor="#49b9b5" prefWidth="163.0"
-                      style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1"/>
-        <JFXTextField fx:id="newWordMeaningField" focusColor="#49b9b5"
-                      style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1"
-                      GridPane.rowIndex="1"/>
+        <Label text="New word:" textFill="WHITE" />
+        <Label text="Meaning:" textFill="WHITE" GridPane.rowIndex="1" />
+        <JFXTextField fx:id="newWordField" focusColor="#49b9b5" prefWidth="163.0" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1" />
+        <JFXTextField fx:id="newWordMeaningField" focusColor="#49b9b5" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     </GridPane>
-    <JFXButton layoutX="230.0" layoutY="205.0" onAction="#closeNewWordBox" ripplerFill="RED" text="Close"
-               textFill="WHITE"/>
-    <JFXButton layoutX="180.0" layoutY="205.0" onAction="#addNewWord" ripplerFill="#49b9b5" text="OK" textFill="WHITE"/>
+    <JFXButton layoutX="230.0" layoutY="205.0" onAction="#closeNewWordBox" ripplerFill="RED" stylesheets="@CSS/button.css" text="Close" textFill="WHITE" />
+    <JFXButton layoutX="180.0" layoutY="205.0" onAction="#addNewWord" ripplerFill="#49b9b5" stylesheets="@CSS/button.css" text="OK" textFill="WHITE" />
 </AnchorPane>

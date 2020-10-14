@@ -34,6 +34,7 @@ public class DictionaryCommand extends Dictionary {
                 word.setWord_target(splitWords[0].trim());
                 word.setWord_explain(splitWords[1].trim());
                 dictionary.put(word.getWord_target(), word.getWord_explain());
+                virtualDictionary.add(word.getWord_target());
             }
             inputFile.close();
         } catch (FileNotFoundException e) {
