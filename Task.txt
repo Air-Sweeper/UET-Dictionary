@@ -22,22 +22,26 @@
 [DONE]	- Amazing word: show a random word each time the application opened. (optional)
 
 [DONE]	- Add Show all words titled Pane.
-
-	- Add more functions and classes to show word infomation more specifically. (must have)
 	
-	- Favourite word: user can add their favourite words into a file. (optional)
+[DONE]	- Favourite word: user can add their favourite words into a file. (optional)
 
-	- Chỉnh sửa lại giao diện (thêm file CSS cho các thành phần)
-		+ Thanh scroll listview [CHƯA XONG]
+[DONE]	- Chỉnh sửa lại giao diện (thêm file CSS cho các thành phần)
+		+ Thanh scroll listview [SKIPPED]
 		+ Set hover button [DONE]
 		+ Set color [DONE]
-		+ Custom stage 
+		+ Custom stage [CHANGED WINDOW ACCENT COLOR] 
+	
+[DONE]	- Adjust interface.
 
-	- Add application icon.	
+[DONE]	- Add default button.
+
+[DONE]	- Add application icon.	
 
 	- Upgrade utility functions.
+	
+	- Add export to file utility.
 
-	- Adjust interface.
+	- Add more functions and classes to show word infomation more specifically. (must have)
 
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được

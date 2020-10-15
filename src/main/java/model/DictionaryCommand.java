@@ -9,20 +9,10 @@ import java.util.Scanner;
 
 public class DictionaryCommand extends Dictionary {
 
-    private static final Scanner input = new Scanner(System.in);
     private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
     private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
     private static final String FAVOURITE_FILE_PATH =  "src/main/resources/favourite.txt";
     private static final String SPLIT_CHARACTER = "\t";
-    private static final int FIRST_INDEX = 1;
-
-    public static void showAllWords() {
-        int wordOrder = FIRST_INDEX;
-        System.out.printf("%-4s| %-15s| %-15s%n", "No", "English", "Vietnamese");
-        for (Map.Entry<String, String> word : dictionary.entrySet()) {
-            System.out.printf("%-4d| %-15s| %-15s%n", wordOrder++, word.getKey(), word.getValue());
-        }
-    }
 
     public static void importFromFile() {
         try {
@@ -46,7 +36,6 @@ public class DictionaryCommand extends Dictionary {
         try {
             File historyFile = new File(HISTORY_FILE_PATH);
             Scanner inputFile = new Scanner(historyFile);
-
             while (inputFile.hasNext()) {
                 String word = inputFile.nextLine();
                 searchedWords.add(word);
@@ -61,12 +50,25 @@ public class DictionaryCommand extends Dictionary {
             File favouriteFile = new File(FAVOURITE_FILE_PATH);
             Scanner inputFile = new Scanner(favouriteFile);
             while (inputFile.hasNext()) {
-                String favouriteWord = input.nextLine();
-                favouriteWords.add(favouriteWord);
+                String favouriteWord = inputFile.nextLine();
+                bookmarkedWords.add(favouriteWord);
             }
             inputFile.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void updateFavourite() {
+        try {
+            File exportedDict = new File(FAVOURITE_FILE_PATH);
+            FileWriter fileWriter = new FileWriter(exportedDict);
+            for(String favouriteWord : bookmarkedWords) {
+                fileWriter.write(favouriteWord + "\n");
+            }
+            fileWriter.close();
+        } catch(IOException exception) {
+            exception.printStackTrace();
         }
     }
 

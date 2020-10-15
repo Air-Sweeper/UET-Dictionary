@@ -3,6 +3,7 @@ package main.java;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static final String SEARCH_ENGINE_FILE_PATH = "view/SearchEngine.fxml";
+    private static final String APPLICATION_ICON_PATH = "icon.png";
     private static final String APPLICATION_NAME = "UET-Dictionary";
 
     public static void main(String[] args) {
@@ -23,7 +25,6 @@ public class App extends Application {
     public void start(Stage window) {
         loadDatabase();
         launchApplication();
-        showDictionary();
     }
 
     private void loadDatabase() {
@@ -41,15 +42,12 @@ public class App extends Application {
             Scene scene = new Scene(rootLayout);
             Stage mainWindow = new Stage();
 
+            mainWindow.getIcons().add(new Image(APPLICATION_ICON_PATH));
             mainWindow.setTitle(APPLICATION_NAME);
             mainWindow.setScene(scene);
             mainWindow.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void showDictionary() {
-        DictionaryCommand.showAllWords();
     }
 }

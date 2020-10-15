@@ -24,5 +24,5 @@
         <JFXTextField fx:id="newWordMeaningField" focusColor="#49b9b5" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     </GridPane>
     <JFXButton layoutX="230.0" layoutY="205.0" onAction="#closeNewWordBox" ripplerFill="RED" stylesheets="@CSS/button.css" text="Close" textFill="WHITE" />
-    <JFXButton layoutX="180.0" layoutY="205.0" onAction="#addNewWord" ripplerFill="#49b9b5" stylesheets="@CSS/button.css" text="OK" textFill="WHITE" />
+    <JFXButton defaultButton="true" layoutX="180.0" layoutY="205.0" onAction="#addNewWord" ripplerFill="#49b9b5" stylesheets="@CSS/button.css" text="OK" textFill="WHITE" />
 </AnchorPane>

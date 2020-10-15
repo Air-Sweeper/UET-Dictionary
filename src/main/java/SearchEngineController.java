@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import main.java.model.Dictionary;
+import main.java.model.DictionaryCommand;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -18,6 +19,12 @@ import java.util.Random;
 public class SearchEngineController extends Dictionary {
     
     private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
+    private static final String EMPTY_STRING = "";
+    private static final String API_KEY = "cc4d6af20685439b9b77544383b558fc";
+    private static final String AUDIO_OUTPUT_FILE_LOCATION = "src/main/resources/word_pronunciation.wav";
+    private static final String BOOKMARKED_COLOR = "-fx-fill: #fce877";
+    private static final String NON_BOOKMARKED_COLOR = "-fx-fill: #9e9e9e";
+
     ObservableList<String> relatedWords = FXCollections.observableArrayList();
 
     @FXML
@@ -26,6 +33,8 @@ public class SearchEngineController extends Dictionary {
     private FontAwesomeIconView warningIcon;
     @FXML
     private FontAwesomeIconView pronunciationIcon;
+    @FXML
+    private FontAwesomeIconView bookmarkIcon;
     @FXML
     private TextField wordToSearchField;
     @FXML
@@ -41,9 +50,11 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private TextArea allWordsFromDictionaryArea;
     @FXML
-    private ListView<String> relatedWordList;
+    private TextArea favouriteListArea;
     @FXML
     private TitledPane historyPane;
+    @FXML
+    private ListView<String> relatedWordList;
 
     public void searchForWord() {
         getDefinition();
@@ -55,6 +66,8 @@ public class SearchEngineController extends Dictionary {
             wordTargetField.setText(wordToSearchField.getText());
             wordDefinitionArea.setText(dictionary.get(wordToSearchField.getText()));
             pronunciationIcon.setVisible(true);
+            bookmarkIcon.setVisible(true);
+            updateBookmarkIconColor();
             if (!searchedWords.contains(wordToSearchField.getText())){
                 addToHistory();
             }
@@ -82,14 +95,14 @@ public class SearchEngineController extends Dictionary {
 
     public void getDefinitionOfSelectedWord() {
         String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
-        wordTargetField.setText(selectedWord);
-        wordDefinitionArea.setText(dictionary.get(selectedWord));
-        pronunciationIcon.setVisible(true);
-        addToHistory();
-    }
-
-    public boolean canBeDeleted() {
-        return !wordToSearchField.getText().equals("");
+        if (selectedWord != null) {
+            wordTargetField.setText(selectedWord);
+            wordDefinitionArea.setText(dictionary.get(selectedWord));
+            pronunciationIcon.setVisible(true);
+            bookmarkIcon.setVisible(true);
+            updateBookmarkIconColor();
+            addToHistory();
+        }
     }
 
     public void clearTextField() {
@@ -103,7 +116,7 @@ public class SearchEngineController extends Dictionary {
         if (wordTarget == null) {
             wordTarget = wordToSearchField.getText();
         }
-        VoiceProvider tts = new VoiceProvider("cc4d6af20685439b9b77544383b558fc");
+        VoiceProvider tts = new VoiceProvider(API_KEY);
 
         VoiceParameters params = new VoiceParameters(wordTarget, Languages.English_UnitedStates);
         params.setCodec(AudioCodec.WAV);
@@ -114,7 +127,7 @@ public class SearchEngineController extends Dictionary {
 
         byte[] voice = tts.speech(params);
 
-        FileOutputStream fos = new FileOutputStream("src/main/resources/word_pronunciation.wav");
+        FileOutputStream fos = new FileOutputStream(AUDIO_OUTPUT_FILE_LOCATION);
         fos.write(voice, 0, voice.length);
         fos.flush();
         fos.close();
@@ -128,11 +141,13 @@ public class SearchEngineController extends Dictionary {
             } else {
                 selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
             }
-            searchedWords.add(selectedWord);
-            FileWriter fileWriter = new FileWriter(HISTORY_FILE_PATH, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(selectedWord+"\n");
-            bufferedWriter.close();
+            if (!searchedWords.contains(selectedWord)) {
+                searchedWords.add(selectedWord);
+                FileWriter fileWriter = new FileWriter(HISTORY_FILE_PATH, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(selectedWord+"\n");
+                bufferedWriter.close();
+            }
         } catch(IOException exception) {
             exception.printStackTrace();
         }
@@ -170,21 +185,51 @@ public class SearchEngineController extends Dictionary {
         allWordsFromDictionaryArea.setText(allWordsFromDictionary.toString());
     }
 
-    public void addNewWord() {
+    public void updateBookmarkIconColor() {
+        if (bookmarkedWords.contains(wordTargetField.getText())) {
+            bookmarkIcon.setStyle(BOOKMARKED_COLOR);
+        } else {
+            bookmarkIcon.setStyle(NON_BOOKMARKED_COLOR);
+        }
+    }
+
+    public void updateBookmarkedWords() {
+        if (bookmarkedWords.contains(wordTargetField.getText())) {
+            bookmarkedWords.remove(wordTargetField.getText());
+        } else {
+            bookmarkedWords.add(wordTargetField.getText());
+        }
+        updateBookmarkIconColor();
+        DictionaryCommand.updateFavourite();
+    }
+
+    public void showFavourite() {
+        StringBuilder favouriteList = new StringBuilder();
+        for (String word : bookmarkedWords) {
+            favouriteList.append(word).append("\n");
+        }
+        favouriteListArea.setText(favouriteList.toString());
+    }
+
+    public void openAddNewWordWindow() {
         NewWordBoxController.openNewWordBox();
     }
 
-    public void editWord() {
+    public void openEditWordWindow() {
         if (!wordToSearchField.getText().equals("")){
             EditBoxController.openEditBox(wordToSearchField.getText());
         }
     }
 
-    public void deleteWord() {
+    public void openDeleteWordWindow() {
         DeleteWordController.openDeleteWordWindow();
     }
 
-    public void aboutUs() {
+    public void openAboutUsWindow() {
         AboutUsController.openAboutUsWindow();
+    }
+
+    public boolean canBeDeleted() {
+        return !wordToSearchField.getText().equals(EMPTY_STRING);
     }
 }

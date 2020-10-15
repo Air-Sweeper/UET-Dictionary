@@ -1,5 +1,5 @@
 doa	dog
-dog	con cho
+dog	con cun
 dogd	dog
 doge	dog
 dogi	dog
@@ -10,7 +10,6 @@ dogq	dog
 dogr	dog
 dogs	dog
 dogsd	dog
-dogv	dog
 dogw	dog
 dogx	dog
 dogz	dog

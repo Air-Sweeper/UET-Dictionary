@@ -1,13 +1,10 @@
 package main.java.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Dictionary {
-    protected static final TreeMap<String, String> dictionary = new TreeMap<>();
-    protected static final HashSet<String> favouriteWords = new HashSet<>();
-    protected static final HashSet<String> searchedWords = new HashSet<>();
+    protected static final Map<String, String> dictionary = new TreeMap<>();
+    protected static final Set<String> bookmarkedWords = new HashSet<>();
+    protected static final Set<String> searchedWords = new HashSet<>();
     protected static final List<String> virtualDictionary = new ArrayList<>();
 }
