@@ -1,0 +1,4 @@
+.web-view {
+    -fx-background-color: linear-gradient(#111111 0%, #222222 25%, #333333 75%, #444444 100%);
+    -fx-text-fill: white;
+}

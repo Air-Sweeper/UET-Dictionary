@@ -1,26 +1,23 @@
 package main.java.model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 import java.util.Scanner;
 
 public class DictionaryCommand extends Dictionary {
 
     private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
-    private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
+    private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
     private static final String FAVOURITE_FILE_PATH =  "src/main/resources/favourite.txt";
-    private static final String SPLIT_CHARACTER = "\t";
+    private static final String SPLITTING_CHARACTERS = "<html>";
 
-    public static void importFromFile() {
+    /*public static void importFromFile() {
         try {
             Scanner inputFile = new Scanner(new File(DICTIONARY_FILE_PATH));
             while (inputFile.hasNext()) {
                 Word word = new Word();
                 String curLine = inputFile.nextLine();
-                String[] splitWords = curLine.split(SPLIT_CHARACTER);
+                String[] splitWords = curLine.split(SPLITTING_CHARACTERS);
                 word.setWord_target(splitWords[0].trim());
                 word.setWord_explain(splitWords[1].trim());
                 dictionary.put(word.getWord_target(), word.getWord_explain());
@@ -29,6 +26,19 @@ public class DictionaryCommand extends Dictionary {
             inputFile.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }*/
+
+    public static void importFromDictionary() throws IOException {
+        FileReader fis = new FileReader(DICTIONARY_FILE_PATH);
+        BufferedReader br = new BufferedReader(fis);
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(SPLITTING_CHARACTERS);
+            String wordTarget = parts[0];
+            String wordDefinition = SPLITTING_CHARACTERS + parts[1];
+            Word word = new Word(wordTarget, wordDefinition);
+            dictionary.put(wordTarget, wordDefinition);
         }
     }
 

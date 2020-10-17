@@ -13,3 +13,4 @@ dogsd	dog
 dogw	dog
 dogx	dog
 dogz	dog
+hello	xin chào

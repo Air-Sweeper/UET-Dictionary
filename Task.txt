@@ -4,7 +4,6 @@
 [DONE]	- Search (must have)
 
 [DONE]	- Word meaning and pronunciation (must have)
-	(1) Problem: Chưa có phần pronunciation.
 
 [DONE]	- History: save the words which were searched by user into a file if there exists no similar word in file. (must have)
 

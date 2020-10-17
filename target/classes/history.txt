@@ -13,3 +13,7 @@ dogd
 doge
 dogi
 dogr
+hello
+h
+he
+hell

@@ -8,11 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import main.java.model.Dictionary;
 import main.java.model.DictionaryCommand;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 import java.util.Random;
 
@@ -111,6 +110,11 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
+    public void pronounceWord() throws Exception {
+        textToSpeech();
+        playPronunciationFile();
+    }
+
     public void textToSpeech() throws Exception {
         String wordTarget = relatedWordList.getSelectionModel().getSelectedItem();
         if (wordTarget == null) {
@@ -131,6 +135,12 @@ public class SearchEngineController extends Dictionary {
         fos.write(voice, 0, voice.length);
         fos.flush();
         fos.close();
+    }
+
+    public void playPronunciationFile() throws IOException {
+        InputStream in = new FileInputStream(AUDIO_OUTPUT_FILE_LOCATION);
+        AudioStream sound = new AudioStream(in);
+        AudioPlayer.player.start(sound);
     }
 
     public void addToHistory() {

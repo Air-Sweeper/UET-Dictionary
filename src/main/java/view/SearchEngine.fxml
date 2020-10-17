@@ -32,7 +32,7 @@
                         <Insets bottom="10.0" left="15.0" right="10.0" top="80.0" />
                     </padding>
                 </JFXTextArea>
-                <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#textToSpeech" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414">
+                <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#pronounceWord" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>

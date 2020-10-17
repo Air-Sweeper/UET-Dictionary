@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import main.java.model.DictionaryCommand;
 
 import java.io.IOException;
@@ -22,15 +21,16 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage window) {
+    public void start(Stage window) throws IOException {
         loadDatabase();
         launchApplication();
     }
 
-    private void loadDatabase() {
-        DictionaryCommand.importFromFile();
+    private void loadDatabase() throws IOException {
+        DictionaryCommand.importFromDictionary();
         DictionaryCommand.importFromFavourite();
         DictionaryCommand.importFromHistory();
+
     }
 
     public void launchApplication() {
