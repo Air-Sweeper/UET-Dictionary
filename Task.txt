@@ -42,6 +42,8 @@
 
 	- Add more functions and classes to show word infomation more specifically. (must have)
 
+	- Use ListView instead of TextArea for Recent, Show dictionary and Bookmark.
+
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được
 	must have: chức năng bắt buộc phải có.

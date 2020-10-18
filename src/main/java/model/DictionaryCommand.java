@@ -8,7 +8,7 @@ public class DictionaryCommand extends Dictionary {
 
     private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
     private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
-    private static final String FAVOURITE_FILE_PATH =  "src/main/resources/favourite.txt";
+    private static final String FAVOURITE_FILE_PATH =  "src/main/resources/bookmark.txt";
     private static final String SPLITTING_CHARACTERS = "<html>";
 
     /*public static void importFromFile() {
@@ -39,6 +39,7 @@ public class DictionaryCommand extends Dictionary {
             String wordDefinition = SPLITTING_CHARACTERS + parts[1];
             Word word = new Word(wordTarget, wordDefinition);
             dictionary.put(wordTarget, wordDefinition);
+            virtualDictionary.add(word.getWord_target());
         }
     }
 

@@ -17,27 +17,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #37383a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.SearchEngineController">
     <TextField fx:id="wordToSearchField" layoutX="971.0" layoutY="34.0" onKeyPressed="#searchForWord" onKeyReleased="#searchForWord" prefHeight="31.0" prefWidth="296.0" style="-fx-background-color: #686b6b; -fx-text-fill: #ffffff;" AnchorPane.rightAnchor="13.0">
       <padding>
          <Insets left="25.0" />
       </padding></TextField>
-    <JFXListView fx:id="relatedWordList" layoutY="36.0" onMouseClicked="#getDefinitionOfSelectedWord" prefHeight="702.0" prefWidth="262.0" style="-fx-background-color: #4a4b4e;" stylesheets="@CSS/listView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
+    <JFXListView fx:id="relatedWordList" layoutY="36.0" onMouseClicked="#getDefinitionFromRelatedWordList" prefHeight="702.0" prefWidth="262.0" style="-fx-background-color: #4a4b4e;" stylesheets="@CSS/listView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
     <JFXTabPane layoutX="273.0" layoutY="36.0" prefHeight="702.0" prefWidth="691.0" style="-fx-focus-color: transparent;" stylesheets="@CSS/tabPane.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="273.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="34.0">
         <Tab text="Definition">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <JFXTextArea fx:id="wordDefinitionArea" editable="false" prefHeight="665.0" prefWidth="691.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: #ffffff;" text="&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <padding>
-                        <Insets bottom="10.0" left="15.0" right="10.0" top="80.0" />
-                    </padding>
-                </JFXTextArea>
+            <WebView fx:id="wordDefinitionView" prefHeight="729.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#pronounceWord" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </FontAwesomeIconView>
-                <JFXTextField fx:id="wordTargetField" editable="false" focusColor="#4a4b4e" style="-fx-text-fill: white; -fx-background-color: #4a4b4e;" unFocusColor="#4a4b4e" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                <JFXTextField fx:id="wordTargetField" editable="false" focusColor="#4a4b4e" style="-fx-text-fill: white; -fx-background-color: #4a4b4e;" unFocusColor="#4a4b4e" visible="false" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
                     <font>
                         <Font name="System Bold" size="30.0" />
                     </font>
@@ -63,9 +60,9 @@
       </font>
    </Label>
    <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="972.0" layoutY="114.0" smooth="false" visible="false" AnchorPane.rightAnchor="297.7142858505249" AnchorPane.topAnchor="18.0" />
-   <Accordion layoutX="971.0" layoutY="74.0" prefHeight="701.0" prefWidth="296.0" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="74.0">
+   <Accordion layoutX="971.0" layoutY="74.0" prefHeight="701.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="74.0">
      <panes>
-         <TitledPane fx:id="historyPane" expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@CSS/titledPane.css" text="Recent" textFill="WHITE">
+         <TitledPane animated="false" expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@CSS/titledPane.css" text="Recent" textFill="WHITE">
              <font>
                  <Font name="System Bold" size="15.0" />
              </font>
@@ -73,34 +70,12 @@
                  <MaterialDesignIconView fill="WHITE" glyphName="CALENDAR_CHECK" />
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;" stylesheets="@CSS/titledPane.css">
-                 <JFXTextArea fx:id="wordHistoryArea" editable="false" prefHeight="671.0" prefWidth="580.0" style="-fx-border-color: #4a4b4e; -fx-text-fill: white; -fx-background-color: #4a4b4e;" AnchorPane.bottomAnchor="-12.0" AnchorPane.topAnchor="-12.0">
-                     <padding>
-                         <Insets left="10.0" top="10.0" />
-                     </padding>
-                 </JFXTextArea>
+               <children>
+                  <JFXListView fx:id="historyList" onMouseClicked="#getDefinitionFromHistoryList" style="-fx-background-color: #4a4b4e;" stylesheets="@CSS/listView.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               </children>
              </AnchorPane>
          </TitledPane>
-         <TitledPane onMouseReleased="#generateAmazingWord" stylesheets="@CSS/titledPane.css" text="Amazing word" textFill="WHITE">
-             <font>
-                 <Font name="System Bold" size="15.0" />
-             </font>
-             <graphic>
-                 <MaterialDesignIconView fill="WHITE" glyphName="STAR_CIRCLE" />
-             </graphic>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
-                 <JFXTextField fx:id="amazingWordField" alignment="CENTER" editable="false" focusColor="#4a4b4e" layoutX="63.0" layoutY="153.0" prefHeight="44.0" prefWidth="228.0" style="-fx-text-fill: #ffff8d;" unFocusColor="#4a4b4e" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
-                     <font>
-                         <Font name="System Bold" size="25.0" />
-                     </font>
-                 </JFXTextField>
-                 <JFXTextField fx:id="amazingWordMeaningField" alignment="CENTER" editable="false" focusColor="#4a4b4e" layoutX="39.0" layoutY="205.0" prefHeight="39.0" prefWidth="240.0" style="-fx-text-fill: #ffff8d;" unFocusColor="#4a4b4e" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0">
-                     <font>
-                         <Font name="System Bold Italic" size="15.0" />
-                     </font>
-                 </JFXTextField>
-             </AnchorPane>
-         </TitledPane>
-         <TitledPane onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" stylesheets="@CSS/titledPane.css" text="Show dictionary" textFill="WHITE">
+         <TitledPane animated="false" onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" stylesheets="@CSS/titledPane.css" text="Show dictionary" textFill="WHITE">
              <font>
                  <Font name="System Bold" size="15.0" />
              </font>
@@ -108,10 +83,12 @@
                  <FontAwesomeIconView fill="WHITE" glyphName="BOOK" />
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
-                 <JFXTextArea fx:id="allWordsFromDictionaryArea" editable="false" prefHeight="570.0" prefWidth="292.0" style="-fx-text-fill: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               <children>
+                  <JFXListView fx:id="dictionaryList" onMouseClicked="#getDefinitionFromDictionaryList" prefHeight="601.0" prefWidth="294.0" style="-fx-background-color: #4a4b4e;" stylesheets="@CSS/listView.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               </children>
              </AnchorPane>
          </TitledPane>
-         <TitledPane onMouseClicked="#showFavourite" style="-fx-text-fill: white;" stylesheets="@CSS/titledPane.css" text="Bookmark">
+         <TitledPane fx:id="bookmarkPane" animated="false" onMouseClicked="#showBookmark" style="-fx-text-fill: white;" stylesheets="@CSS/titledPane.css" text="Bookmark">
              <font>
                  <Font name="System Bold" size="15.0" />
              </font>
@@ -119,7 +96,22 @@
                  <MaterialDesignIconView fill="WHITE" glyphName="HEART" />
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
-                 <JFXTextArea fx:id="favouriteListArea" editable="false" prefHeight="539.0" prefWidth="294.0" style="-fx-background-color: #4a4b4e; -fx-text-fill: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               <children>
+                  <JFXListView fx:id="bookmarkedWordList" onMouseClicked="#getDefinitionFromBookmarkList" style="-fx-background-color: #4a4b4e;" stylesheets="@CSS/listView.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               </children>
+             </AnchorPane>
+         </TitledPane>
+         <TitledPane animated="false" onMouseClicked="#generateAmazingWord" stylesheets="@CSS/titledPane.css" text="Amazing word" textFill="WHITE">
+             <font>
+                 <Font name="System Bold" size="15.0" />
+             </font>
+             <graphic>
+                 <MaterialDesignIconView fill="WHITE" glyphName="STAR_CIRCLE" />
+             </graphic>
+             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
+               <children>
+                  <WebView fx:id="amazingWordView" prefHeight="601.0" prefWidth="294.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               </children>
              </AnchorPane>
          </TitledPane>
      </panes>
