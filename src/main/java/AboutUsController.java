@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class AboutUsController {
 
-    private static final String ABOUT_US_BOX_FILE_PATH = "view/AboutUsBox.fxml";
+    private static final String ABOUT_US_BOX_FILE_PATH = "view/fxml/AboutUsBox.fxml";
     private static final String ABOUT_US_BOX_TITLE = "About us";
 
     public static void openAboutUsWindow() {

@@ -5,10 +5,14 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import main.java.model.Dictionary;
-import main.java.model.DictionaryCommand;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -17,13 +21,17 @@ import java.util.Map;
 import java.util.Random;
 
 public class SearchEngineController extends Dictionary {
-    
-    private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
-    private static final String EMPTY_STRING = "";
+
     private static final String API_KEY = "cc4d6af20685439b9b77544383b558fc";
+    private static final String APPLICATION_ICON_PATH = "icon.png";
+    private static final String APPLICATION_NAME = "UET-Dictionary";
     private static final String AUDIO_OUTPUT_FILE_LOCATION = "src/main/resources/word_pronunciation.wav";
     private static final String BOOKMARKED_COLOR = "-fx-fill: #fce877";
+    private static final String EMPTY_STRING = "";
+    private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
     private static final String NON_BOOKMARKED_COLOR = "-fx-fill: #9e9e9e";
+    private static final String SEARCH_ENGINE_FILE_PATH = "view/fxml/SearchEngine.fxml";
+
     ObservableList<String> relatedWords = FXCollections.observableArrayList();
 
     @FXML
@@ -50,12 +58,40 @@ public class SearchEngineController extends Dictionary {
     private WebView wordDefinitionView;
     @FXML
     private WebView amazingWordView;
+    @FXML
+    private static AnchorPane rootLayout;
 
+    public static void launchMainInterface() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource(SEARCH_ENGINE_FILE_PATH));
+            rootLayout = loader.load();
+            Scene scene = new Scene(rootLayout);
+            Stage mainWindow = new Stage();
+            mainWindow.getIcons().add(new Image(APPLICATION_ICON_PATH));
+            mainWindow.setTitle(APPLICATION_NAME);
+            mainWindow.setScene(scene);
+            mainWindow.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setIdComponents() {
+        wordToSearchField.setId("wordToSearch");
+        rootLayout.setId("rootLayout");
+    }
+
+    /**
+     * Main search engine when press Enter.
+     */
     public void searchForWord() {
-        search();
         showRelatedWordList();
     }
 
+    /**
+     * Show searched word if there is one in dictionary.
+     */
     public void search() {
         if (dictionary.containsKey(wordToSearchField.getText())) {
             wordTargetField.setText(wordToSearchField.getText());
@@ -69,6 +105,9 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
+    /**
+     * Show related word list.
+     */
     public void showRelatedWordList() {
         String pattern = wordToSearchField.getText();
         if (!pattern.equals("")) {
@@ -88,6 +127,9 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
+    /**
+     * Show definition from related word list.
+     */
     public void getDefinitionFromRelatedWordList() {
         String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
         if (selectedWord != null) {
@@ -177,12 +219,7 @@ public class SearchEngineController extends Dictionary {
 
     public void addToHistory() {
         try {
-            String selectedWord;
-            if (relatedWordList.getSelectionModel().getSelectedItem() == null) {
-                selectedWord = wordToSearchField.getText();
-            } else {
-                selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
-            }
+            String selectedWord = wordTargetField.getText();
             if (!searchedWords.contains(selectedWord)) {
                 searchedWords.add(selectedWord);
                 FileWriter fileWriter = new FileWriter(HISTORY_FILE_PATH, true);
@@ -234,7 +271,7 @@ public class SearchEngineController extends Dictionary {
             bookmarkedWords.add(wordTargetField.getText());
         }
         updateBookmarkIconColor();
-        DictionaryCommand.updateFavourite();
+        updateBookmark();
     }
 
     public void showBookmark() {

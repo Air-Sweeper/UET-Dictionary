@@ -1,7 +1,5 @@
 package main.java;
 
-import main.java.model.Dictionary;
-import main.java.model.Word;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import main.java.model.Dictionary;
+import main.java.model.Word;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -16,9 +16,9 @@ import java.io.IOException;
 
 public class NewWordBoxController extends Dictionary {
 
-    private static final String NEW_WORD_BOX_FILE_PATH = "view/NewWordBox.fxml";
+    private static final String NEW_WORD_BOX_FILE_PATH = "view/fxml/NewWordBox.fxml";
     private static final String NEW_WORD_BOX_TITLE = "New word";
-    private static final String DICTIONARY_FILE_PATH = "src/main/resources/dictionary.txt";
+    private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
     private static Stage newWordWindow;
 
     @FXML
@@ -43,10 +43,15 @@ public class NewWordBoxController extends Dictionary {
     }
 
     public void addNewWord() {
-        if (!newWordField.getText().equals("")) {
-            Word word = new Word();
-            word.setWord_target(newWordField.getText());
-            word.setWord_explain(newWordMeaningField.getText());
+        if (!newWordField.getText().equals("")
+                && !newWordMeaningField.getText().equals("")) {
+            String target = newWordField.getText();
+            String definition = "<html><i>"
+                    + target
+                    + "</i><br/><ul><li><font color='#cc0000'><b>"
+                    + newWordMeaningField.getText()
+                    + "</b></font></li></ul></html>";
+            Word word = new Word(target, definition);
             updateDictionary(word);
             closeNewWordBox();
         }
@@ -57,9 +62,9 @@ public class NewWordBoxController extends Dictionary {
             dictionary.put(newWord.getWord_target(), newWord.getWord_explain());
             FileWriter fileWriter = new FileWriter(DICTIONARY_FILE_PATH, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(newWord.getWord_target() + "\t" + newWord.getWord_explain() + "\n");
+            bufferedWriter.write(newWord.getWord_target() + newWord.getWord_explain() + "\n");
             bufferedWriter.close();
-        } catch(IOException exception) {
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
     }

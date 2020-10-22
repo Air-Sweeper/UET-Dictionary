@@ -10,7 +10,6 @@
 [DONE]	- Add new word. (must have)
 
 [DONE]	- Edit word. (must have)
-	(1) Problem: Tìm ra từ cần sửa và ghi thay đổi trong file txt chưa được tối ưu (Cần sử dụng thuật toán tìm kiếm tốt hơn).
 
 [DONE]	- About us. (must have)
 
@@ -36,13 +35,13 @@
 
 [DONE]	- Add application icon.	
 
-	- Upgrade utility functions.
+[DONE]	- Upgrade utility functions.
 	
 	- Add export to file utility.
 
-	- Add more functions and classes to show word infomation more specifically. (must have)
+[DONE]	- Add more functions and classes to show word infomation more specifically. (must have)
 
-	- Use ListView instead of TextArea for Recent, Show dictionary and Bookmark.
+[DONE]	- Use ListView instead of TextArea for Recent, Show dictionary and Bookmark.
 
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được

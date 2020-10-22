@@ -1,0 +1,43 @@
+.button:hover {
+    -fx-background-color: #4a4b4e;
+    -fx-scale-y: 1.0;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #20c1a2;
+    -fx-text-fill: black;
+}
+
+.list-cell {
+    -fx-background-color: #4a4b4e;
+    -fx-text-fill: white;
+    -fx-rippler-fill: red;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #3e3f41;
+    -fx-text-fill: white;
+}
+
+.jfx-tab-pane .headers-region {
+    -fx-background-color: #3e3f41;
+}
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: #3e3f41;
+}
+.jfx-tab-pane .tab-selected-line {
+    -fx-stroke: #75bc1b;
+    -fx-stroke-width: 3pt;
+}
+.tab:hover{
+    -fx-background-color:   #4a4b4e;
+}
+
+.titled-pane > .title {
+  -fx-background-color:  #686b6b;
+}
+
+#wordToSearch .text-field {
+    -fx-background-color:  #686b6b;
+    -fx-text-fill:  #ffffff;
+}

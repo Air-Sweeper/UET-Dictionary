@@ -14,14 +14,6 @@ public class Word {
 
     }
 
-    public void setWord_target(String newWord) {
-        this.word_target = newWord;
-    }
-
-    public void setWord_explain(String newWord_explain) {
-        this.word_explain = newWord_explain;
-    }
-
     public String getWord_target() {
         return this.word_target;
     }

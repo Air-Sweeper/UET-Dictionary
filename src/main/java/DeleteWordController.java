@@ -1,6 +1,5 @@
 package main.java;
 
-import main.java.model.Dictionary;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +9,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import main.java.model.Dictionary;
 
 public class DeleteWordController extends Dictionary {
 
-    private static final String DELETE_BOX_FILE_PATH = "view/DeleteWordBox.fxml";
+    private static final String DELETE_BOX_FILE_PATH = "view/fxml/DeleteWordBox.fxml";
     private static final String DELETE_BOX_TITLE = "Delete word";
     private static Stage deleteWordBoxStage;
 
@@ -43,6 +43,7 @@ public class DeleteWordController extends Dictionary {
     public void deleteWord() {
         if (dictionary.containsKey(wordToDeleteField.getText())) {
             dictionary.remove(wordToDeleteField.getText());
+            overrideDictionary();
             deleteWordBoxStage.close();
         } else {
             warningMessageLabel.setVisible(true);
