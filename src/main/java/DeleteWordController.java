@@ -43,7 +43,6 @@ public class DeleteWordController extends Dictionary {
     public void deleteWord() {
         if (dictionary.containsKey(wordToDeleteField.getText())) {
             dictionary.remove(wordToDeleteField.getText());
-            overrideDictionary();
             deleteWordBoxStage.close();
         } else {
             warningMessageLabel.setVisible(true);

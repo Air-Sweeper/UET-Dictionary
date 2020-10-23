@@ -45,7 +45,6 @@ public class EditBoxController extends Dictionary {
                     + newDefinitionField.getText()
                     + "</b></font></li></ul></html>";
             dictionary.replace(wordTarget, newDefinition);
-            overrideDictionary();
             closeEditBox();
         }
     }

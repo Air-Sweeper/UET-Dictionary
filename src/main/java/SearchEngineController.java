@@ -7,10 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import main.java.model.Dictionary;
 import sun.audio.AudioPlayer;
@@ -28,11 +32,14 @@ public class SearchEngineController extends Dictionary {
     private static final String AUDIO_OUTPUT_FILE_LOCATION = "src/main/resources/word_pronunciation.wav";
     private static final String BOOKMARKED_COLOR = "-fx-fill: #fce877";
     private static final String EMPTY_STRING = "";
-    private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
     private static final String NON_BOOKMARKED_COLOR = "-fx-fill: #9e9e9e";
     private static final String SEARCH_ENGINE_FILE_PATH = "view/fxml/SearchEngine.fxml";
 
+    private static Stage mainWindow;
+
     ObservableList<String> relatedWords = FXCollections.observableArrayList();
+    ObservableList <String> bookmarkedWordObservableList = FXCollections.observableArrayList();
+    ObservableList<String> searchedWordObservableList = FXCollections.observableArrayList();
 
     @FXML
     private Label warningMessageLabel;
@@ -58,18 +65,20 @@ public class SearchEngineController extends Dictionary {
     private WebView wordDefinitionView;
     @FXML
     private WebView amazingWordView;
-    @FXML
-    private static AnchorPane rootLayout;
 
     public static void launchMainInterface() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(App.class.getResource(SEARCH_ENGINE_FILE_PATH));
-            rootLayout = loader.load();
+            AnchorPane rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
-            Stage mainWindow = new Stage();
+            mainWindow = new Stage();
             mainWindow.getIcons().add(new Image(APPLICATION_ICON_PATH));
             mainWindow.setTitle(APPLICATION_NAME);
+            mainWindow.setOnCloseRequest(e -> {
+                e.consume();
+                closeProgram();
+            });
             mainWindow.setScene(scene);
             mainWindow.show();
         } catch (IOException e) {
@@ -77,37 +86,25 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    public void setIdComponents() {
-        wordToSearchField.setId("wordToSearch");
-        rootLayout.setId("rootLayout");
+    public static void closeProgram() {
+        SaveBoxController.openSaveBoxWindow();
     }
 
-    /**
-     * Main search engine when press Enter.
-     */
-    public void searchForWord() {
-        showRelatedWordList();
+    public void closeMainWindow() {
+        mainWindow.close();
     }
 
-    /**
-     * Show searched word if there is one in dictionary.
-     */
     public void search() {
         if (dictionary.containsKey(wordToSearchField.getText())) {
+            searchedWords.add(wordToSearchField.getText());
             wordTargetField.setText(wordToSearchField.getText());
             wordDefinitionView.getEngine().loadContent(dictionary.get(wordToSearchField.getText()));
             pronunciationIcon.setVisible(true);
             bookmarkIcon.setVisible(true);
             updateBookmarkIconColor();
-            if (!searchedWords.contains(wordToSearchField.getText())){
-                addToHistory();
-            }
         }
     }
 
-    /**
-     * Show related word list.
-     */
     public void showRelatedWordList() {
         String pattern = wordToSearchField.getText();
         if (!pattern.equals("")) {
@@ -127,18 +124,15 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    /**
-     * Show definition from related word list.
-     */
     public void getDefinitionFromRelatedWordList() {
         String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
         if (selectedWord != null) {
+            searchedWords.add(selectedWord);
             wordTargetField.setText(selectedWord);
             wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
             pronunciationIcon.setVisible(true);
             bookmarkIcon.setVisible(true);
             updateBookmarkIconColor();
-            addToHistory();
         }
     }
 
@@ -150,31 +144,30 @@ public class SearchEngineController extends Dictionary {
             pronunciationIcon.setVisible(true);
             bookmarkIcon.setVisible(true);
             updateBookmarkIconColor();
-            addToHistory();
         }
     }
 
     public void getDefinitionFromBookmarkList() {
         String selectedWord = bookmarkedWordList.getSelectionModel().getSelectedItem();
         if (selectedWord != null) {
+            searchedWords.add(selectedWord);
             wordTargetField.setText(selectedWord);
             wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
             pronunciationIcon.setVisible(true);
             bookmarkIcon.setVisible(true);
             updateBookmarkIconColor();
-            addToHistory();
         }
     }
 
     public void getDefinitionFromDictionaryList() {
         String selectedWord = dictionaryList.getSelectionModel().getSelectedItem();
         if (selectedWord != null) {
+            searchedWords.add(selectedWord);
             wordTargetField.setText(selectedWord);
             wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
             pronunciationIcon.setVisible(true);
             bookmarkIcon.setVisible(true);
             updateBookmarkIconColor();
-            addToHistory();
         }
     }
 
@@ -190,10 +183,7 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void textToSpeech() throws Exception {
-        String wordTarget = relatedWordList.getSelectionModel().getSelectedItem();
-        if (wordTarget == null) {
-            wordTarget = wordToSearchField.getText();
-        }
+        String wordTarget = wordTargetField.getText();
         VoiceProvider tts = new VoiceProvider(API_KEY);
 
         VoiceParameters params = new VoiceParameters(wordTarget, Languages.English_UnitedStates);
@@ -217,24 +207,17 @@ public class SearchEngineController extends Dictionary {
         AudioPlayer.player.start(sound);
     }
 
-    public void addToHistory() {
-        try {
-            String selectedWord = wordTargetField.getText();
-            if (!searchedWords.contains(selectedWord)) {
-                searchedWords.add(selectedWord);
-                FileWriter fileWriter = new FileWriter(HISTORY_FILE_PATH, true);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write(selectedWord+"\n");
-                bufferedWriter.close();
-            }
-        } catch(IOException exception) {
-            exception.printStackTrace();
-        }
+    public void showHistorySearch() {
+        searchedWordObservableList.clear();
+        searchedWordObservableList.addAll(searchedWords);
+        historyList.getItems().clear();
+        historyList.getItems().addAll(searchedWordObservableList);
+        historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public void showHistorySearch() {
-        ObservableList<String> searchedWordObservableList = FXCollections.observableArrayList();
-        searchedWordObservableList.addAll(searchedWords);
+    public void clearHistory() {
+        searchedWords.clear();
+        searchedWordObservableList.clear();
         historyList.getItems().clear();
         historyList.getItems().addAll(searchedWordObservableList);
         historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -271,15 +254,30 @@ public class SearchEngineController extends Dictionary {
             bookmarkedWords.add(wordTargetField.getText());
         }
         updateBookmarkIconColor();
-        updateBookmark();
     }
 
     public void showBookmark() {
-        ObservableList <String> bookmarkedWordObservableList = FXCollections.observableArrayList();
+        bookmarkedWordObservableList.clear();
         bookmarkedWordObservableList.addAll(bookmarkedWords);
         bookmarkedWordList.getItems().clear();
         bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
         bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+    public void clearBookmark() {
+        bookmarkedWords.clear();
+        bookmarkedWordObservableList.clear();
+        bookmarkedWordList.getItems().clear();
+        bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
+        bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+    public void exportDictionary() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(mainWindow);
+        System.out.println(selectedDirectory.getAbsolutePath());
+        String path = selectedDirectory.getAbsolutePath();
+        exportNewDictionary(path);
     }
 
     public void openAddNewWordWindow() {

@@ -10,6 +10,9 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -19,7 +22,7 @@
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #37383a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.SearchEngineController">
-    <TextField fx:id="wordToSearchField" layoutX="971.0" layoutY="34.0" onKeyPressed="#searchForWord" onKeyReleased="#searchForWord" prefHeight="31.0" prefWidth="296.0" style="-fx-background-color: #686b6b; -fx-text-fill: white;" AnchorPane.rightAnchor="13.0">
+    <TextField fx:id="wordToSearchField" layoutX="971.0" layoutY="34.0" onKeyPressed="#showRelatedWordList" onKeyReleased="#showRelatedWordList" prefHeight="31.0" prefWidth="296.0" style="-fx-background-color: #686b6b; -fx-text-fill: white;" AnchorPane.rightAnchor="13.0">
       <padding>
          <Insets left="25.0" />
       </padding></TextField>
@@ -46,7 +49,7 @@
             </AnchorPane>
         </Tab>
     </JFXTabPane>
-    <JFXButton defaultButton="true" layoutX="899.0" layoutY="58.0" onAction="#search" ripplerFill="#df69f4" text="Search" textFill="WHITE" visible="false" AnchorPane.rightAnchor="316.0" />
+    <JFXButton defaultButton="true" layoutX="899.0" layoutY="58.0" onAction="#search" ripplerFill="#df69f4" text=" " textFill="WHITE" AnchorPane.rightAnchor="316.0" />
    <FontAwesomeIconView fill="#cecccb" glyphName="SEARCH" layoutX="977.0" layoutY="54.0" size="14" wrappingWidth="10.285717889666557" AnchorPane.rightAnchor="292.71428211033344" />
    <Label fx:id="warningMessageLabel" layoutX="986.0" layoutY="101.0" text="No matched word found!" textFill="RED" visible="false" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="15.0">
       <font>
@@ -107,10 +110,36 @@
          <Cursor fx:constant="HAND" />
       </cursor></FontAwesomeIconView>
       <HBox layoutY="8.0" prefHeight="31.0" prefWidth="652.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-          <JFXButton onAction="#openAddNewWordWindow" ripplerFill="#21fecb" stylesheets="@../css/dark-theme.css" text="Add" textFill="WHITE" />
-          <JFXButton onAction="#openEditWordWindow" ripplerFill="#faf573" stylesheets="@../css/dark-theme.css" text="Edit" textFill="WHITE" />
-          <JFXButton ripplerFill="#009dff" stylesheets="@../css/dark-theme.css" text="Export" textFill="WHITE" />
-          <JFXButton onAction="#openDeleteWordWindow" ripplerFill="#ed2939" stylesheets="@../css/dark-theme.css" text="Delete" textFill="WHITE" />
-          <JFXButton onAction="#openAboutUsWindow" ripplerFill="#009aff" stylesheets="@../css/dark-theme.css" text="About" textFill="WHITE" />
+      <MenuBar prefHeight="22.0" prefWidth="339.0" style="-fx-background-color: #37383a; -fx-text-fill: white;" stylesheets="@../css/dark-theme.css">
+        <menus>
+          <Menu mnemonicParsing="false" style="-fx-text-fill: white;" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#clearHistory" text="Delete history" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearBookmark" text="Delete bookmark" />
+              <MenuItem mnemonicParsing="false" onAction="#exportDictionary" text="Export" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeMainWindow" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openAddNewWordWindow" text="Add word" />
+                  <MenuItem mnemonicParsing="false" onAction="#openDeleteWordWindow" text="Delete word" />
+                  <MenuItem mnemonicParsing="false" onAction="#openEditWordWindow" text="Edit word" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Themes">
+            <items>
+              <MenuItem mnemonicParsing="false" text="TVT dark theme" />
+                  <MenuItem mnemonicParsing="false" text="TVT light theme" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                  <MenuItem mnemonicParsing="false" text="About UET dictionary" />
+                <MenuItem mnemonicParsing="false" onAction="#openAboutUsWindow" text="About us" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
       </HBox>
 </AnchorPane>

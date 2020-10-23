@@ -43,6 +43,8 @@
 
 [DONE]	- Use ListView instead of TextArea for Recent, Show dictionary and Bookmark.
 
+	-Add icon for each windows.
+
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được
 	must have: chức năng bắt buộc phải có.

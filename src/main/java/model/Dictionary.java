@@ -15,6 +15,10 @@ public class Dictionary {
     protected static final Set<String> searchedWords = new HashSet<>();
     protected static final List<String> virtualDictionary = new ArrayList<>();
 
+    private static long dictionary_old_size;
+    private static long searchedWords_old_size;
+    private static long bookmark_old_size;
+
     public static void importFromDictionary() throws IOException {
         FileReader fis = new FileReader(DICTIONARY_FILE_PATH);
         BufferedReader br = new BufferedReader(fis);
@@ -30,6 +34,8 @@ public class Dictionary {
                 virtualDictionary.add(wordTarget);
             }
         }
+        fis.close();
+        dictionary_old_size = dictionary.size();
     }
 
     public static void importFromHistory() {
@@ -40,6 +46,8 @@ public class Dictionary {
                 String word = inputFile.nextLine();
                 searchedWords.add(word);
             }
+            inputFile.close();
+            searchedWords_old_size = searchedWords.size();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -54,28 +62,64 @@ public class Dictionary {
                 bookmarkedWords.add(favouriteWord);
             }
             inputFile.close();
+            bookmark_old_size = bookmarkedWords.size();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public static void updateBookmark() {
-        try {
-            File exportedDict = new File(FAVOURITE_FILE_PATH);
-            FileWriter fileWriter = new FileWriter(exportedDict);
-            for(String favouriteWord : bookmarkedWords) {
-                fileWriter.write(favouriteWord + "\n");
+    public void updateBookmark() {
+        if (bookmarkedWords.size() != bookmark_old_size) {
+            try {
+                File favouriteFile = new File(FAVOURITE_FILE_PATH);
+                FileWriter fileWriter = new FileWriter(favouriteFile);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                for(String favouriteWord : bookmarkedWords) {
+                    bufferedWriter.write(favouriteWord + "\n");
+                }
+                bufferedWriter.close();
+            } catch(IOException exception) {
+                exception.printStackTrace();
             }
-            fileWriter.close();
-        } catch(IOException exception) {
-            exception.printStackTrace();
         }
     }
 
-    public void overrideDictionary() {
+    public void updateDictionary() {
+        if (dictionary.size() != dictionary_old_size) {
+            try {
+                File dictionaryFile = new File(DICTIONARY_FILE_PATH);
+                FileWriter fileWriter = new FileWriter(dictionaryFile);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                for (Map.Entry<String, String> word : dictionary.entrySet()){
+                    bufferedWriter.write(word.getKey() + word.getValue() + "\n");
+                }
+                bufferedWriter.close();
+            } catch(IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    public void updateHistory() {
+        if (searchedWords.size() != searchedWords_old_size) {
+            try {
+                File historyFile = new File(HISTORY_FILE_PATH);
+                FileWriter fileWriter = new FileWriter(historyFile);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                for(String searchedWord : searchedWords) {
+                    bufferedWriter.write(searchedWord + "\n");
+                }
+                bufferedWriter.close();
+            } catch(IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    public static void exportNewDictionary(String DIRECTORY_PATH) {
         try {
-            File exportedDict = new File(DICTIONARY_FILE_PATH);
-            FileWriter fileWriter = new FileWriter(exportedDict);
+            File exportedFile = new File(DIRECTORY_PATH, "export-dict.txt");
+            FileWriter fileWriter = new FileWriter(exportedFile);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (Map.Entry<String, String> word : dictionary.entrySet()){
                 bufferedWriter.write(word.getKey() + word.getValue() + "\n");
