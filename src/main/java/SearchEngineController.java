@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
@@ -21,6 +18,8 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
 import java.util.Random;
 
@@ -33,7 +32,7 @@ public class SearchEngineController extends Dictionary {
     private static final String BOOKMARKED_COLOR = "-fx-fill: #fce877";
     private static final String EMPTY_STRING = "";
     private static final String NON_BOOKMARKED_COLOR = "-fx-fill: #9e9e9e";
-    private static final String SEARCH_ENGINE_FILE_PATH = "view/fxml/SearchEngine.fxml";
+    private static final String SEARCH_ENGINE_FILE_PATH = "view/fxml/main_engine.fxml";
 
     private static Stage mainWindow;
 
@@ -65,6 +64,8 @@ public class SearchEngineController extends Dictionary {
     private WebView wordDefinitionView;
     @FXML
     private WebView amazingWordView;
+    @FXML
+    private TabPane webTabPane;
 
     public static void launchMainInterface() {
         try {
@@ -73,13 +74,13 @@ public class SearchEngineController extends Dictionary {
             AnchorPane rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
             mainWindow = new Stage();
+            mainWindow.setScene(scene);
             mainWindow.getIcons().add(new Image(APPLICATION_ICON_PATH));
             mainWindow.setTitle(APPLICATION_NAME);
             mainWindow.setOnCloseRequest(e -> {
                 e.consume();
                 closeProgram();
             });
-            mainWindow.setScene(scene);
             mainWindow.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,8 +91,12 @@ public class SearchEngineController extends Dictionary {
         SaveBoxController.openSaveBoxWindow();
     }
 
-    public void closeMainWindow() {
+    public void exit() {
         mainWindow.close();
+    }
+
+    public void closeMainWindow() {
+        closeProgram();
     }
 
     public void search() {
@@ -171,6 +176,56 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
+    public void findOnCambridgeDictionary() {
+        try {
+            URL url = new URL("http://www.google.com");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+
+            WebView cambridgeView = new WebView();
+            AnchorPane cambridgePane = new AnchorPane(cambridgeView);
+            AnchorPane.setTopAnchor(cambridgeView, 0.0);
+            AnchorPane.setBottomAnchor(cambridgeView, 0.0);
+            AnchorPane.setLeftAnchor(cambridgeView, 0.0);
+            AnchorPane.setRightAnchor(cambridgeView, 0.0);
+
+            Tab cambridgeTab = new Tab("Cambridge dictionary");
+            cambridgeTab.setContent(cambridgePane);
+
+            webTabPane.getTabs().add(cambridgeTab);
+            String wordToFind = wordToSearchField.getText();
+            String cambridgeURL = "https://dictionary.cambridge.org/vi/dictionary/english/";
+            cambridgeView.getEngine().load( cambridgeURL+ wordToFind );
+        } catch (IOException e) {
+            CheckInternetController.openNoInternetWindow();
+        }
+    }
+
+    public void translateWithGoogleTranslation() {
+        try {
+            URL url = new URL("http://www.google.com");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+
+            WebView googleTranslateView = new WebView();
+            AnchorPane googleTranslationPane = new AnchorPane(googleTranslateView);
+            AnchorPane.setTopAnchor(googleTranslateView, 0.0);
+            AnchorPane.setBottomAnchor(googleTranslateView, 0.0);
+            AnchorPane.setLeftAnchor(googleTranslateView, 0.0);
+            AnchorPane.setRightAnchor(googleTranslateView, 0.0);
+
+            Tab googleTranslationTab = new Tab("Google Translate");
+            googleTranslationTab.setContent(googleTranslationPane);
+
+            webTabPane.getTabs().add(googleTranslationTab);
+            String wordToFind = wordToSearchField.getText();
+            String googleTranslateURL = "https://translate.google.com/?hl=vi#view=home&op=translate&sl=auto&tl=vi&text=";
+            googleTranslateView.getEngine().load( googleTranslateURL+ wordToFind );
+        } catch (IOException e) {
+            CheckInternetController.openNoInternetWindow();
+        }
+    }
+
     public void clearTextField() {
         if (canBeDeleted()) {
             wordToSearchField.clear();
@@ -179,32 +234,34 @@ public class SearchEngineController extends Dictionary {
 
     public void pronounceWord() throws Exception {
         textToSpeech();
-        playPronunciationFile();
     }
 
     public void textToSpeech() throws Exception {
-        String wordTarget = wordTargetField.getText();
-        VoiceProvider tts = new VoiceProvider(API_KEY);
+        try {
+            String wordTarget = wordTargetField.getText();
+            VoiceProvider tts = new VoiceProvider(API_KEY);
 
-        VoiceParameters params = new VoiceParameters(wordTarget, Languages.English_UnitedStates);
-        params.setCodec(AudioCodec.WAV);
-        params.setFormat(AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
-        params.setBase64(false);
-        params.setSSML(false);
-        params.setRate(0);
+            VoiceParameters params = new VoiceParameters(wordTarget, Languages.English_UnitedStates);
+            params.setCodec(AudioCodec.WAV);
+            params.setFormat(AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
+            params.setBase64(false);
+            params.setSSML(false);
+            params.setRate(0);
 
-        byte[] voice = tts.speech(params);
+            byte[] voice = tts.speech(params);
 
-        FileOutputStream fos = new FileOutputStream(AUDIO_OUTPUT_FILE_LOCATION);
-        fos.write(voice, 0, voice.length);
-        fos.flush();
-        fos.close();
-    }
+            FileOutputStream fos = new FileOutputStream(AUDIO_OUTPUT_FILE_LOCATION);
+            fos.write(voice, 0, voice.length);
+            fos.flush();
+            fos.close();
 
-    public void playPronunciationFile() throws IOException {
-        InputStream in = new FileInputStream(AUDIO_OUTPUT_FILE_LOCATION);
-        AudioStream sound = new AudioStream(in);
-        AudioPlayer.player.start(sound);
+            InputStream in = new FileInputStream(AUDIO_OUTPUT_FILE_LOCATION);
+            AudioStream sound = new AudioStream(in);
+            AudioPlayer.player.start(sound);
+        } catch (IOException e) {
+            e.printStackTrace();
+            CheckInternetController.openNoInternetWindow();
+        }
     }
 
     public void showHistorySearch() {
@@ -275,9 +332,7 @@ public class SearchEngineController extends Dictionary {
     public void exportDictionary() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(mainWindow);
-        System.out.println(selectedDirectory.getAbsolutePath());
-        String path = selectedDirectory.getAbsolutePath();
-        exportNewDictionary(path);
+        exportNewDictionary(selectedDirectory.getAbsolutePath());
     }
 
     public void openAddNewWordWindow() {

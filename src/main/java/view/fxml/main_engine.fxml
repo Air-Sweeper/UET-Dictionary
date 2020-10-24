@@ -27,7 +27,7 @@
          <Insets left="25.0" />
       </padding></TextField>
     <JFXListView fx:id="relatedWordList" layoutY="36.0" onMouseClicked="#getDefinitionFromRelatedWordList" prefHeight="702.0" prefWidth="262.0" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
-    <JFXTabPane layoutX="273.0" layoutY="36.0" prefHeight="702.0" prefWidth="691.0" style="-fx-focus-color: transparent;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="273.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="34.0">
+    <JFXTabPane fx:id="webTabPane" layoutX="273.0" layoutY="36.0" prefHeight="702.0" prefWidth="691.0" style="-fx-focus-color: transparent;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="273.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="34.0">
         <Tab text="Definition">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <WebView fx:id="wordDefinitionView" prefHeight="729.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -114,15 +114,16 @@
         <menus>
           <Menu mnemonicParsing="false" style="-fx-text-fill: white;" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#clearHistory" text="Delete history" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearHistory" text="Clear history search" />
                   <MenuItem mnemonicParsing="false" onAction="#clearBookmark" text="Delete bookmark" />
-              <MenuItem mnemonicParsing="false" onAction="#exportDictionary" text="Export" />
+                  <MenuItem mnemonicParsing="false" text="Export bookmark" />
+              <MenuItem mnemonicParsing="false" onAction="#exportDictionary" text="Export dictionary" />
                   <MenuItem mnemonicParsing="false" onAction="#closeMainWindow" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#openAddNewWordWindow" text="Add word" />
+              <MenuItem mnemonicParsing="false" onAction="#openAddNewWordWindow" text="Add a new word" />
                   <MenuItem mnemonicParsing="false" onAction="#openDeleteWordWindow" text="Delete word" />
                   <MenuItem mnemonicParsing="false" onAction="#openEditWordWindow" text="Edit word" />
             </items>
@@ -135,8 +136,9 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Help">
               <items>
-                  <MenuItem mnemonicParsing="false" text="About UET dictionary" />
-                <MenuItem mnemonicParsing="false" onAction="#openAboutUsWindow" text="About us" />
+                  <MenuItem mnemonicParsing="false" onAction="#findOnCambridgeDictionary" text="Find on Cambrige dictionary" />
+                  <MenuItem mnemonicParsing="false" onAction="#translateWithGoogleTranslation" text="Script traslation" />
+                  <MenuItem mnemonicParsing="false" onAction="#openAboutUsWindow" text="About UET dictionary" />
               </items>
             </Menu>
         </menus>

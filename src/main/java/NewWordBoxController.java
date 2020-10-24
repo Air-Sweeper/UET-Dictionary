@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class NewWordBoxController extends Dictionary {
 
-    private static final String NEW_WORD_BOX_FILE_PATH = "view/fxml/NewWordBox.fxml";
+    private static final String NEW_WORD_BOX_FILE_PATH = "view/fxml/add_box.fxml";
     private static final String NEW_WORD_BOX_TITLE = "New word";
     private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
     private static Stage newWordWindow;
@@ -33,9 +33,10 @@ public class NewWordBoxController extends Dictionary {
             AnchorPane newWordPane = loader.load();
             Scene newWordScene = new Scene(newWordPane);
             newWordWindow = new Stage();
+            newWordWindow.setScene(newWordScene);
             newWordWindow.initModality(Modality.APPLICATION_MODAL);
             newWordWindow.setTitle(NEW_WORD_BOX_TITLE);
-            newWordWindow.setScene(newWordScene);
+            newWordWindow.resizableProperty().setValue(Boolean.FALSE);
             newWordWindow.show();
         } catch (Exception e) {
             e.printStackTrace();

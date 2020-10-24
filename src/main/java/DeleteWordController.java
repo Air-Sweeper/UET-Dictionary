@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -13,8 +14,10 @@ import main.java.model.Dictionary;
 
 public class DeleteWordController extends Dictionary {
 
-    private static final String DELETE_BOX_FILE_PATH = "view/fxml/DeleteWordBox.fxml";
-    private static final String DELETE_BOX_TITLE = "Delete word";
+    private static final String APPLICATION_ICON_PATH = "icon.png";
+    private static final String APPLICATION_NAME = "UET-Dictionary";
+    private static final String DELETE_BOX_FILE_PATH = "view/fxml/delete_box.fxml";
+
     private static Stage deleteWordBoxStage;
 
     @FXML
@@ -31,9 +34,11 @@ public class DeleteWordController extends Dictionary {
             AnchorPane deleteWordBoxPane = loader.load();
             Scene newWordScene = new Scene(deleteWordBoxPane);
             deleteWordBoxStage = new Stage();
-            deleteWordBoxStage.initModality(Modality.APPLICATION_MODAL);
-            deleteWordBoxStage.setTitle(DELETE_BOX_TITLE);
             deleteWordBoxStage.setScene(newWordScene);
+            deleteWordBoxStage.setTitle(APPLICATION_NAME);
+            deleteWordBoxStage.initModality(Modality.APPLICATION_MODAL);
+            deleteWordBoxStage.resizableProperty().setValue(Boolean.FALSE);
+            deleteWordBoxStage.getIcons().add(new Image(APPLICATION_ICON_PATH));
             deleteWordBoxStage.show();
         } catch (Exception e) {
             e.printStackTrace();

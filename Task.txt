@@ -37,13 +37,15 @@
 
 [DONE]	- Upgrade utility functions.
 	
-	- Add export to file utility.
+[DONE]	- Add export to file utility.
 
 [DONE]	- Add more functions and classes to show word infomation more specifically. (must have)
 
 [DONE]	- Use ListView instead of TextArea for Recent, Show dictionary and Bookmark.
 
-	-Add icon for each windows.
+[DONE]	- Add icon for each windows.
+
+[DONE]	- Add Google translate API
 
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được

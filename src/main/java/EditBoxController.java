@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -11,9 +12,10 @@ import main.java.model.Dictionary;
 
 public class EditBoxController extends Dictionary {
 
-    private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
-    private static final String EDIT_BOX_FILE_PATH = "view/fxml/EditBox.fxml";
-    private static final String EDIT_BOX_TITLE = "Edit word";
+    private static final String EDIT_BOX_FILE_PATH = "view/fxml/edit_box.fxml";
+    private static final String APPLICATION_ICON_PATH = "icon.png";
+    private static final String APPLICATION_NAME = "UET-Dictionary";
+
     private static String wordTarget;
     private static Stage editBoxStage;
 
@@ -28,9 +30,11 @@ public class EditBoxController extends Dictionary {
             AnchorPane newWordPane = loader.load();
             Scene newWordScene = new Scene(newWordPane);
             editBoxStage = new Stage();
-            editBoxStage.initModality(Modality.APPLICATION_MODAL);
-            editBoxStage.setTitle(EDIT_BOX_TITLE);
             editBoxStage.setScene(newWordScene);
+            editBoxStage.setTitle(APPLICATION_NAME);
+            editBoxStage.initModality(Modality.APPLICATION_MODAL);
+            editBoxStage.resizableProperty().setValue(Boolean.FALSE);
+            editBoxStage.getIcons().add(new Image(APPLICATION_ICON_PATH));
             editBoxStage.show();
         } catch (Exception e) {
             e.printStackTrace();
