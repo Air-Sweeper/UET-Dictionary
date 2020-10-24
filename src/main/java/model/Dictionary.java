@@ -116,13 +116,27 @@ public class Dictionary {
         }
     }
 
-    public static void exportNewDictionary(String DIRECTORY_PATH) {
+    public static void exportDictionaryFile(String DIRECTORY_PATH) {
         try {
-            File exportedFile = new File(DIRECTORY_PATH, "export-dict.txt");
+            File exportedFile = new File(DIRECTORY_PATH, "exported-dictionary.txt");
             FileWriter fileWriter = new FileWriter(exportedFile);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (Map.Entry<String, String> word : dictionary.entrySet()){
                 bufferedWriter.write(word.getKey() + word.getValue() + "\n");
+            }
+            bufferedWriter.close();
+        } catch(IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public static void exportBookmarkFile(String DIRECTORY_PATH) {
+        try {
+            File exportedFile = new File(DIRECTORY_PATH, "exported-bookmark.txt");
+            FileWriter fileWriter = new FileWriter(exportedFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            for (String bookmark : bookmarkedWords){
+                bufferedWriter.write(bookmark + dictionary.get(bookmark) + "\n");
             }
             bufferedWriter.close();
         } catch(IOException exception) {

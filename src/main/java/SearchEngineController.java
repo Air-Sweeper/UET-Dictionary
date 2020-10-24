@@ -25,12 +25,19 @@ import java.util.Random;
 
 public class SearchEngineController extends Dictionary {
 
+    private static final double BORDER_CONSTRAINT = 0.0;
+
     private static final String API_KEY = "cc4d6af20685439b9b77544383b558fc";
     private static final String APPLICATION_ICON_PATH = "icon.png";
     private static final String APPLICATION_NAME = "UET-Dictionary";
     private static final String AUDIO_OUTPUT_FILE_LOCATION = "src/main/resources/word_pronunciation.wav";
     private static final String BOOKMARKED_COLOR = "-fx-fill: #fce877";
+    private static final String CAMBRIDGE_DICTIONARY_URL = "https://dictionary.cambridge.org/vi/dictionary/english/";
+    private static final String CAMBRIDGE_TAB_TITLE = "Cambridge dictionary";
     private static final String EMPTY_STRING = "";
+    private static final String GOOGLE_TEST_URL = "http://www.google.com";
+    private static final String GOOGLE_TRANSLATE_URL = "https://translate.google.com/?hl=vi#view=home&op=translate&sl=auto&tl=vi&text=";
+    private static final String GOOGLE_TRANSLATE_TAB_TITLE = "Google Translate";
     private static final String NON_BOOKMARKED_COLOR = "-fx-fill: #9e9e9e";
     private static final String SEARCH_ENGINE_FILE_PATH = "view/fxml/main_engine.fxml";
 
@@ -178,24 +185,30 @@ public class SearchEngineController extends Dictionary {
 
     public void findOnCambridgeDictionary() {
         try {
-            URL url = new URL("http://www.google.com");
+            URL url = new URL(GOOGLE_TEST_URL);
             URLConnection connection = url.openConnection();
             connection.connect();
 
             WebView cambridgeView = new WebView();
             AnchorPane cambridgePane = new AnchorPane(cambridgeView);
-            AnchorPane.setTopAnchor(cambridgeView, 0.0);
-            AnchorPane.setBottomAnchor(cambridgeView, 0.0);
-            AnchorPane.setLeftAnchor(cambridgeView, 0.0);
-            AnchorPane.setRightAnchor(cambridgeView, 0.0);
+            AnchorPane.setTopAnchor(cambridgeView, BORDER_CONSTRAINT);
+            AnchorPane.setBottomAnchor(cambridgeView, BORDER_CONSTRAINT);
+            AnchorPane.setLeftAnchor(cambridgeView, BORDER_CONSTRAINT);
+            AnchorPane.setRightAnchor(cambridgeView, BORDER_CONSTRAINT);
 
-            Tab cambridgeTab = new Tab("Cambridge dictionary");
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem = new MenuItem();
+            menuItem.setText("Close");
+            menuItem.setOnAction(e -> closeTab());
+            contextMenu.getItems().add(menuItem);
+
+            Tab cambridgeTab = new Tab(CAMBRIDGE_TAB_TITLE);
             cambridgeTab.setContent(cambridgePane);
+            cambridgeTab.setContextMenu(contextMenu);
 
             webTabPane.getTabs().add(cambridgeTab);
             String wordToFind = wordToSearchField.getText();
-            String cambridgeURL = "https://dictionary.cambridge.org/vi/dictionary/english/";
-            cambridgeView.getEngine().load( cambridgeURL+ wordToFind );
+            cambridgeView.getEngine().load( CAMBRIDGE_DICTIONARY_URL + wordToFind );
         } catch (IOException e) {
             CheckInternetController.openNoInternetWindow();
         }
@@ -203,31 +216,45 @@ public class SearchEngineController extends Dictionary {
 
     public void translateWithGoogleTranslation() {
         try {
-            URL url = new URL("http://www.google.com");
+            URL url = new URL(GOOGLE_TEST_URL);
             URLConnection connection = url.openConnection();
             connection.connect();
 
             WebView googleTranslateView = new WebView();
             AnchorPane googleTranslationPane = new AnchorPane(googleTranslateView);
-            AnchorPane.setTopAnchor(googleTranslateView, 0.0);
-            AnchorPane.setBottomAnchor(googleTranslateView, 0.0);
-            AnchorPane.setLeftAnchor(googleTranslateView, 0.0);
-            AnchorPane.setRightAnchor(googleTranslateView, 0.0);
+            AnchorPane.setTopAnchor(googleTranslateView, BORDER_CONSTRAINT);
+            AnchorPane.setBottomAnchor(googleTranslateView, BORDER_CONSTRAINT);
+            AnchorPane.setLeftAnchor(googleTranslateView, BORDER_CONSTRAINT);
+            AnchorPane.setRightAnchor(googleTranslateView, BORDER_CONSTRAINT);
 
-            Tab googleTranslationTab = new Tab("Google Translate");
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem = new MenuItem();
+            menuItem.setText("Close");
+            menuItem.setOnAction(e -> closeTab());
+            contextMenu.getItems().add(menuItem);
+
+            Tab googleTranslationTab = new Tab(GOOGLE_TRANSLATE_TAB_TITLE);
             googleTranslationTab.setContent(googleTranslationPane);
+            googleTranslationTab.setContextMenu(contextMenu);
 
             webTabPane.getTabs().add(googleTranslationTab);
             String wordToFind = wordToSearchField.getText();
-            String googleTranslateURL = "https://translate.google.com/?hl=vi#view=home&op=translate&sl=auto&tl=vi&text=";
-            googleTranslateView.getEngine().load( googleTranslateURL+ wordToFind );
+            googleTranslateView.getEngine().load( GOOGLE_TRANSLATE_URL + wordToFind );
         } catch (IOException e) {
             CheckInternetController.openNoInternetWindow();
         }
     }
 
+    public void closeTab() {
+        Tab selectedTab = webTabPane.getSelectionModel().getSelectedItem();
+        Tab definitionTab = webTabPane.getTabs().get(0);
+        if (selectedTab.hashCode() != definitionTab.hashCode()) {
+            webTabPane.getTabs().remove(selectedTab);
+        }
+    }
+
     public void clearTextField() {
-        if (canBeDeleted()) {
+        if (!wordToSearchField.getText().equals(EMPTY_STRING)) {
             wordToSearchField.clear();
         }
     }
@@ -332,7 +359,13 @@ public class SearchEngineController extends Dictionary {
     public void exportDictionary() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(mainWindow);
-        exportNewDictionary(selectedDirectory.getAbsolutePath());
+        exportDictionaryFile(selectedDirectory.getAbsolutePath());
+    }
+
+    public void exportBookmark() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(mainWindow);
+        exportBookmarkFile(selectedDirectory.getAbsolutePath());
     }
 
     public void openAddNewWordWindow() {
@@ -351,9 +384,5 @@ public class SearchEngineController extends Dictionary {
 
     public void openAboutUsWindow() {
         AboutUsController.openAboutUsWindow();
-    }
-
-    public boolean canBeDeleted() {
-        return !wordToSearchField.getText().equals(EMPTY_STRING);
     }
 }
