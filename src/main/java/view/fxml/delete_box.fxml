@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="350.0" style="-fx-background-color: #3e3f41;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.DeleteWordController">
-   <Label layoutX="24.0" layoutY="56.0" text="Delete word:" textFill="WHITE" />
-   <JFXTextField fx:id="wordToDeleteField" focusColor="#49b9b5" layoutX="140.0" layoutY="43.0" style="-fx-text-fill: #ffffff;" unFocusColor="#49b9b5" />
-   <JFXButton layoutX="271.0" layoutY="105.0" onAction="#closeDeleteWordBox" stylesheets="@../css/dark-theme.css" text="Cancel" textFill="WHITE" />
-   <JFXButton defaultButton="true" layoutX="192.0" layoutY="105.0" onAction="#deleteWord" ripplerFill="RED" stylesheets="@../css/dark-theme.css" text="Delete" textFill="WHITE" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="350.0" style="-fx-background-color: #f2f1ef #f2f1ef;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.DeleteWordController">
+   <Label layoutX="24.0" layoutY="56.0" text="Delete word:" />
+   <JFXTextField fx:id="wordToDeleteField" focusColor="#34908b" layoutX="140.0" layoutY="43.0" unFocusColor="#34908b" />
+   <JFXButton layoutX="271.0" layoutY="105.0" onAction="#closeDeleteWordBox" stylesheets="@../css/light-theme.css" text="Cancel" />
+   <JFXButton defaultButton="true" layoutX="192.0" layoutY="105.0" onAction="#deleteWord" ripplerFill="RED" stylesheets="@../css/light-theme.css" text="Delete" />
    <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="141.0" layoutY="42.0" visible="false" />
    <Label fx:id="warningMessageLabel" layoutX="156.0" layoutY="30.0" text="No such word existed!" textFill="#fc0000" visible="false">
       <font>

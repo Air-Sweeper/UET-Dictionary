@@ -13,6 +13,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -21,14 +22,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #37383a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.SearchEngineController">
-    <TextField fx:id="wordToSearchField" layoutX="971.0" layoutY="34.0" onKeyPressed="#showRelatedWordList" onKeyReleased="#showRelatedWordList" prefHeight="31.0" prefWidth="296.0" style="-fx-background-color: #686b6b; -fx-text-fill: white;" AnchorPane.rightAnchor="13.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #1cdaaa;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.SearchEngineController">
+   <AnchorPane prefHeight="32.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <TextField fx:id="wordToSearchField" layoutX="971.0" layoutY="34.0" onKeyPressed="#showRelatedWordList" onKeyReleased="#showRelatedWordList" prefHeight="38.0" prefWidth="314.0" style="-fx-background-color: ffffff; -fx-text-fill: black;" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="32.0">
       <padding>
          <Insets left="25.0" />
       </padding></TextField>
-    <JFXListView fx:id="relatedWordList" layoutY="36.0" onMouseClicked="#getDefinitionFromRelatedWordList" prefHeight="702.0" prefWidth="262.0" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
-    <JFXTabPane fx:id="webTabPane" layoutX="273.0" layoutY="36.0" prefHeight="702.0" prefWidth="691.0" style="-fx-focus-color: transparent;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="273.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="34.0">
-        <Tab closable="false" text="Definition">
+    <JFXListView fx:id="relatedWordList" layoutX="5.0" layoutY="33.0" onMouseClicked="#getDefinitionFromRelatedWordList" prefHeight="762.0" prefWidth="264.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="33.0" />
+    <JFXTabPane fx:id="webTabPane" layoutX="273.0" layoutY="36.0" prefHeight="768.0" prefWidth="683.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="273.0" AnchorPane.rightAnchor="324.0" AnchorPane.topAnchor="32.0">
+        <Tab closable="false" style="-fx-text-fill: black;" text="Definition">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <WebView fx:id="wordDefinitionView" prefHeight="729.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#textToSpeech" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414">
@@ -50,71 +52,53 @@
         </Tab>
     </JFXTabPane>
     <JFXButton defaultButton="true" layoutX="899.0" layoutY="58.0" onAction="#search" ripplerFill="#df69f4" text=" " textFill="WHITE" AnchorPane.rightAnchor="316.0" />
-   <FontAwesomeIconView fill="#cecccb" glyphName="SEARCH" layoutX="977.0" layoutY="54.0" size="14" wrappingWidth="10.285717889666557" AnchorPane.rightAnchor="292.71428211033344" />
+   <FontAwesomeIconView fill="#9e9d9c" glyphName="SEARCH" layoutX="969.1429724693298" layoutY="56.0" size="14" wrappingWidth="10.285717889666557" AnchorPane.rightAnchor="300.5713096410036" />
    <Label fx:id="warningMessageLabel" layoutX="986.0" layoutY="101.0" text="No matched word found!" textFill="RED" visible="false" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="15.0">
       <font>
          <Font size="11.0" />
       </font>
    </Label>
    <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="972.0" layoutY="114.0" smooth="false" visible="false" AnchorPane.rightAnchor="297.7142858505249" AnchorPane.topAnchor="18.0" />
-   <Accordion layoutX="971.0" layoutY="74.0" prefHeight="701.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="74.0">
+   <Accordion layoutX="971.0" layoutY="306.0" prefHeight="489.0" prefWidth="314.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="306.0">
      <panes>
-         <TitledPane expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@../css/dark-theme.css" text="Recent" textFill="WHITE">
-             <font>
-                 <Font name="System Bold" size="15.0" />
-             </font>
+         <TitledPane expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@../css/light-theme.css" text="Recent">
              <graphic>
-                 <MaterialDesignIconView fill="WHITE" glyphName="CALENDAR_CHECK" />
-             </graphic>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css">
-                 <JFXListView fx:id="historyList" onMouseClicked="#getDefinitionFromHistoryList" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
-             </AnchorPane>
-         </TitledPane>
-         <TitledPane onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" stylesheets="@../css/dark-theme.css" text="Show dictionary" textFill="WHITE">
-             <font>
-                 <Font name="System Bold" size="15.0" />
-             </font>
-             <graphic>
-                 <FontAwesomeIconView fill="WHITE" glyphName="BOOK" />
+                 <MaterialDesignIconView glyphName="CALENDAR_CHECK" />
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
-                 <JFXListView fx:id="dictionaryList" onMouseClicked="#getDefinitionFromDictionaryList" prefHeight="601.0" prefWidth="294.0" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+                 <JFXListView fx:id="historyList" layoutX="20.0" layoutY="12.0" onMouseClicked="#getDefinitionFromHistoryList" prefHeight="601.0" prefWidth="308.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               <FontAwesomeIconView fx:id="noDataIcon1" fill="#a4a4a4" glyphName="SEARCH" layoutX="114.0" layoutY="182.0" size="90" visible="false" AnchorPane.rightAnchor="100.0" />
+               <Label fx:id="noDataLabel1" alignment="CENTER" layoutX="112.0" layoutY="214.0" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
              </AnchorPane>
          </TitledPane>
-         <TitledPane onMouseClicked="#showBookmark" style="-fx-text-fill: white;" stylesheets="@../css/dark-theme.css" text="Bookmark">
-             <font>
-                 <Font name="System Bold" size="15.0" />
-             </font>
+         <TitledPane onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" stylesheets="@../css/light-theme.css" text="Show dictionary">
              <graphic>
-                 <MaterialDesignIconView fill="WHITE" glyphName="HEART" />
+                 <FontAwesomeIconView glyphName="BOOK" />
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
-                 <JFXListView fx:id="bookmarkedWordList" onMouseClicked="#getDefinitionFromBookmarkList" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+                 <JFXListView fx:id="dictionaryList" onMouseClicked="#getDefinitionFromDictionaryList" prefHeight="601.0" prefWidth="294.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               <FontAwesomeIconView fx:id="noDataIcon2" fill="#a4a4a4" glyphName="SEARCH" layoutX="114.0" layoutY="182.0" size="90" visible="false" AnchorPane.rightAnchor="100.0" />
+               <Label fx:id="noDataLabel2" alignment="CENTER" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="200.0" />
              </AnchorPane>
          </TitledPane>
-         <TitledPane onMouseClicked="#showDailyWord" stylesheets="@../css/dark-theme.css" text="Word of the day" textFill="WHITE">
-             <font>
-                 <Font name="System Bold" size="15.0" />
-             </font>
+         <TitledPane onMouseClicked="#showBookmark" stylesheets="@../css/light-theme.css" text="Bookmark">
              <graphic>
-                 <MaterialDesignIconView fill="WHITE" glyphName="STAR_CIRCLE" />
+                 <MaterialDesignIconView glyphName="HEART" />
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
-                 <WebView fx:id="amazingWordView" prefHeight="601.0" prefWidth="294.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
-               <JFXTextField fx:id="todayField" alignment="CENTER" editable="false" layoutX="63.0" layoutY="572.0" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: #686b6b; -fx-text-fill: white;" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0">
-                  <font>
-                     <Font name="System Bold" size="15.0" />
-                  </font></JFXTextField>
+                 <JFXListView fx:id="bookmarkedWordList" onMouseClicked="#getDefinitionFromBookmarkList" style="-fx-background-color: ffffff;" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               <FontAwesomeIconView fx:id="noDataIcon3" fill="#a4a4a4" glyphName="SEARCH" size="90" visible="false" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0" />
+               <Label fx:id="noDataLabel3" alignment="CENTER" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0" />
              </AnchorPane>
          </TitledPane>
      </panes>
    </Accordion>
-   <FontAwesomeIconView fill="#cecccb" glyphName="TIMES_CIRCLE" layoutX="1244.0" layoutY="55.0" onMouseClicked="#clearTextField" size="17" AnchorPane.rightAnchor="21.428571701049805">
+   <FontAwesomeIconView fill="#a4a4a4" glyphName="TIMES_CIRCLE" layoutX="1254.1428527832031" layoutY="58.0" onMouseClicked="#clearTextField" size="17" AnchorPane.rightAnchor="11.28571891784668">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></FontAwesomeIconView>
-      <HBox layoutY="8.0" prefHeight="31.0" prefWidth="652.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <MenuBar prefHeight="22.0" prefWidth="339.0" style="-fx-background-color: #37383a; -fx-text-fill: white;" stylesheets="@../css/dark-theme.css">
+      <HBox layoutY="8.0" prefHeight="32.0" prefWidth="272.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar prefHeight="22.0" prefWidth="339.0" style="-fx-background-color: #1cdaaa; -fx-text-fill: Back;">
         <menus>
           <Menu mnemonicParsing="false" style="-fx-text-fill: white;" text="File">
             <items>
@@ -132,20 +116,37 @@
                   <MenuItem mnemonicParsing="false" onAction="#openEditWordWindow" text="Edit word" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Themes">
-            <items>
-              <MenuItem mnemonicParsing="false" text="TVT dark theme" />
-                  <MenuItem mnemonicParsing="false" text="TVT light theme" />
-            </items>
-          </Menu>
             <Menu mnemonicParsing="false" text="Help">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#cambridgeHelp" text="Translate with Cambridge dictionary" />
                   <MenuItem mnemonicParsing="false" onAction="#googleHelp" text="Translate with Google translation" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="About">
+              <items>
                   <MenuItem mnemonicParsing="false" onAction="#openAboutUsWindow" text="About UET dictionary" />
               </items>
             </Menu>
         </menus>
       </MenuBar>
       </HBox>
+   <Separator layoutY="32.0" prefHeight="0.0" prefWidth="1280.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+   <AnchorPane layoutX="1023.0" layoutY="78.0" prefHeight="217.0" prefWidth="314.0" style="-fx-background-color: ffffff;" AnchorPane.rightAnchor="5.0">
+      <children>
+         <WebView fx:id="amazingWordView" layoutY="38.0" prefHeight="150.0" prefWidth="314.0" visible="false" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0" />
+         <JFXTextField fx:id="dateField" alignment="CENTER" editable="false" focusColor="#e6e4e1" layoutX="73.0" layoutY="179.0" unFocusColor="#e6e4e1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="186.0" />
+         <FontAwesomeIconView fx:id="backwardIcon" glyphName="ARROW_LEFT" layoutX="14.0" layoutY="208.0" onMouseClicked="#showBackward" size="15" visible="false" />
+         <FontAwesomeIconView fx:id="forwardIcon" glyphName="ARROW_RIGHT" layoutX="286.0" layoutY="207.0" onMouseClicked="#showForward" size="15" visible="false" />
+         <JFXButton layoutY="-5.0" onAction="#showDailyWord" prefHeight="38.0" prefWidth="314.0" style="-fx-background-color: #f3717f;" text="Word of the day" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-5.0">
+            <graphic>
+                 <MaterialDesignIconView glyphName="STAR_CIRCLE" />
+            </graphic>
+            <font>
+               <Font name="System Bold" size="15.0" />
+            </font>
+         </JFXButton>
+      </children>
+   </AnchorPane>
+   <Label fx:id="noDataLabel4" alignment="CENTER" layoutX="91.0" layoutY="393.0" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="91.0" />
+   <FontAwesomeIconView fx:id="noDataIcon4" fill="#a4a4a4" glyphName="SEARCH" layoutX="95.0" layoutY="372.0" size="90" visible="false" AnchorPane.leftAnchor="95.0" />
 </AnchorPane>

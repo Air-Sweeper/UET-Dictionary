@@ -27,6 +27,7 @@ public class App extends Application {
     }
 
     public void launchApplication() {
-        SearchEngineController.launchMainInterface();
+        SearchEngineController MainInterface = new SearchEngineController();
+        MainInterface.launchMainInterface();
     }
 }

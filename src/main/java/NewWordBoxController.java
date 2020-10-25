@@ -19,6 +19,7 @@ public class NewWordBoxController extends Dictionary {
     private static final String NEW_WORD_BOX_FILE_PATH = "view/fxml/add_box.fxml";
     private static final String NEW_WORD_BOX_TITLE = "New word";
     private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
+
     private static Stage newWordWindow;
 
     @FXML

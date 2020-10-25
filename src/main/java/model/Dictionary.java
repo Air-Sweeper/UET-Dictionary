@@ -7,6 +7,7 @@ import java.util.*;
 
 public class Dictionary {
 
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
     private static final String DAILY_WORD_FILE_PATH = "src/main/resources/daily-word.txt";
     private static final String FAVOURITE_FILE_PATH =  "src/main/resources/bookmark.txt";
@@ -15,7 +16,7 @@ public class Dictionary {
     private static final String SPLITTING_CHARACTER_02 = "\t";
 
     protected static final Map<String, String> dictionary = new TreeMap<>();
-    protected static final Map<String, String> dailyWords = new HashMap<>();
+    protected static final Map<String, String> dailyWords = new LinkedHashMap<>();
     protected static final Set<String> bookmarkedWords = new HashSet<>();
     protected static final Set<String> searchedWords = new HashSet<>();
     protected static final List<String> virtualDictionary = new ArrayList<>();
@@ -83,6 +84,7 @@ public class Dictionary {
             dailyWords.put(date, wordTarget);
         }
         scan.close();
+        System.out.println(dailyWords);
     }
 
     public void updateBookmark() {
@@ -150,8 +152,8 @@ public class Dictionary {
         }
     }
 
-    private static String getDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    protected static String getDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATE_FORMAT);
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }

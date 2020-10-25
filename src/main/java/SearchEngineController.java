@@ -21,8 +21,8 @@ import sun.audio.AudioStream;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class SearchEngineController extends Dictionary {
@@ -44,7 +44,6 @@ public class SearchEngineController extends Dictionary {
     private static final String SEARCH_ENGINE_FILE_PATH = "view/fxml/main_engine.fxml";
     private static final String SEARCH_ON_CAMBRIDGE = "Search on Cambridge dictionary";
     private static final String SEARCH_ON_GOOGLE_TRANSLATE = "Search on Google Translate";
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private static Stage mainWindow;
 
@@ -59,7 +58,27 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private FontAwesomeIconView bookmarkIcon;
     @FXML
+    private FontAwesomeIconView backwardIcon;
+    @FXML
+    private FontAwesomeIconView forwardIcon;
+    @FXML
+    private FontAwesomeIconView noDataIcon1;
+    @FXML
+    private FontAwesomeIconView noDataIcon2;
+    @FXML
+    private FontAwesomeIconView noDataIcon3;
+    @FXML
+    private FontAwesomeIconView noDataIcon4;
+    @FXML
     private Label warningMessageLabel;
+    @FXML
+    private Label noDataLabel1;
+    @FXML
+    private Label noDataLabel2;
+    @FXML
+    private Label noDataLabel3;
+    @FXML
+    private Label noDataLabel4;
     @FXML
     private ListView<String> relatedWordList;
     @FXML
@@ -75,7 +94,7 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private TextField wordTargetField;
     @FXML
-    private TextField todayField;
+    private TextField dateField;
     @FXML
     private WebView wordDefinitionView;
     @FXML
@@ -137,6 +156,8 @@ public class SearchEngineController extends Dictionary {
             }
             warningIcon.setVisible(!isExisted);
             warningMessageLabel.setVisible(!isExisted);
+            noDataIcon4.setVisible(!isExisted);
+            noDataLabel4.setVisible(!isExisted);
             relatedWordList.getItems().clear();
             relatedWordList.getItems().addAll(relatedWordsObservableList);
             relatedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -436,12 +457,17 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void showHistorySearch() {
-        searchedWordObservableList.clear();
-        searchedWordObservableList.addAll(searchedWords);
-        historyList.getItems().clear();
-        historyList.getItems().addAll(searchedWordObservableList);
-        historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        historyList.setCellFactory(listView -> bindContextMenuToSearchedWordCell());
+        if (searchedWords.isEmpty()) {
+            noDataIcon1.setVisible(true);
+            noDataLabel1.setVisible(true);
+        } else {
+            searchedWordObservableList.clear();
+            searchedWordObservableList.addAll(searchedWords);
+            historyList.getItems().clear();
+            historyList.getItems().addAll(searchedWordObservableList);
+            historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            historyList.setCellFactory(listView -> bindContextMenuToSearchedWordCell());
+        }
     }
 
     public void clearHistory() {
@@ -453,20 +479,56 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void showDailyWord() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        LocalDateTime now = LocalDateTime.now();
-        String today = dtf.format(now);
+        String today = getDate();
+        setVisibleOfArrow(today);
+        dateField.setText(today);
+        amazingWordView.setVisible(true);
         amazingWordView.getEngine().loadContent(dictionary.get(dailyWords.get(today)));
-        todayField.setText(today);
+    }
+
+    public void showBackward() {
+        LocalDate current = LocalDate.parse(dateField.getText());
+        LocalDate beforeOneDay = current.minusDays(1);
+        setVisibleOfArrow(beforeOneDay.toString());
+        dateField.setText(beforeOneDay.toString());
+        amazingWordView.getEngine().loadContent(dictionary.get(dailyWords.get(beforeOneDay.toString())));
+    }
+
+    public void showForward() {
+        LocalDate current = LocalDate.parse(dateField.getText());
+        LocalDate afterOneDay = current.plusDays(1);
+        setVisibleOfArrow(afterOneDay.toString());
+        dateField.setText(afterOneDay.toString());
+        amazingWordView.getEngine().loadContent(dictionary.get(dailyWords.get(afterOneDay.toString())));
+    }
+
+    private void setVisibleOfArrow(String current) {
+        String lowerBound = (new ArrayList<>(dailyWords.keySet())).get(0);
+        String upperBound = (new ArrayList<>(dailyWords.keySet())).get(dailyWords.size() - 1);
+        if (current.equals(lowerBound)) {
+            backwardIcon.setVisible(false);
+            forwardIcon.setVisible(true);
+        } else if (current.equals(upperBound)) {
+            backwardIcon.setVisible(true);
+            forwardIcon.setVisible(false);
+        } else {
+            backwardIcon.setVisible(true);
+            forwardIcon.setVisible(true);
+        }
     }
 
     public void showDictionary() {
-        ObservableList<String> dictionaryObservableList = FXCollections.observableArrayList();
-        dictionaryObservableList.addAll(virtualDictionary);
-        dictionaryList.getItems().clear();
-        dictionaryList.getItems().addAll(dictionaryObservableList);
-        dictionaryList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        dictionaryList.setCellFactory(listView -> bindContextMenuToDictionaryCell());
+        if (virtualDictionary.isEmpty()) {
+            noDataIcon2.setVisible(true);
+            noDataLabel2.setVisible(true);
+        } else {
+            ObservableList<String> dictionaryObservableList = FXCollections.observableArrayList();
+            dictionaryObservableList.addAll(virtualDictionary);
+            dictionaryList.getItems().clear();
+            dictionaryList.getItems().addAll(dictionaryObservableList);
+            dictionaryList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            dictionaryList.setCellFactory(listView -> bindContextMenuToDictionaryCell());
+        }
     }
 
     private void updateBookmarkIconColor() {
@@ -487,12 +549,17 @@ public class SearchEngineController extends Dictionary {
     }
 
     public void showBookmark() {
-        bookmarkedWordObservableList.clear();
-        bookmarkedWordObservableList.addAll(bookmarkedWords);
-        bookmarkedWordList.getItems().clear();
-        bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
-        bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        bookmarkedWordList.setCellFactory(listView -> bindContextMenuToBookmarkWordCell());
+        if (bookmarkedWords.isEmpty()) {
+            noDataIcon3.setVisible(true);
+            noDataLabel3.setVisible(true);
+        } else {
+            bookmarkedWordObservableList.clear();
+            bookmarkedWordObservableList.addAll(bookmarkedWords);
+            bookmarkedWordList.getItems().clear();
+            bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
+            bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            bookmarkedWordList.setCellFactory(listView -> bindContextMenuToBookmarkWordCell());
+        }
     }
 
     public void clearBookmark() {

@@ -4,9 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="105.0" prefWidth="450.0" style="-fx-background-color: #37383a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.CheckInternetController">
+<AnchorPane prefHeight="98.0" prefWidth="450.0" style="-fx-background-color: #f2f1ef;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.CheckInternetController">
    <children>
-      <JFXButton layoutX="185.0" layoutY="60.0" onAction="#closeNoInternetBox" prefWidth="80.0" stylesheets="@../css/dark-theme.css" text="OK" textFill="WHITE" />
+      <JFXButton layoutX="185.0" layoutY="60.0" onAction="#closeNoInternetBox" prefWidth="80.0" stylesheets="@../css/light-theme.css" text="OK" />
       <Label alignment="CENTER" layoutX="50.0" layoutY="13.0" prefWidth="300.0" text="No internet access! Please check your network connection!" textFill="RED" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>
