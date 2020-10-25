@@ -31,7 +31,7 @@
         <Tab closable="false" text="Definition">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <WebView fx:id="wordDefinitionView" prefHeight="729.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#pronounceWord" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414">
+                <FontAwesomeIconView fx:id="pronunciationIcon" fill="#9e9e9e" glyphName="VOLUME_UP" layoutX="653.0" layoutY="35.0" onMouseClicked="#textToSpeech" size="25" visible="false" AnchorPane.rightAnchor="14.785715103149414">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
@@ -59,7 +59,7 @@
    <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="972.0" layoutY="114.0" smooth="false" visible="false" AnchorPane.rightAnchor="297.7142858505249" AnchorPane.topAnchor="18.0" />
    <Accordion layoutX="971.0" layoutY="74.0" prefHeight="701.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="74.0">
      <panes>
-         <TitledPane animated="false" expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@../css/dark-theme.css" text="Recent" textFill="WHITE">
+         <TitledPane expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@../css/dark-theme.css" text="Recent" textFill="WHITE">
              <font>
                  <Font name="System Bold" size="15.0" />
              </font>
@@ -70,7 +70,7 @@
                  <JFXListView fx:id="historyList" onMouseClicked="#getDefinitionFromHistoryList" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
              </AnchorPane>
          </TitledPane>
-         <TitledPane animated="false" onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" stylesheets="@../css/dark-theme.css" text="Show dictionary" textFill="WHITE">
+         <TitledPane onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" stylesheets="@../css/dark-theme.css" text="Show dictionary" textFill="WHITE">
              <font>
                  <Font name="System Bold" size="15.0" />
              </font>
@@ -81,7 +81,7 @@
                  <JFXListView fx:id="dictionaryList" onMouseClicked="#getDefinitionFromDictionaryList" prefHeight="601.0" prefWidth="294.0" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
              </AnchorPane>
          </TitledPane>
-         <TitledPane animated="false" onMouseClicked="#showBookmark" style="-fx-text-fill: white;" stylesheets="@../css/dark-theme.css" text="Bookmark">
+         <TitledPane onMouseClicked="#showBookmark" style="-fx-text-fill: white;" stylesheets="@../css/dark-theme.css" text="Bookmark">
              <font>
                  <Font name="System Bold" size="15.0" />
              </font>
@@ -92,7 +92,7 @@
                  <JFXListView fx:id="bookmarkedWordList" onMouseClicked="#getDefinitionFromBookmarkList" style="-fx-background-color: #4a4b4e;" stylesheets="@../css/dark-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
              </AnchorPane>
          </TitledPane>
-         <TitledPane animated="false" onMouseClicked="#generateAmazingWord" stylesheets="@../css/dark-theme.css" text="Amazing word" textFill="WHITE">
+         <TitledPane onMouseClicked="#showDailyWord" stylesheets="@../css/dark-theme.css" text="Word of the day" textFill="WHITE">
              <font>
                  <Font name="System Bold" size="15.0" />
              </font>
@@ -101,6 +101,10 @@
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
                  <WebView fx:id="amazingWordView" prefHeight="601.0" prefWidth="294.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
+               <JFXTextField fx:id="todayField" alignment="CENTER" editable="false" layoutX="63.0" layoutY="572.0" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: #686b6b; -fx-text-fill: white;" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0">
+                  <font>
+                     <Font name="System Bold" size="15.0" />
+                  </font></JFXTextField>
              </AnchorPane>
          </TitledPane>
      </panes>
@@ -136,8 +140,8 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Help">
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#findOnCambridgeDictionary" text="Translate with Cambrige dictionary" />
-                  <MenuItem mnemonicParsing="false" onAction="#translateWithGoogleTranslation" text="Translate with Google translation" />
+                  <MenuItem mnemonicParsing="false" onAction="#cambridgeHelp" text="Translate with Cambridge dictionary" />
+                  <MenuItem mnemonicParsing="false" onAction="#googleHelp" text="Translate with Google translation" />
                   <MenuItem mnemonicParsing="false" onAction="#openAboutUsWindow" text="About UET dictionary" />
               </items>
             </Menu>

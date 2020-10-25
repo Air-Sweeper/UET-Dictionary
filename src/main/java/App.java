@@ -22,6 +22,8 @@ public class App extends Application {
         Dictionary.importFromDictionary();
         Dictionary.importFromBookmark();
         Dictionary.importFromHistory();
+        Dictionary.importFromDailyWord();
+        Dictionary.updateDailyWords();
     }
 
     public void launchApplication() {

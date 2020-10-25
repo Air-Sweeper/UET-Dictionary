@@ -2,6 +2,7 @@ package main.java;
 
 import com.voicerss.tts.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,8 +21,9 @@ import sun.audio.AudioStream;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.Random;
 
 public class SearchEngineController extends Dictionary {
 
@@ -40,15 +42,16 @@ public class SearchEngineController extends Dictionary {
     private static final String GOOGLE_TRANSLATE_TAB_TITLE = "Google Translate";
     private static final String NON_BOOKMARKED_COLOR = "-fx-fill: #9e9e9e";
     private static final String SEARCH_ENGINE_FILE_PATH = "view/fxml/main_engine.fxml";
+    private static final String SEARCH_ON_CAMBRIDGE = "Search on Cambridge dictionary";
+    private static final String SEARCH_ON_GOOGLE_TRANSLATE = "Search on Google Translate";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private static Stage mainWindow;
 
-    ObservableList<String> relatedWords = FXCollections.observableArrayList();
+    ObservableList<String> relatedWordsObservableList = FXCollections.observableArrayList();
     ObservableList <String> bookmarkedWordObservableList = FXCollections.observableArrayList();
     ObservableList<String> searchedWordObservableList = FXCollections.observableArrayList();
 
-    @FXML
-    private Label warningMessageLabel;
     @FXML
     private FontAwesomeIconView warningIcon;
     @FXML
@@ -56,9 +59,7 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private FontAwesomeIconView bookmarkIcon;
     @FXML
-    private TextField wordToSearchField;
-    @FXML
-    private TextField wordTargetField;
+    private Label warningMessageLabel;
     @FXML
     private ListView<String> relatedWordList;
     @FXML
@@ -68,11 +69,17 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private ListView<String> bookmarkedWordList;
     @FXML
+    private TabPane webTabPane;
+    @FXML
+    private TextField wordToSearchField;
+    @FXML
+    private TextField wordTargetField;
+    @FXML
+    private TextField todayField;
+    @FXML
     private WebView wordDefinitionView;
     @FXML
     private WebView amazingWordView;
-    @FXML
-    private TabPane webTabPane;
 
     public static void launchMainInterface() {
         try {
@@ -94,7 +101,7 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    public static void closeProgram() {
+    private static void closeProgram() {
         SaveBoxController.openSaveBoxWindow();
     }
 
@@ -120,20 +127,153 @@ public class SearchEngineController extends Dictionary {
     public void showRelatedWordList() {
         String pattern = wordToSearchField.getText();
         if (!pattern.equals("")) {
-            relatedWords.clear();
+            relatedWordsObservableList.clear();
             boolean isExisted = false;
             for (Map.Entry<String, String> word : dictionary.entrySet()) {
                 if (word.getKey().startsWith(pattern)) {
-                    relatedWords.add(word.getKey());
+                    relatedWordsObservableList.add(word.getKey());
                     isExisted = true;
                 }
             }
             warningIcon.setVisible(!isExisted);
             warningMessageLabel.setVisible(!isExisted);
             relatedWordList.getItems().clear();
-            relatedWordList.getItems().addAll(relatedWords);
+            relatedWordList.getItems().addAll(relatedWordsObservableList);
             relatedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            relatedWordList.setCellFactory(listView -> bindContextMenuToDictionaryCell());
         }
+    }
+
+    private ListCell<String> bindContextMenuToDictionaryCell() {
+        ListCell<String> cell = new ListCell<>();
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem editItem = new MenuItem();
+        editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
+        editItem.setOnAction(event -> {
+            String item = cell.getItem();
+            EditBoxController.openEditBox(item);
+        });
+
+        MenuItem deleteItem = new MenuItem();
+        deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
+        deleteItem.setOnAction(event -> {
+            dictionary.remove(cell.getItem());
+            bookmarkedWords.remove(cell.getItem());
+            searchedWords.remove(cell.getItem());
+            virtualDictionary.remove(cell.getItem());
+            relatedWordList.getItems().remove(cell.getItem());
+            historyList.getItems().remove(cell.getItem());
+            dictionaryList.getItems().remove(cell.getItem());
+            bookmarkedWordList.getItems().remove(cell.getItem());
+            wordDefinitionView.getEngine().loadContent("");
+            pronunciationIcon.setVisible(false);
+            bookmarkIcon.setVisible(false);
+        });
+
+        MenuItem searchOnCambridgeItem = new MenuItem();
+        searchOnCambridgeItem.textProperty().bind(Bindings.format(SEARCH_ON_CAMBRIDGE));
+        searchOnCambridgeItem.setOnAction(event -> findOnCambridgeDictionary(cell.getItem()));
+
+        MenuItem searchOnGoogleTranslateItem = new MenuItem();
+        searchOnGoogleTranslateItem.textProperty().bind(Bindings.format(SEARCH_ON_GOOGLE_TRANSLATE));
+        searchOnGoogleTranslateItem.setOnAction(event -> translateWithGoogleTranslate(cell.getItem()));
+
+        contextMenu.getItems().addAll(editItem, deleteItem, searchOnCambridgeItem, searchOnGoogleTranslateItem);
+
+        cell.textProperty().bind(cell.itemProperty());
+
+        cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+            if (isNowEmpty) {
+                cell.setContextMenu(null);
+            } else {
+                cell.setContextMenu(contextMenu);
+            }
+        });
+        return cell ;
+    }
+
+    private ListCell<String> bindContextMenuToSearchedWordCell() {
+        ListCell<String> cell = new ListCell<>();
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem editItem = new MenuItem();
+        editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
+        editItem.setOnAction(event -> {
+            String item = cell.getItem();
+            EditBoxController.openEditBox(item);
+        });
+
+        MenuItem deleteItem = new MenuItem();
+        deleteItem.textProperty().bind(Bindings.format("Remove \"%s\" from history", cell.itemProperty()));
+        deleteItem.setOnAction(event -> {
+            searchedWords.remove(cell.getItem());
+            historyList.getItems().remove(cell.getItem());
+        });
+
+        MenuItem searchOnCambridgeItem = new MenuItem();
+        searchOnCambridgeItem.textProperty().bind(Bindings.format(SEARCH_ON_CAMBRIDGE));
+        searchOnCambridgeItem.setOnAction(event -> findOnCambridgeDictionary(cell.getItem()));
+
+        MenuItem searchOnGoogleTranslateItem = new MenuItem();
+        searchOnGoogleTranslateItem.textProperty().bind(Bindings.format(SEARCH_ON_GOOGLE_TRANSLATE));
+        searchOnGoogleTranslateItem.setOnAction(event -> translateWithGoogleTranslate(cell.getItem()));
+
+        contextMenu.getItems().addAll(editItem, deleteItem, searchOnCambridgeItem, searchOnGoogleTranslateItem);
+
+        cell.textProperty().bind(cell.itemProperty());
+
+        cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+            if (isNowEmpty) {
+                cell.setContextMenu(null);
+            } else {
+                cell.setContextMenu(contextMenu);
+            }
+        });
+        return cell ;
+    }
+
+    private ListCell<String> bindContextMenuToBookmarkWordCell() {
+        ListCell<String> cell = new ListCell<>();
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem editItem = new MenuItem();
+        editItem.textProperty().bind(Bindings.format("Edit \"%s\"", cell.itemProperty()));
+        editItem.setOnAction(event -> {
+            String item = cell.getItem();
+            EditBoxController.openEditBox(item);
+        });
+
+        MenuItem deleteItem = new MenuItem();
+        deleteItem.textProperty().bind(Bindings.format("Remove \"%s\" from bookmark", cell.itemProperty()));
+        deleteItem.setOnAction(event -> {
+            bookmarkedWords.remove(cell.getItem());
+            bookmarkedWordList.getItems().remove(cell.getItem());
+        });
+
+        MenuItem searchOnCambridgeItem = new MenuItem();
+        searchOnCambridgeItem.textProperty().bind(Bindings.format(SEARCH_ON_CAMBRIDGE));
+        searchOnCambridgeItem.setOnAction(event -> findOnCambridgeDictionary(cell.getItem()));
+
+        MenuItem searchOnGoogleTranslateItem = new MenuItem();
+        searchOnGoogleTranslateItem.textProperty().bind(Bindings.format(SEARCH_ON_GOOGLE_TRANSLATE));
+        searchOnGoogleTranslateItem.setOnAction(event -> translateWithGoogleTranslate(cell.getItem()));
+
+        contextMenu.getItems().addAll(editItem, deleteItem, searchOnCambridgeItem, searchOnGoogleTranslateItem);
+
+        cell.textProperty().bind(cell.itemProperty());
+
+        cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+            if (isNowEmpty) {
+                cell.setContextMenu(null);
+            } else {
+                cell.setContextMenu(contextMenu);
+            }
+        });
+        return cell ;
     }
 
     public void getDefinitionFromRelatedWordList() {
@@ -183,7 +323,12 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    public void findOnCambridgeDictionary() {
+    public void cambridgeHelp() {
+        String wordToFind = wordToSearchField.getText();
+        findOnCambridgeDictionary(wordToFind);
+    }
+
+    private void findOnCambridgeDictionary(String wordToFind) {
         try {
             URL url = new URL(GOOGLE_TEST_URL);
             URLConnection connection = url.openConnection();
@@ -207,14 +352,18 @@ public class SearchEngineController extends Dictionary {
             cambridgeTab.setContextMenu(contextMenu);
 
             webTabPane.getTabs().add(cambridgeTab);
-            String wordToFind = wordToSearchField.getText();
             cambridgeView.getEngine().load( CAMBRIDGE_DICTIONARY_URL + wordToFind );
         } catch (IOException e) {
             CheckInternetController.openNoInternetWindow();
         }
     }
 
-    public void translateWithGoogleTranslation() {
+    public void googleHelp() {
+        String wordToFind = wordToSearchField.getText();
+        translateWithGoogleTranslate(wordToFind);
+    }
+
+    private void translateWithGoogleTranslate(String wordToFind) {
         try {
             URL url = new URL(GOOGLE_TEST_URL);
             URLConnection connection = url.openConnection();
@@ -238,14 +387,13 @@ public class SearchEngineController extends Dictionary {
             googleTranslationTab.setContextMenu(contextMenu);
 
             webTabPane.getTabs().add(googleTranslationTab);
-            String wordToFind = wordToSearchField.getText();
             googleTranslateView.getEngine().load( GOOGLE_TRANSLATE_URL + wordToFind );
         } catch (IOException e) {
             CheckInternetController.openNoInternetWindow();
         }
     }
 
-    public void closeTab() {
+    private void closeTab() {
         Tab selectedTab = webTabPane.getSelectionModel().getSelectedItem();
         Tab definitionTab = webTabPane.getTabs().get(0);
         if (selectedTab.hashCode() != definitionTab.hashCode()) {
@@ -257,10 +405,6 @@ public class SearchEngineController extends Dictionary {
         if (!wordToSearchField.getText().equals(EMPTY_STRING)) {
             wordToSearchField.clear();
         }
-    }
-
-    public void pronounceWord() throws Exception {
-        textToSpeech();
     }
 
     public void textToSpeech() throws Exception {
@@ -297,6 +441,7 @@ public class SearchEngineController extends Dictionary {
         historyList.getItems().clear();
         historyList.getItems().addAll(searchedWordObservableList);
         historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        historyList.setCellFactory(listView -> bindContextMenuToSearchedWordCell());
     }
 
     public void clearHistory() {
@@ -307,12 +452,12 @@ public class SearchEngineController extends Dictionary {
         historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public void generateAmazingWord() {
-        Random randomIndex = new Random();
-        int upperbound = virtualDictionary.size();
-        int randomWordIndex = randomIndex.nextInt(upperbound);
-        String amazingWord = virtualDictionary.get(randomWordIndex);
-        amazingWordView.getEngine().loadContent(dictionary.get(amazingWord));
+    public void showDailyWord() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        LocalDateTime now = LocalDateTime.now();
+        String today = dtf.format(now);
+        amazingWordView.getEngine().loadContent(dictionary.get(dailyWords.get(today)));
+        todayField.setText(today);
     }
 
     public void showDictionary() {
@@ -321,9 +466,10 @@ public class SearchEngineController extends Dictionary {
         dictionaryList.getItems().clear();
         dictionaryList.getItems().addAll(dictionaryObservableList);
         dictionaryList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        dictionaryList.setCellFactory(listView -> bindContextMenuToDictionaryCell());
     }
 
-    public void updateBookmarkIconColor() {
+    private void updateBookmarkIconColor() {
         if (bookmarkedWords.contains(wordTargetField.getText())) {
             bookmarkIcon.setStyle(BOOKMARKED_COLOR);
         } else {
@@ -346,6 +492,7 @@ public class SearchEngineController extends Dictionary {
         bookmarkedWordList.getItems().clear();
         bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
         bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        bookmarkedWordList.setCellFactory(listView -> bindContextMenuToBookmarkWordCell());
     }
 
     public void clearBookmark() {

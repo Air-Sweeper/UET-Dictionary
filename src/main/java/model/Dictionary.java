@@ -1,16 +1,21 @@
 package main.java.model;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Dictionary {
 
-    private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
     private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
+    private static final String DAILY_WORD_FILE_PATH = "src/main/resources/daily-word.txt";
     private static final String FAVOURITE_FILE_PATH =  "src/main/resources/bookmark.txt";
-    private static final String SPLITTING_CHARACTERS = "<html>";
+    private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
+    private static final String SPLITTING_CHARACTER_01 = "<html>";
+    private static final String SPLITTING_CHARACTER_02 = "\t";
 
     protected static final Map<String, String> dictionary = new TreeMap<>();
+    protected static final Map<String, String> dailyWords = new HashMap<>();
     protected static final Set<String> bookmarkedWords = new HashSet<>();
     protected static final Set<String> searchedWords = new HashSet<>();
     protected static final List<String> virtualDictionary = new ArrayList<>();
@@ -24,9 +29,9 @@ public class Dictionary {
         BufferedReader br = new BufferedReader(fis);
         String line;
         while ((line = br.readLine()) != null) {
-            String[] parts = line.split(SPLITTING_CHARACTERS);
+            String[] parts = line.split(SPLITTING_CHARACTER_01);
             String wordTarget = parts[0];
-            String wordDefinition = SPLITTING_CHARACTERS + parts[1];
+            String wordDefinition = SPLITTING_CHARACTER_01 + parts[1];
             if (dictionary.containsKey(wordTarget)) {
                 dictionary.replace(wordTarget, wordDefinition);
             } else {
@@ -66,6 +71,18 @@ public class Dictionary {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void importFromDailyWord() throws IOException {
+        Scanner scan = new Scanner(new File(DAILY_WORD_FILE_PATH));
+        while(scan.hasNext()){
+            String curLine = scan.nextLine();
+            String[] split = curLine.split(SPLITTING_CHARACTER_02);
+            String date = split[0].trim();
+            String wordTarget = split[1].trim();
+            dailyWords.put(date, wordTarget);
+        }
+        scan.close();
     }
 
     public void updateBookmark() {
@@ -114,6 +131,36 @@ public class Dictionary {
                 exception.printStackTrace();
             }
         }
+    }
+
+    public static void updateDailyWords() {
+        String today = getDate();
+        String todayWord = getTodayWord();
+        if (!dailyWords.containsKey(today)) {
+            File log = new File(DAILY_WORD_FILE_PATH);
+            try{
+                FileWriter fileWriter = new FileWriter(log, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(today + SPLITTING_CHARACTER_02 + todayWord + "\n");
+                bufferedWriter.close();
+                dailyWords.put(today, todayWord);
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static String getDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
+    private static String getTodayWord() {
+        Random randomIndex = new Random();
+        int upperbound = virtualDictionary.size();
+        int randomWordIndex = randomIndex.nextInt(upperbound);
+        return virtualDictionary.get(randomWordIndex);
     }
 
     public static void exportDictionaryFile(String DIRECTORY_PATH) {
