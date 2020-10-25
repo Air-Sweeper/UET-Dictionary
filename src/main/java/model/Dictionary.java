@@ -8,7 +8,7 @@ import java.util.*;
 public class Dictionary {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
-    private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
+    private static final String E_V_DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
     private static final String DAILY_WORD_FILE_PATH = "src/main/resources/daily-word.txt";
     private static final String FAVOURITE_FILE_PATH =  "src/main/resources/bookmark.txt";
     private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
@@ -25,8 +25,8 @@ public class Dictionary {
     private static long searchedWords_old_size;
     private static long bookmark_old_size;
 
-    public static void importFromDictionary() throws IOException {
-        FileReader fis = new FileReader(DICTIONARY_FILE_PATH);
+    public static void importFromEnglishDictionary() throws IOException {
+        FileReader fis = new FileReader(E_V_DICTIONARY_FILE_PATH);
         BufferedReader br = new BufferedReader(fis);
         String line;
         while ((line = br.readLine()) != null) {
@@ -106,7 +106,7 @@ public class Dictionary {
     public void updateDictionary() {
         if (dictionary.size() != dictionary_old_size) {
             try {
-                File dictionaryFile = new File(DICTIONARY_FILE_PATH);
+                File dictionaryFile = new File(E_V_DICTIONARY_FILE_PATH);
                 FileWriter fileWriter = new FileWriter(dictionaryFile);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (Map.Entry<String, String> word : dictionary.entrySet()){

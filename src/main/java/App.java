@@ -19,7 +19,7 @@ public class App extends Application {
     }
 
     private void loadDatabase() throws IOException {
-        Dictionary.importFromDictionary();
+        Dictionary.importFromEnglishDictionary();
         Dictionary.importFromBookmark();
         Dictionary.importFromHistory();
         Dictionary.importFromDailyWord();
@@ -27,7 +27,6 @@ public class App extends Application {
     }
 
     public void launchApplication() {
-        SearchEngineController MainInterface = new SearchEngineController();
-        MainInterface.launchMainInterface();
+        SearchEngineController.launchMainInterface();
     }
 }
