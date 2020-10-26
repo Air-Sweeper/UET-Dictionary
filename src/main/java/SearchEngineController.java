@@ -33,7 +33,7 @@ public class SearchEngineController extends Dictionary {
     private static final String APPLICATION_ICON_PATH = "icon.png";
     private static final String APPLICATION_NAME = "UET-Dictionary";
     private static final String AUDIO_OUTPUT_FILE_LOCATION = "src/main/resources/word_pronunciation.wav";
-    private static final String BOOKMARKED_COLOR = "-fx-fill: #fce877";
+    private static final String BOOKMARKED_COLOR = "-fx-fill: #1d5183";
     private static final String CAMBRIDGE_DICTIONARY_URL = "https://dictionary.cambridge.org/vi/dictionary/english/";
     private static final String CAMBRIDGE_TAB_TITLE = "Cambridge dictionary";
     private static final String EMPTY_STRING = "";
@@ -62,23 +62,23 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private FontAwesomeIconView forwardIcon;
     @FXML
-    private FontAwesomeIconView noDataIcon1;
+    private FontAwesomeIconView noDataHistoryIcon;
     @FXML
-    private FontAwesomeIconView noDataIcon2;
+    private FontAwesomeIconView noDataDictionaryIcon;
     @FXML
-    private FontAwesomeIconView noDataIcon3;
+    private FontAwesomeIconView noDataBookmarkIcon;
     @FXML
-    private FontAwesomeIconView noDataIcon4;
+    private FontAwesomeIconView noDataRelatedWordIcon;
     @FXML
     private Label warningMessageLabel;
     @FXML
-    private Label noDataLabel1;
+    private Label noDataHistoryLabel;
     @FXML
-    private Label noDataLabel2;
+    private Label noDataDictionaryLabel;
     @FXML
-    private Label noDataLabel3;
+    private Label noDataBookmarkLabel;
     @FXML
-    private Label noDataLabel4;
+    private Label noDataRelatedWordLabel;
     @FXML
     private ListView<String> relatedWordList;
     @FXML
@@ -98,7 +98,7 @@ public class SearchEngineController extends Dictionary {
     @FXML
     private WebView wordDefinitionView;
     @FXML
-    private WebView amazingWordView;
+    private WebView dailyWordView;
 
     public static void launchMainInterface() {
         try {
@@ -106,6 +106,7 @@ public class SearchEngineController extends Dictionary {
             loader.setLocation(App.class.getResource(SEARCH_ENGINE_FILE_PATH));
             AnchorPane rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
+
             mainWindow = new Stage();
             mainWindow.setScene(scene);
             mainWindow.getIcons().add(new Image(APPLICATION_ICON_PATH));
@@ -120,10 +121,6 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    private static void closeProgram() {
-        SaveBoxController.openSaveBoxWindow();
-    }
-
     public void exit() {
         mainWindow.close();
     }
@@ -135,18 +132,23 @@ public class SearchEngineController extends Dictionary {
     public void search() {
         if (dictionary.containsKey(wordToSearchField.getText())) {
             searchedWords.add(wordToSearchField.getText());
+
             wordTargetField.setText(wordToSearchField.getText());
             wordDefinitionView.getEngine().loadContent(dictionary.get(wordToSearchField.getText()));
             pronunciationIcon.setVisible(true);
             bookmarkIcon.setVisible(true);
+
             updateBookmarkIconColor();
+            showHistorySearch();
         }
     }
 
     public void showRelatedWordList() {
         String pattern = wordToSearchField.getText();
+
         if (!pattern.equals("")) {
             relatedWordsObservableList.clear();
+
             boolean isExisted = false;
             for (Map.Entry<String, String> word : dictionary.entrySet()) {
                 if (word.getKey().startsWith(pattern)) {
@@ -154,16 +156,261 @@ public class SearchEngineController extends Dictionary {
                     isExisted = true;
                 }
             }
+
             warningIcon.setVisible(!isExisted);
             warningMessageLabel.setVisible(!isExisted);
-            noDataIcon4.setVisible(!isExisted);
-            noDataLabel4.setVisible(!isExisted);
+            noDataRelatedWordIcon.setVisible(!isExisted);
+            noDataRelatedWordLabel.setVisible(!isExisted);
+
             relatedWordList.getItems().clear();
             relatedWordList.getItems().addAll(relatedWordsObservableList);
             relatedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             relatedWordList.setCellFactory(listView -> bindContextMenuToDictionaryCell());
         }
     }
+
+    public void getDefinitionFromRelatedWordList() {
+        String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
+
+        if (selectedWord != null) {
+            searchedWords.add(selectedWord);
+
+            wordTargetField.setText(selectedWord);
+            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
+            pronunciationIcon.setVisible(true);
+            bookmarkIcon.setVisible(true);
+
+            updateBookmarkIconColor();
+            showHistorySearch();
+        }
+    }
+
+    public void getDefinitionFromHistoryList() {
+        String selectedWord = historyList.getSelectionModel().getSelectedItem();
+
+        if (selectedWord != null) {
+            wordTargetField.setText(selectedWord);
+            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
+            pronunciationIcon.setVisible(true);
+            bookmarkIcon.setVisible(true);
+
+            updateBookmarkIconColor();
+        }
+    }
+
+    public void getDefinitionFromBookmarkList() {
+        String selectedWord = bookmarkedWordList.getSelectionModel().getSelectedItem();
+
+        if (selectedWord != null) {
+            searchedWords.add(selectedWord);
+
+            wordTargetField.setText(selectedWord);
+            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
+            pronunciationIcon.setVisible(true);
+            bookmarkIcon.setVisible(true);
+
+            updateBookmarkIconColor();
+            showHistorySearch();
+        }
+    }
+
+    public void getDefinitionFromDictionaryList() {
+        String selectedWord = dictionaryList.getSelectionModel().getSelectedItem();
+
+        if (selectedWord != null) {
+            searchedWords.add(selectedWord);
+
+            wordTargetField.setText(selectedWord);
+            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
+            pronunciationIcon.setVisible(true);
+            bookmarkIcon.setVisible(true);
+
+            updateBookmarkIconColor();
+            showHistorySearch();
+        }
+    }
+
+    public void cambridgeHelp() {
+        String wordToFind = wordToSearchField.getText();
+        findOnCambridgeDictionary(wordToFind);
+    }
+
+    public void googleHelp() {
+        String wordToFind = wordToSearchField.getText();
+        translateWithGoogleTranslate(wordToFind);
+    }
+
+    public void clearTextField() {
+        if (!wordToSearchField.getText().equals(EMPTY_STRING)) {
+            wordToSearchField.clear();
+        }
+    }
+
+    public void textToSpeech() throws Exception {
+        try {
+            String wordTarget = wordTargetField.getText();
+            VoiceProvider tts = new VoiceProvider(API_KEY);
+
+            VoiceParameters params = new VoiceParameters(wordTarget, Languages.English_UnitedStates);
+            params.setCodec(AudioCodec.WAV);
+            params.setFormat(AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
+            params.setBase64(false);
+            params.setSSML(false);
+            params.setRate(0);
+
+            byte[] voice = tts.speech(params);
+
+            FileOutputStream fos = new FileOutputStream(AUDIO_OUTPUT_FILE_LOCATION);
+            fos.write(voice, 0, voice.length);
+            fos.flush();
+            fos.close();
+
+            InputStream in = new FileInputStream(AUDIO_OUTPUT_FILE_LOCATION);
+            AudioStream sound = new AudioStream(in);
+            AudioPlayer.player.start(sound);
+        } catch (IOException e) {
+            e.printStackTrace();
+            CheckInternetController.openNoInternetWindow();
+        }
+    }
+
+    public void showHistorySearch() {
+        if (searchedWords.isEmpty()) {
+            setNoDataIconVisible(noDataHistoryIcon, noDataHistoryLabel);
+        } else {
+            setNoDataIconNonVisible(noDataHistoryIcon, noDataHistoryLabel);
+
+            searchedWordObservableList.clear();
+            searchedWordObservableList.addAll(searchedWords);
+
+            historyList.getItems().clear();
+            historyList.getItems().addAll(searchedWordObservableList);
+            historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            historyList.setCellFactory(listView -> bindContextMenuToSearchedWordCell());
+        }
+    }
+
+    public void clearHistory() {
+        searchedWords.clear();
+
+        searchedWordObservableList.clear();
+
+        historyList.getItems().clear();
+        historyList.getItems().addAll(searchedWordObservableList);
+        historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        setNoDataIconVisible(noDataHistoryIcon, noDataHistoryLabel);
+    }
+
+    public void showDailyWord() {
+        String today = getDate();
+        setVisibleOfArrow(today);
+        dateField.setText(today);
+        dailyWordView.setVisible(true);
+        dailyWordView.getEngine().loadContent(dictionary.get(dailyWords.get(today)));
+    }
+
+    public void showBackward() {
+        LocalDate current = LocalDate.parse(dateField.getText());
+        LocalDate beforeOneDay = current.minusDays(1);
+        String beforeOneDayWord = beforeOneDay.toString();
+        setVisibleOfArrow(beforeOneDay.toString());
+        dateField.setText(beforeOneDay.toString());
+        dailyWordView.getEngine().loadContent(dictionary.get(dailyWords.get(beforeOneDayWord)));
+    }
+
+    public void showForward() {
+        LocalDate current = LocalDate.parse(dateField.getText());
+        LocalDate afterOneDay = current.plusDays(1);
+        String afterOneDayWord = afterOneDay.toString();
+        setVisibleOfArrow(afterOneDay.toString());
+        dateField.setText(afterOneDay.toString());
+        dailyWordView.getEngine().loadContent(dictionary.get(dailyWords.get(afterOneDayWord)));
+    }
+
+    public void showDictionary() {
+        if (virtualDictionary.isEmpty()) {
+            setNoDataIconVisible(noDataDictionaryIcon, noDataDictionaryLabel);
+        } else {
+            setNoDataIconNonVisible(noDataDictionaryIcon, noDataDictionaryLabel);
+
+            ObservableList<String> dictionaryObservableList = FXCollections.observableArrayList();
+            dictionaryObservableList.addAll(virtualDictionary);
+
+            dictionaryList.getItems().clear();
+            dictionaryList.getItems().addAll(dictionaryObservableList);
+            dictionaryList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            dictionaryList.setCellFactory(listView -> bindContextMenuToDictionaryCell());
+        }
+    }
+
+    public void updateBookmarkedWords() {
+        if (bookmarkedWords.contains(wordTargetField.getText())) {
+            bookmarkedWords.remove(wordTargetField.getText());
+        } else {
+            bookmarkedWords.add(wordTargetField.getText());
+        }
+        updateBookmarkIconColor();
+        showBookmark();
+    }
+
+    public void showBookmark() {
+        bookmarkedWordObservableList.clear();
+        bookmarkedWordObservableList.addAll(bookmarkedWords);
+
+        bookmarkedWordList.getItems().clear();
+        bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
+        bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        bookmarkedWordList.setCellFactory(listView -> bindContextMenuToBookmarkWordCell());
+        if (bookmarkedWords.isEmpty()) {
+            setNoDataIconVisible(noDataBookmarkIcon, noDataBookmarkLabel);
+        } else {
+            setNoDataIconNonVisible(noDataBookmarkIcon, noDataBookmarkLabel);
+        }
+    }
+
+    public void clearBookmark() {
+        bookmarkedWords.clear();
+
+        bookmarkedWordObservableList.clear();
+
+        bookmarkedWordList.getItems().clear();
+        bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
+        bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+    public void exportDictionary() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(mainWindow);
+        exportDictionaryFile(selectedDirectory.getAbsolutePath());
+    }
+
+    public void exportBookmark() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(mainWindow);
+        exportBookmarkFile(selectedDirectory.getAbsolutePath());
+    }
+
+    public void openAddNewWordWindow() {
+        NewWordBoxController.openNewWordBox();
+    }
+
+    public void openEditWordWindow() {
+        if (!wordTargetField.getText().equals("")){
+            EditBoxController.openEditBox(wordTargetField.getText());
+            wordDefinitionView.getEngine().loadContent(dictionary.get(wordTargetField.getText()));
+        }
+    }
+
+    public void openDeleteWordWindow() {
+        DeleteWordController.openDeleteWordWindow();
+    }
+
+    public void openAboutUsWindow() {
+        AboutUsController.openAboutUsWindow();
+    }
+
+    // Too lazy to beautify these 4 binding function...
 
     private ListCell<String> bindContextMenuToDictionaryCell() {
         ListCell<String> cell = new ListCell<>();
@@ -184,13 +431,18 @@ public class SearchEngineController extends Dictionary {
             bookmarkedWords.remove(cell.getItem());
             searchedWords.remove(cell.getItem());
             virtualDictionary.remove(cell.getItem());
+
             relatedWordList.getItems().remove(cell.getItem());
             historyList.getItems().remove(cell.getItem());
             dictionaryList.getItems().remove(cell.getItem());
             bookmarkedWordList.getItems().remove(cell.getItem());
+
             wordDefinitionView.getEngine().loadContent("");
             pronunciationIcon.setVisible(false);
             bookmarkIcon.setVisible(false);
+
+            showRelatedWordList();
+            showDictionary();
         });
 
         MenuItem searchOnCambridgeItem = new MenuItem();
@@ -202,6 +454,7 @@ public class SearchEngineController extends Dictionary {
         searchOnGoogleTranslateItem.setOnAction(event -> translateWithGoogleTranslate(cell.getItem()));
 
         contextMenu.getItems().addAll(editItem, deleteItem, searchOnCambridgeItem, searchOnGoogleTranslateItem);
+        contextMenu.setStyle("-fx-text-fill: #000000");
 
         cell.textProperty().bind(cell.itemProperty());
 
@@ -297,56 +550,47 @@ public class SearchEngineController extends Dictionary {
         return cell ;
     }
 
-    public void getDefinitionFromRelatedWordList() {
-        String selectedWord = relatedWordList.getSelectionModel().getSelectedItem();
-        if (selectedWord != null) {
-            searchedWords.add(selectedWord);
-            wordTargetField.setText(selectedWord);
-            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
-            pronunciationIcon.setVisible(true);
-            bookmarkIcon.setVisible(true);
-            updateBookmarkIconColor();
+    private void setVisibleOfArrow(String current) {
+        String lowerBound = (new ArrayList<>(dailyWords.keySet())).get(0);
+        String upperBound = (new ArrayList<>(dailyWords.keySet())).get(dailyWords.size() - 1);
+
+        if (current.equals(lowerBound)) {
+            backwardIcon.setVisible(false);
+            forwardIcon.setVisible(true);
+        } else if (current.equals(upperBound)) {
+            backwardIcon.setVisible(true);
+            forwardIcon.setVisible(false);
+        } else {
+            backwardIcon.setVisible(true);
+            forwardIcon.setVisible(true);
         }
     }
 
-    public void getDefinitionFromHistoryList() {
-        String selectedWord = historyList.getSelectionModel().getSelectedItem();
-        if (selectedWord != null) {
-            wordTargetField.setText(selectedWord);
-            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
-            pronunciationIcon.setVisible(true);
-            bookmarkIcon.setVisible(true);
-            updateBookmarkIconColor();
+    private void setNoDataIconVisible(FontAwesomeIconView icon, Label label) {
+        icon.setVisible(true);
+        label.setVisible(true);
+    }
+
+    private void setNoDataIconNonVisible(FontAwesomeIconView icon, Label label) {
+        icon.setVisible(false);
+        label.setVisible(false);
+    }
+
+    private void closeTab() {
+        Tab selectedTab = webTabPane.getSelectionModel().getSelectedItem();
+        Tab definitionTab = webTabPane.getTabs().get(0);
+
+        if (selectedTab.hashCode() != definitionTab.hashCode()) {
+            webTabPane.getTabs().remove(selectedTab);
         }
     }
 
-    public void getDefinitionFromBookmarkList() {
-        String selectedWord = bookmarkedWordList.getSelectionModel().getSelectedItem();
-        if (selectedWord != null) {
-            searchedWords.add(selectedWord);
-            wordTargetField.setText(selectedWord);
-            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
-            pronunciationIcon.setVisible(true);
-            bookmarkIcon.setVisible(true);
-            updateBookmarkIconColor();
+    private void updateBookmarkIconColor() {
+        if (bookmarkedWords.contains(wordTargetField.getText())) {
+            bookmarkIcon.setStyle(BOOKMARKED_COLOR);
+        } else {
+            bookmarkIcon.setStyle(NON_BOOKMARKED_COLOR);
         }
-    }
-
-    public void getDefinitionFromDictionaryList() {
-        String selectedWord = dictionaryList.getSelectionModel().getSelectedItem();
-        if (selectedWord != null) {
-            searchedWords.add(selectedWord);
-            wordTargetField.setText(selectedWord);
-            wordDefinitionView.getEngine().loadContent(dictionary.get(selectedWord));
-            pronunciationIcon.setVisible(true);
-            bookmarkIcon.setVisible(true);
-            updateBookmarkIconColor();
-        }
-    }
-
-    public void cambridgeHelp() {
-        String wordToFind = wordToSearchField.getText();
-        findOnCambridgeDictionary(wordToFind);
     }
 
     private void findOnCambridgeDictionary(String wordToFind) {
@@ -379,11 +623,6 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    public void googleHelp() {
-        String wordToFind = wordToSearchField.getText();
-        translateWithGoogleTranslate(wordToFind);
-    }
-
     private void translateWithGoogleTranslate(String wordToFind) {
         try {
             URL url = new URL(GOOGLE_TEST_URL);
@@ -414,189 +653,7 @@ public class SearchEngineController extends Dictionary {
         }
     }
 
-    private void closeTab() {
-        Tab selectedTab = webTabPane.getSelectionModel().getSelectedItem();
-        Tab definitionTab = webTabPane.getTabs().get(0);
-        if (selectedTab.hashCode() != definitionTab.hashCode()) {
-            webTabPane.getTabs().remove(selectedTab);
-        }
-    }
-
-    public void clearTextField() {
-        if (!wordToSearchField.getText().equals(EMPTY_STRING)) {
-            wordToSearchField.clear();
-        }
-    }
-
-    public void textToSpeech() throws Exception {
-        try {
-            String wordTarget = wordTargetField.getText();
-            VoiceProvider tts = new VoiceProvider(API_KEY);
-
-            VoiceParameters params = new VoiceParameters(wordTarget, Languages.English_UnitedStates);
-            params.setCodec(AudioCodec.WAV);
-            params.setFormat(AudioFormat.Format_44KHZ.AF_44khz_16bit_stereo);
-            params.setBase64(false);
-            params.setSSML(false);
-            params.setRate(0);
-
-            byte[] voice = tts.speech(params);
-
-            FileOutputStream fos = new FileOutputStream(AUDIO_OUTPUT_FILE_LOCATION);
-            fos.write(voice, 0, voice.length);
-            fos.flush();
-            fos.close();
-
-            InputStream in = new FileInputStream(AUDIO_OUTPUT_FILE_LOCATION);
-            AudioStream sound = new AudioStream(in);
-            AudioPlayer.player.start(sound);
-        } catch (IOException e) {
-            e.printStackTrace();
-            CheckInternetController.openNoInternetWindow();
-        }
-    }
-
-    public void showHistorySearch() {
-        if (searchedWords.isEmpty()) {
-            noDataIcon1.setVisible(true);
-            noDataLabel1.setVisible(true);
-        } else {
-            searchedWordObservableList.clear();
-            searchedWordObservableList.addAll(searchedWords);
-            historyList.getItems().clear();
-            historyList.getItems().addAll(searchedWordObservableList);
-            historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-            historyList.setCellFactory(listView -> bindContextMenuToSearchedWordCell());
-        }
-    }
-
-    public void clearHistory() {
-        searchedWords.clear();
-        searchedWordObservableList.clear();
-        historyList.getItems().clear();
-        historyList.getItems().addAll(searchedWordObservableList);
-        historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
-
-    public void showDailyWord() {
-        String today = getDate();
-        setVisibleOfArrow(today);
-        dateField.setText(today);
-        amazingWordView.setVisible(true);
-        amazingWordView.getEngine().loadContent(dictionary.get(dailyWords.get(today)));
-    }
-
-    public void showBackward() {
-        LocalDate current = LocalDate.parse(dateField.getText());
-        LocalDate beforeOneDay = current.minusDays(1);
-        setVisibleOfArrow(beforeOneDay.toString());
-        dateField.setText(beforeOneDay.toString());
-        amazingWordView.getEngine().loadContent(dictionary.get(dailyWords.get(beforeOneDay.toString())));
-    }
-
-    public void showForward() {
-        LocalDate current = LocalDate.parse(dateField.getText());
-        LocalDate afterOneDay = current.plusDays(1);
-        setVisibleOfArrow(afterOneDay.toString());
-        dateField.setText(afterOneDay.toString());
-        amazingWordView.getEngine().loadContent(dictionary.get(dailyWords.get(afterOneDay.toString())));
-    }
-
-    private void setVisibleOfArrow(String current) {
-        String lowerBound = (new ArrayList<>(dailyWords.keySet())).get(0);
-        String upperBound = (new ArrayList<>(dailyWords.keySet())).get(dailyWords.size() - 1);
-        if (current.equals(lowerBound)) {
-            backwardIcon.setVisible(false);
-            forwardIcon.setVisible(true);
-        } else if (current.equals(upperBound)) {
-            backwardIcon.setVisible(true);
-            forwardIcon.setVisible(false);
-        } else {
-            backwardIcon.setVisible(true);
-            forwardIcon.setVisible(true);
-        }
-    }
-
-    public void showDictionary() {
-        if (virtualDictionary.isEmpty()) {
-            noDataIcon2.setVisible(true);
-            noDataLabel2.setVisible(true);
-        } else {
-            ObservableList<String> dictionaryObservableList = FXCollections.observableArrayList();
-            dictionaryObservableList.addAll(virtualDictionary);
-            dictionaryList.getItems().clear();
-            dictionaryList.getItems().addAll(dictionaryObservableList);
-            dictionaryList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-            dictionaryList.setCellFactory(listView -> bindContextMenuToDictionaryCell());
-        }
-    }
-
-    private void updateBookmarkIconColor() {
-        if (bookmarkedWords.contains(wordTargetField.getText())) {
-            bookmarkIcon.setStyle(BOOKMARKED_COLOR);
-        } else {
-            bookmarkIcon.setStyle(NON_BOOKMARKED_COLOR);
-        }
-    }
-
-    public void updateBookmarkedWords() {
-        if (bookmarkedWords.contains(wordTargetField.getText())) {
-            bookmarkedWords.remove(wordTargetField.getText());
-        } else {
-            bookmarkedWords.add(wordTargetField.getText());
-        }
-        updateBookmarkIconColor();
-    }
-
-    public void showBookmark() {
-        if (bookmarkedWords.isEmpty()) {
-            noDataIcon3.setVisible(true);
-            noDataLabel3.setVisible(true);
-        } else {
-            bookmarkedWordObservableList.clear();
-            bookmarkedWordObservableList.addAll(bookmarkedWords);
-            bookmarkedWordList.getItems().clear();
-            bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
-            bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-            bookmarkedWordList.setCellFactory(listView -> bindContextMenuToBookmarkWordCell());
-        }
-    }
-
-    public void clearBookmark() {
-        bookmarkedWords.clear();
-        bookmarkedWordObservableList.clear();
-        bookmarkedWordList.getItems().clear();
-        bookmarkedWordList.getItems().addAll(bookmarkedWordObservableList);
-        bookmarkedWordList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
-
-    public void exportDictionary() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(mainWindow);
-        exportDictionaryFile(selectedDirectory.getAbsolutePath());
-    }
-
-    public void exportBookmark() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(mainWindow);
-        exportBookmarkFile(selectedDirectory.getAbsolutePath());
-    }
-
-    public void openAddNewWordWindow() {
-        NewWordBoxController.openNewWordBox();
-    }
-
-    public void openEditWordWindow() {
-        if (!wordToSearchField.getText().equals("")){
-            EditBoxController.openEditBox(wordToSearchField.getText());
-        }
-    }
-
-    public void openDeleteWordWindow() {
-        DeleteWordController.openDeleteWordWindow();
-    }
-
-    public void openAboutUsWindow() {
-        AboutUsController.openAboutUsWindow();
+    private static void closeProgram() {
+        SaveBoxController.openSaveBoxWindow();
     }
 }

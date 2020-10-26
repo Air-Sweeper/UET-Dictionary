@@ -3,6 +3,10 @@
     -fx-scale-y: 1.0;
 }
 
+.menu-bar .container .menu:openvertically .label .text {
+    -fx-fill: white;
+}
+
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
     -fx-background-color: #dc4469;
     -fx-text-fill: white;
@@ -22,7 +26,7 @@
 }
 
 .jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab:selected:top .jfx-rippler {
-    -jfx-rippler-fill: #dc4469;
+    -jfx-rippler-fill:  #1d5183;
 }
 
 .jfx-tab-pane:top .tab-label {

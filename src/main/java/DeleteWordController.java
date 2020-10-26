@@ -33,6 +33,7 @@ public class DeleteWordController extends Dictionary {
             loader.setLocation(EditBoxController.class.getResource(DELETE_BOX_FILE_PATH));
             AnchorPane deleteWordBoxPane = loader.load();
             Scene newWordScene = new Scene(deleteWordBoxPane);
+
             deleteWordBoxStage = new Stage();
             deleteWordBoxStage.setScene(newWordScene);
             deleteWordBoxStage.setTitle(APPLICATION_NAME);

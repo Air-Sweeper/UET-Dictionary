@@ -20,6 +20,7 @@ public class AboutUsController {
             AnchorPane aboutUsBoxPane = loader.load();
             Scene aboutUsScene = new Scene(aboutUsBoxPane);
             Stage aboutUsStage = new Stage();
+
             aboutUsStage.setScene(aboutUsScene);
             aboutUsStage.setTitle(ABOUT_US_BOX_TITLE);
             aboutUsStage.initModality(Modality.APPLICATION_MODAL);

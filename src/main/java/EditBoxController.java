@@ -29,6 +29,7 @@ public class EditBoxController extends Dictionary {
             loader.setLocation(EditBoxController.class.getResource(EDIT_BOX_FILE_PATH));
             AnchorPane newWordPane = loader.load();
             Scene newWordScene = new Scene(newWordPane);
+            System.out.println(wordToEdit);
             editBoxStage = new Stage();
             editBoxStage.setScene(newWordScene);
             editBoxStage.setTitle(APPLICATION_NAME);
@@ -49,6 +50,8 @@ public class EditBoxController extends Dictionary {
                     + newDefinitionField.getText()
                     + "</b></font></li></ul></html>";
             dictionary.replace(wordTarget, newDefinition);
+            System.out.println(wordTarget);
+            System.out.println(newDefinition);
             closeEditBox();
         }
     }

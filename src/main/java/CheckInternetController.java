@@ -21,6 +21,7 @@ public class CheckInternetController {
             loader.setLocation(CheckInternetController.class.getResource(NO_INTERNET_FILE_PATH));
             AnchorPane noInternetPane = loader.load();
             Scene newWordScene = new Scene(noInternetPane);
+
             noInternetStage = new Stage();
             noInternetStage.setScene(newWordScene);
             noInternetStage.setTitle(APPLICATION_NAME);

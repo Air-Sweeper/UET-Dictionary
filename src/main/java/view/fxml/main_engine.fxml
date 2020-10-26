@@ -22,14 +22,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #1cdaaa;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.SearchEngineController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f5f1ea;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.SearchEngineController">
    <AnchorPane prefHeight="32.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-    <TextField fx:id="wordToSearchField" layoutX="971.0" layoutY="34.0" onKeyPressed="#showRelatedWordList" onKeyReleased="#showRelatedWordList" prefHeight="38.0" prefWidth="314.0" style="-fx-background-color: ffffff; -fx-text-fill: black;" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="32.0">
+    <TextField fx:id="wordToSearchField" layoutX="961.0" layoutY="32.0" onKeyPressed="#showRelatedWordList" onKeyReleased="#showRelatedWordList" prefHeight="38.0" prefWidth="314.0" style="-fx-background-color: ffffff; -fx-text-fill: black;" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="32.0">
       <padding>
          <Insets left="25.0" />
       </padding></TextField>
-    <JFXListView fx:id="relatedWordList" layoutX="5.0" layoutY="33.0" onMouseClicked="#getDefinitionFromRelatedWordList" prefHeight="762.0" prefWidth="264.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="33.0" />
-    <JFXTabPane fx:id="webTabPane" layoutX="273.0" layoutY="36.0" prefHeight="768.0" prefWidth="683.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="273.0" AnchorPane.rightAnchor="324.0" AnchorPane.topAnchor="32.0">
+    <JFXListView fx:id="relatedWordList" layoutX="5.0" layoutY="69.0" onMouseClicked="#getDefinitionFromRelatedWordList" prefHeight="726.0" prefWidth="264.0" style="-fx-background-color: #efefef;" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="69.0" />
+    <JFXTabPane fx:id="webTabPane" layoutX="263.0" layoutY="36.0" prefHeight="763.0" prefWidth="693.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="324.0" AnchorPane.topAnchor="32.0">
         <Tab closable="false" style="-fx-text-fill: black;" text="Definition">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <WebView fx:id="wordDefinitionView" prefHeight="729.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -59,7 +59,7 @@
       </font>
    </Label>
    <FontAwesomeIconView fx:id="warningIcon" fill="RED" glyphName="EXCLAMATION_CIRCLE" layoutX="972.0" layoutY="114.0" smooth="false" visible="false" AnchorPane.rightAnchor="297.7142858505249" AnchorPane.topAnchor="18.0" />
-   <Accordion layoutX="971.0" layoutY="306.0" prefHeight="489.0" prefWidth="314.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="306.0">
+   <Accordion layoutX="971.0" layoutY="301.0" prefHeight="494.0" prefWidth="314.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="301.0">
      <panes>
          <TitledPane expanded="false" onMouseClicked="#showHistorySearch" stylesheets="@../css/light-theme.css" text="Recent">
              <graphic>
@@ -67,8 +67,8 @@
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
                  <JFXListView fx:id="historyList" layoutX="20.0" layoutY="12.0" onMouseClicked="#getDefinitionFromHistoryList" prefHeight="601.0" prefWidth="308.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
-               <FontAwesomeIconView fx:id="noDataIcon1" fill="#a4a4a4" glyphName="SEARCH" layoutX="114.0" layoutY="182.0" size="90" visible="false" AnchorPane.rightAnchor="100.0" />
-               <Label fx:id="noDataLabel1" alignment="CENTER" layoutX="112.0" layoutY="214.0" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+               <FontAwesomeIconView fx:id="noDataHistoryIcon" fill="#a4a4a4" glyphName="SEARCH" layoutX="114.0" layoutY="182.0" size="90" visible="false" AnchorPane.rightAnchor="100.0" />
+               <Label fx:id="noDataHistoryLabel" alignment="CENTER" layoutX="112.0" layoutY="214.0" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
              </AnchorPane>
          </TitledPane>
          <TitledPane onMouseClicked="#showDictionary" prefHeight="599.0" prefWidth="296.0" stylesheets="@../css/light-theme.css" text="Show dictionary">
@@ -77,8 +77,8 @@
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
                  <JFXListView fx:id="dictionaryList" onMouseClicked="#getDefinitionFromDictionaryList" prefHeight="601.0" prefWidth="294.0" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
-               <FontAwesomeIconView fx:id="noDataIcon2" fill="#a4a4a4" glyphName="SEARCH" layoutX="114.0" layoutY="182.0" size="90" visible="false" AnchorPane.rightAnchor="100.0" />
-               <Label fx:id="noDataLabel2" alignment="CENTER" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="200.0" />
+               <FontAwesomeIconView fx:id="noDataDictionaryIcon" fill="#a4a4a4" glyphName="SEARCH" layoutX="114.0" layoutY="182.0" size="90" visible="false" AnchorPane.rightAnchor="100.0" />
+               <Label fx:id="noDataDictionaryLabel" alignment="CENTER" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="200.0" />
              </AnchorPane>
          </TitledPane>
          <TitledPane onMouseClicked="#showBookmark" stylesheets="@../css/light-theme.css" text="Bookmark">
@@ -87,8 +87,8 @@
              </graphic>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #4a4b4e;">
                  <JFXListView fx:id="bookmarkedWordList" onMouseClicked="#getDefinitionFromBookmarkList" style="-fx-background-color: ffffff;" stylesheets="@../css/light-theme.css" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0" />
-               <FontAwesomeIconView fx:id="noDataIcon3" fill="#a4a4a4" glyphName="SEARCH" size="90" visible="false" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0" />
-               <Label fx:id="noDataLabel3" alignment="CENTER" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0" />
+               <FontAwesomeIconView fx:id="noDataBookmarkIcon" fill="#a4a4a4" glyphName="SEARCH" size="90" visible="false" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0" />
+               <Label fx:id="noDataBookmarkLabel" alignment="CENTER" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0" />
              </AnchorPane>
          </TitledPane>
      </panes>
@@ -97,55 +97,46 @@
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></FontAwesomeIconView>
+   <AnchorPane prefHeight="31.0" prefWidth="1280.0" style="-fx-background-color: #194571;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <HBox layoutY="8.0" prefHeight="32.0" prefWidth="272.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-          <MenuBar prefHeight="22.0" prefWidth="339.0" style="-fx-background-color: #1cdaaa; -fx-text-fill: Back;">
+          <MenuBar prefHeight="32.0" prefWidth="263.0" style="-fx-background-color: #194571;" stylesheets="@../css/light-theme.css">
               <Menu mnemonicParsing="false" style="-fx-text-fill: white;" text="File">
-                  <MenuItem mnemonicParsing="false" onAction="#clearHistory" text="Clear history search"/>
-                  <MenuItem mnemonicParsing="false" onAction="#clearBookmark" text="Delete bookmark"/>
-                  <MenuItem mnemonicParsing="false" onAction="#exportBookmark" text="Export bookmark"/>
-                  <MenuItem mnemonicParsing="false" onAction="#exportDictionary" text="Export dictionary"/>
-                  <MenuItem mnemonicParsing="false" onAction="#closeMainWindow" text="Exit"/>
+                  <MenuItem mnemonicParsing="false" onAction="#clearHistory" style="-fx-text-fill: #000000;" text="Clear history search" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearBookmark" style="-fx-text-fill: #000000;" text="Delete bookmark" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportBookmark" style="-fx-text-fill: #000000;" text="Export bookmark" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportDictionary" style="-fx-text-fill: #000000;" text="Export dictionary" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeMainWindow" style="-fx-text-fill: #000000;" text="Exit" />
               </Menu>
               <Menu mnemonicParsing="false" text="Edit">
-                  <MenuItem mnemonicParsing="false" onAction="#openAddNewWordWindow" text="Add a new word"/>
-                  <MenuItem mnemonicParsing="false" onAction="#openDeleteWordWindow" text="Delete word"/>
-                  <MenuItem mnemonicParsing="false" onAction="#openEditWordWindow" text="Edit word"/>
+                  <MenuItem mnemonicParsing="false" onAction="#openAddNewWordWindow" style="-fx-text-fill: #000000;" text="Add a new word" />
+                  <MenuItem mnemonicParsing="false" onAction="#openDeleteWordWindow" style="-fx-text-fill: #000000;" text="Delete word" />
+                  <MenuItem mnemonicParsing="false" onAction="#openEditWordWindow" style="-fx-text-fill: #000000;" text="Edit word" />
               </Menu>
               <Menu mnemonicParsing="false" text="Help">
-                  <MenuItem mnemonicParsing="false" onAction="#cambridgeHelp"
-                            text="Translate with Cambridge dictionary"/>
-                  <MenuItem mnemonicParsing="false" onAction="#googleHelp"
-                            text="Translate with Google translation"/>
+                  <MenuItem mnemonicParsing="false" onAction="#cambridgeHelp" style="-fx-text-fill: #000000;" text="Translate with Cambridge dictionary" />
+                  <MenuItem mnemonicParsing="false" onAction="#googleHelp" style="-fx-text-fill: #000000;" text="Translate with Google translation" />
               </Menu>
               <Menu mnemonicParsing="false" text="About">
-                  <MenuItem mnemonicParsing="false" onAction="#openAboutUsWindow" text="About UET dictionary"/>
+                  <MenuItem mnemonicParsing="false" onAction="#openAboutUsWindow" style="-fx-text-fill: #000000;" text="About UET dictionary" />
               </Menu>
           </MenuBar>
       </HBox>
    <Separator layoutY="32.0" prefHeight="0.0" prefWidth="1280.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <AnchorPane layoutX="1023.0" layoutY="78.0" prefHeight="217.0" prefWidth="314.0"
-                style="-fx-background-color: ffffff;" AnchorPane.rightAnchor="5.0">
-        <WebView fx:id="amazingWordView" layoutY="38.0" prefHeight="150.0" prefWidth="314.0" visible="false"
-                 AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="38.0"/>
-        <JFXTextField fx:id="dateField" alignment="CENTER" editable="false" focusColor="#e6e4e1" layoutX="73.0"
-                      layoutY="179.0" unFocusColor="#e6e4e1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="186.0"/>
-        <FontAwesomeIconView fx:id="backwardIcon" glyphName="ARROW_LEFT" layoutX="14.0" layoutY="208.0"
-                             onMouseClicked="#showBackward" size="15" visible="false"/>
-        <FontAwesomeIconView fx:id="forwardIcon" glyphName="ARROW_RIGHT" layoutX="286.0" layoutY="207.0"
-                             onMouseClicked="#showForward" size="15" visible="false"/>
-        <JFXButton layoutY="-5.0" onAction="#showDailyWord" prefHeight="38.0" prefWidth="314.0"
-                   style="-fx-background-color: #f3717f;" text="Word of the day" AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-5.0">
+    <AnchorPane layoutX="1023.0" layoutY="78.0" prefHeight="217.0" prefWidth="314.0" style="-fx-background-color: ffffff;" AnchorPane.rightAnchor="5.0">
+        <WebView fx:id="dailyWordView" layoutY="38.0" prefHeight="150.0" prefWidth="314.0" visible="false" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0" />
+        <JFXTextField fx:id="dateField" alignment="CENTER" editable="false" focusColor="#e6e4e1" layoutX="73.0" layoutY="179.0" unFocusColor="#e6e4e1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="186.0" />
+        <FontAwesomeIconView fx:id="backwardIcon" glyphName="ARROW_LEFT" layoutX="14.0" layoutY="208.0" onMouseClicked="#showBackward" size="15" visible="false" />
+        <FontAwesomeIconView fx:id="forwardIcon" glyphName="ARROW_RIGHT" layoutX="286.0" layoutY="207.0" onMouseClicked="#showForward" size="15" visible="false" />
+        <JFXButton layoutY="-5.0" onAction="#showDailyWord" prefHeight="38.0" prefWidth="314.0" style="-fx-background-color: #1d5183;" text="Word of the day" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-5.0">
            <graphic>
-               <MaterialDesignIconView glyphName="STAR_CIRCLE"/>
+               <MaterialDesignIconView fill="WHITE" glyphName="STAR_CIRCLE" />
            </graphic>
            <font>
-               <Font name="System Bold" size="15.0"/>
+               <Font name="System Bold" size="15.0" />
            </font>
         </JFXButton>
     </AnchorPane>
-   <Label fx:id="noDataLabel4" alignment="CENTER" layoutX="91.0" layoutY="393.0" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="91.0" />
-   <FontAwesomeIconView fx:id="noDataIcon4" fill="#a4a4a4" glyphName="SEARCH" layoutX="95.0" layoutY="372.0" size="90" visible="false" AnchorPane.leftAnchor="95.0" />
+   <Label fx:id="noDataRelatedWordLabel" alignment="CENTER" layoutX="91.0" layoutY="393.0" text="No data found" textFill="#a4a4a4" visible="false" AnchorPane.leftAnchor="91.0" />
+   <FontAwesomeIconView fx:id="noDataRelatedWordIcon" fill="#a4a4a4" glyphName="SEARCH" layoutX="95.0" layoutY="372.0" size="90" visible="false" AnchorPane.leftAnchor="95.0" />
+   <Label alignment="CENTER" layoutX="105.0" layoutY="31.0" prefHeight="38.0" prefWidth="264.0" style="-fx-background-color: #1d5183;" text="Search result" textFill="WHITE" AnchorPane.leftAnchor="0.0" />
 </AnchorPane>

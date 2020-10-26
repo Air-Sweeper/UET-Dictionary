@@ -7,9 +7,9 @@ import java.util.*;
 
 public class Dictionary {
 
+    private static final String DAILY_WORD_FILE_PATH = "src/main/resources/daily-word.txt";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String E_V_DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
-    private static final String DAILY_WORD_FILE_PATH = "src/main/resources/daily-word.txt";
     private static final String FAVOURITE_FILE_PATH =  "src/main/resources/bookmark.txt";
     private static final String HISTORY_FILE_PATH = "src/main/resources/history.txt";
     private static final String SPLITTING_CHARACTER_01 = "<html>";
@@ -28,6 +28,7 @@ public class Dictionary {
     public static void importFromEnglishDictionary() throws IOException {
         FileReader fis = new FileReader(E_V_DICTIONARY_FILE_PATH);
         BufferedReader br = new BufferedReader(fis);
+
         String line;
         while ((line = br.readLine()) != null) {
             String[] parts = line.split(SPLITTING_CHARACTER_01);
@@ -84,7 +85,6 @@ public class Dictionary {
             dailyWords.put(date, wordTarget);
         }
         scan.close();
-        System.out.println(dailyWords);
     }
 
     public void updateBookmark() {
@@ -135,6 +135,19 @@ public class Dictionary {
         }
     }
 
+    private static String getTodayWord() {
+        Random randomIndex = new Random();
+        int upperbound = virtualDictionary.size();
+        int randomWordIndex = randomIndex.nextInt(upperbound);
+        return virtualDictionary.get(randomWordIndex);
+    }
+
+    protected static String getDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
     public static void updateDailyWords() {
         String today = getDate();
         String todayWord = getTodayWord();
@@ -150,19 +163,6 @@ public class Dictionary {
                 e.printStackTrace();
             }
         }
-    }
-
-    protected static String getDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        LocalDateTime now = LocalDateTime.now();
-        return dtf.format(now);
-    }
-
-    private static String getTodayWord() {
-        Random randomIndex = new Random();
-        int upperbound = virtualDictionary.size();
-        int randomWordIndex = randomIndex.nextInt(upperbound);
-        return virtualDictionary.get(randomWordIndex);
     }
 
     public static void exportDictionaryFile(String DIRECTORY_PATH) {

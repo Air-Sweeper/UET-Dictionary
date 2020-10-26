@@ -22,6 +22,7 @@ public class SaveBoxController extends SearchEngineController {
             loader.setLocation(App.class.getResource(SAVE_BOX_FILE_PATH));
             AnchorPane rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
+
             saveBoxWindow = new Stage();
             saveBoxWindow.setScene(scene);
             saveBoxWindow.setTitle(APPLICATION_NAME);

@@ -8,7 +8,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.java.model.Dictionary;
-import main.java.model.Word;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -16,9 +15,9 @@ import java.io.IOException;
 
 public class NewWordBoxController extends Dictionary {
 
+    private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
     private static final String NEW_WORD_BOX_FILE_PATH = "view/fxml/add_box.fxml";
     private static final String NEW_WORD_BOX_TITLE = "New word";
-    private static final String DICTIONARY_FILE_PATH = "src/main/resources/E_V_dictionary.txt";
 
     private static Stage newWordWindow;
 
@@ -33,6 +32,7 @@ public class NewWordBoxController extends Dictionary {
             loader.setLocation(NewWordBoxController.class.getResource(NEW_WORD_BOX_FILE_PATH));
             AnchorPane newWordPane = loader.load();
             Scene newWordScene = new Scene(newWordPane);
+
             newWordWindow = new Stage();
             newWordWindow.setScene(newWordScene);
             newWordWindow.initModality(Modality.APPLICATION_MODAL);
@@ -53,18 +53,18 @@ public class NewWordBoxController extends Dictionary {
                     + "</i><br/><ul><li><font color='#cc0000'><b>"
                     + newWordMeaningField.getText()
                     + "</b></font></li></ul></html>";
-            Word word = new Word(target, definition);
-            updateDictionary(word);
+
+            updateDictionary(target, definition);
             closeNewWordBox();
         }
     }
 
-    public void updateDictionary(Word newWord) {
+    public void updateDictionary(String wordTarget, String wordMeaning) {
         try {
-            dictionary.put(newWord.getWord_target(), newWord.getWord_explain());
+            dictionary.put(wordTarget, wordMeaning);
             FileWriter fileWriter = new FileWriter(DICTIONARY_FILE_PATH, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(newWord.getWord_target() + newWord.getWord_explain() + "\n");
+            bufferedWriter.write(wordTarget + wordMeaning + "\n");
             bufferedWriter.close();
         } catch (IOException exception) {
             exception.printStackTrace();
