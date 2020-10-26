@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
+// Mission accomplished on 26/10/2020
 public class SearchEngineController extends Dictionary {
 
     private static final double BORDER_CONSTRAINT = 0.0;

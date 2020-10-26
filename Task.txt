@@ -45,7 +45,9 @@
 
 [DONE]	- Add icon for each windows.
 
-[DONE]	- Add Google translate API
+[DONE]	- Add Google translate API.
+
+[DONE]	- Add multiple utility function.
 
 --Chú thích--
 	optional: tuỳ chọn, có hay không đều được

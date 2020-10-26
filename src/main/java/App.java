@@ -6,6 +6,13 @@ import main.java.model.Dictionary;
 
 import java.io.IOException;
 
+/**
+ * UET Dictionary is an open source Java application.
+ * It is very simple and easy to use, created on 26/10/2020.
+ * Enjoy!
+ * @author Nguyen Minh Thai - sophomore at University of Engineering and Technology
+ */
+
 public class App extends Application {
 
     public static void main(String[] args) {
