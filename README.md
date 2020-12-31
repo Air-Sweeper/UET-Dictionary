@@ -38,7 +38,7 @@ And of course UET Dictionary itself is open source with a [public repository](ht
 
 ### Installation
 
-Dillinger requires [Java SDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) v8 to run.
+UET-Dictionary requires [Java SDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) v8 to run.
 
 ### Todos
 
@@ -49,4 +49,4 @@ Dillinger requires [Java SDK](https://www.oracle.com/java/technologies/javase/ja
 License
 ----
 
-**Free Software, from UET with Love! :D**
+**Free Software, from UET with luv! :D**
